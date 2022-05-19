@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="www.tibco.com/plugin/java/xmlSchema/pvs.RequestEvents" xmlns:tns="www.tibco.com/plugin/java/xmlSchema/pvs.RequestEvents" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="RequestEvents" type="tns:RequestEventsType"/>
+
+  <xs:complexType name="RequestEventsType">
+    <xs:sequence>
+      <xs:element name="EventMessage" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+

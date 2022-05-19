@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/PVCNEConfig" xmlns:tns="http://www.example.org/PVCNEConfig" elementFormDefault="qualified">
+
+    <complexType name="NEConfigInfo">
+    	<sequence>
+            <element name="BorrowTimeOut" type="int"></element>
+            <element name="BorrowTimeOutRetryCount" type="int"></element>
+            <element name="ReadTimeOut" type="int"></element>
+    		<element name="ReadTimeOutRetryCount" type="int"></element>
+    		<element name="WrtieTimeOut" type="int"></element>
+    		<element name="WriteTimeOutRetryCount" type="int"></element>
+    	</sequence>
+    </complexType>
+
+    <element name="NECONN" type="tns:NEConfigInfo"></element>
+</schema>

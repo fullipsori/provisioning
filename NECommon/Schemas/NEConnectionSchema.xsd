@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/NEConnectionSchema" xmlns:tns="http://www.example.org/NEConnectionSchema" elementFormDefault="qualified">
+
+    <complexType name="ServerInfoType">
+    	<sequence>
+    		<element name="IP" type="string"></element>
+    		<element name="Port" type="int"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="ConnectionConfigType">
+    	<sequence>
+    		<element name="TargetName" type="string"></element>
+    		<element name="ConnectionRetryIntervalSec" type="int"></element>
+    		<element name="FailoverPolicy"
+    			type="tns:FailoverPolicyType">
+    		</element>
+    		<element name="HeartbeatPolicy" type="tns:HeartbeatType"></element>
+    		<element name="ConnectionGroup"
+    			type="tns:ConnectionGroupType" maxOccurs="unbounded"
+    			minOccurs="0">
+    		</element>
+    	</sequence>
+    </complexType>
+
+    <simpleType name="FailoverPolicyType">
+    	<restriction base="string">
+    		<enumeration value="Port"></enumeration>
+    		<enumeration value="Host"></enumeration>
+    	</restriction>
+    </simpleType>
+
+    <complexType name="HeartbeatType">
+    	<sequence>
+    		<element name="Use" type="boolean"></element>
+    		<element name="Interval" type="int"></element>
+    		<element name="Timeout" type="int"></element>
+    	</sequence>
+    </complexType>
+
+    <element name="ConnectionConfig" type="tns:ConnectionConfigType"></element>
+
+    <complexType name="ConnectionType">
+    	<sequence>
+    		<element name="ConnectionId" type="string"></element>
+    		<element name="ActiveServer" type="tns:ServerInfoType"></element>
+    		<element name="BackupServer" type="tns:ServerInfoType" maxOccurs="1" minOccurs="0"></element>
+    		<element name="DRServer" type="tns:ServerInfoType" maxOccurs="1" minOccurs="0"></element>
+    		<element name="Desc" type="string"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="ConnectionRequestType">
+    	<sequence>
+    		<element name="ConnectionId" type="string"></element>
+    		<element name="Host" type="string"></element>
+    		<element name="Port" type="int"></element>
+    	</sequence>
+    </complexType>
+
+
+    <complexType name="ConnectionGroupType">
+    	<sequence>
+    		<element name="Connection" type="tns:ConnectionType" maxOccurs="unbounded" minOccurs="0"></element>
+    	</sequence>
+    	<attribute name="groupId" type="string"></attribute>
+    </complexType>
+</schema>

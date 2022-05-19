@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/HeartbeatSchema" xmlns:tns="http://www.example.org/HeartbeatSchema" elementFormDefault="qualified">
+
+
+    <complexType name="HeartbeatType">
+    	<sequence>
+    		<element name="Field1" type="string"></element>
+    		<element name="Field2" type="string"></element>
+    	</sequence>
+    </complexType>
+
+    <element name="Heartbeat" type="tns:HeartbeatType"></element>
+</schema>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="www.tibco.com/plugin/java/xmlSchema/com.sun.xml.internal.fastinfoset.util.StringArray" xmlns:tns="www.tibco.com/plugin/java/xmlSchema/com.sun.xml.internal.fastinfoset.util.StringArray" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="StringArray" type="tns:StringArrayType"/>
+
+  <xs:complexType name="StringArrayType">
+    <xs:complexContent>
+      <xs:extension base="tns:valueArray">
+        <xs:sequence>
+          <xs:element name="_array" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="valueArray" abstract="true">
+    <xs:sequence>
+      <xs:element name="maximumCapacity" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+
