@@ -18,7 +18,7 @@ public class BasePoolProxy {
     private ConnectionTryMonitor connectionTryMonitor = null;
     
     private static int MULTIPLY_POOL_SIZE = 3;// 현재 설정된 Database 값보다 3배수 크게 사이즈를 가져간다.
-    private ArrayList<String> NEConfigInfo = null;
+    private final ArrayList<String> NEConfigInfo = new ArrayList<>();
 
     private Map<String, Pool<ConnectionObject>> poolMap = null;
     
@@ -26,7 +26,6 @@ public class BasePoolProxy {
     public BasePoolProxy(String logLevel) {
     	LogManager.getInstance().setLevel(logLevel);
     	LogManager.getInstance().warn(String.format("/// PoolProxy 객체를 최초 생성합니다. - NEConfigInfo 정보를 담을 ArrayList를 같이 만들어 줍니다. ///"));
-    	NEConfigInfo = new ArrayList<>();
     }
     
     /*
@@ -175,9 +174,9 @@ public class BasePoolProxy {
     /*
      * 지정한 connection을 ConnectionManager에서 삭제한다. 
      */
-    public Connectable disconnectConnection(String groupId, String connectionKey) {
+    protected Connectable removeConnection(String groupId, String connectionKey) {
     	LogManager.getInstance().info(String.format("PoolProxy.disconnectConnection [%s;;%s] 연결 객체를 connection pool에서 삭제하도록 하겠습니다.\n", groupId, connectionKey));
-    	return ConnectionConfig.getInstance().disconnectConnection(groupId,  connectionKey);
+    	return ConnectionConfig.getInstance().removeConnection(groupId,  connectionKey);
     }
     
     /*
@@ -301,7 +300,7 @@ public class BasePoolProxy {
 		    		String eventMessage = String.format("%s;%s;%s;%s", connectionGroupId, connectionKey, code, reason);
 		    		Registry.getInstance().eventSendRequestQueue.add(eventMessage);
     			} else {
-    				LogManager.getInstance().info(String.format("/// sendConnManagerEvent[bwConnection] : connObj 값이 NULL 입니다. 매칭되는 connectionId가 존재하지 않습니다.[%s][%s]\n", code, reason));
+    				LogManager.getInstance().warn(String.format("/// sendConnManagerEvent[bwConnection] : connObj 값이 NULL 입니다. 매칭되는 connectionId가 존재하지 않습니다.[%s][%s]\n", code, reason));
     			}
     	} else {
     		LogManager.getInstance().warn(String.format("/// sendConnManagerEvent[bwConnection] : bwConnection 값이 NULL 입니다. [%s][%s]\n", code, reason));
@@ -433,7 +432,7 @@ public class BasePoolProxy {
         return connectionId.substring(0,connectionId.indexOf(ConnectionObject.CID_DELIMETER));
     }
     
-    public Connectable borrowConnectable(String connectionGroupId, long waitTimeSeconds) throws TimeoutException {
+    protected Connectable borrowConnectable(String connectionGroupId, long waitTimeSeconds) throws TimeoutException {
     	
 		Connectable connectable = null;
         
@@ -838,11 +837,11 @@ public class BasePoolProxy {
      * @param connectionId 켄넥션ID
      * @return BW Connection
      */
-    public Connectable getConnectionById(String connectionId) {
+    protected Connectable getConnectionById(String connectionId) {
         return Registry.getInstance().getConnection(connectionId);
     }
     
-    public Connectable getConnectionByIndex(int index) {    	
+    protected Connectable getConnectionByIndex(int index) {    	
     	return ConnectionConfig.getInstance().getConnectionByIndex(index); 
     }
     

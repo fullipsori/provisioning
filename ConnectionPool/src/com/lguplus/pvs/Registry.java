@@ -30,7 +30,7 @@ public class Registry {
     public BlockingQueue<String> eventSendRequestQueue = null;
 
     // 모든 연결을 저장관리, KEY=컨넥션ID, Value=BW컨넥션
-    private ConcurrentHashMap<String ,Connectable> connectionMapByConnectionId = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, Connectable> connectionMapByConnectionId = new ConcurrentHashMap<>();
 
     // 모든 연결 요청 온것들의 컨넥션 ID를 관리, 연결 성공시 까지 계속 시도하는 것을 보장하기 위함.
     // 별도 Thread가 주기적으로 이 Vector를 모니터링 하여,

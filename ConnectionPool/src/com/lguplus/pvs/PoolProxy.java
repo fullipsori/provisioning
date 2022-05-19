@@ -14,6 +14,29 @@ public class PoolProxy extends BasePoolProxy {
     	super(logLevel);
     }
     
+    // BW에서 연결된 Connection(byte 배열)을 Pool에 저장 처리
+    public void addConnectionToPool(String connectionId, byte[] bwConnection) {
+    	Connectable connectable = ConnectionRepository.getInstance().requestConnectable(bwConnection);
+    	addConnectionToPool(connectionId, connectable);
+    }
+
+    public String removeFromConnectionPool(byte[] bwConnection) {
+    	Connectable connectable = ConnectionRepository.getInstance().requestConnectable(bwConnection);
+    	return removeFromConnectionPool(connectable);
+    }
+
+    public void removeFromConnectionPool(String connectionId, byte[] bwConnection) {
+    	Connectable connectable = ConnectionRepository.getInstance().requestConnectable(bwConnection);
+    	removeFromConnectionPool(connectionId, connectable);
+    }
+
+    public void invalidateConnection(byte[] bwConnection, String code, String reason) {
+    	if(bwConnection != null) {
+		   Connectable connectable = ConnectionRepository.getInstance().requestConnectable(bwConnection);
+		   invalidateConnection(connectable, code, reason);
+    	}
+    }
+
     public void requestSendEventMessage(String reason, byte[] bwConnection) {    	
     	Connectable connectable = ConnectionRepository.getInstance().requestConnectable(bwConnection);
     	super.requestSendEventMessage(reason, connectable);
@@ -31,12 +54,6 @@ public class PoolProxy extends BasePoolProxy {
 		super.sendConnManagerEvent(connectable, code, reason);
     }
 
-    // BW에서 연결된 Connection(byte 배열)을 Pool에 저장 처리
-    public void addConnectionToPool(String connectionId, byte[] bwConnection) {
-    	Connectable connectable = ConnectionRepository.getInstance().requestConnectable(bwConnection);
-    	addConnectionToPool(connectionId, connectable);
-    }
-
     public void returnConnection(byte[] bwConnection) {
     	Connectable connectable = ConnectionRepository.getInstance().requestConnectable(bwConnection);
     	returnConnection(connectable);
@@ -47,23 +64,6 @@ public class PoolProxy extends BasePoolProxy {
     	requestReconnect(connectable);
     }
     
-    public void invalidateConnection(byte[] bwConnection, String code, String reason) {
-    	if(bwConnection != null) {
-		   Connectable connectable = ConnectionRepository.getInstance().requestConnectable(bwConnection);
-		   invalidateConnection(connectable, code, reason);
-    	}
-    }
-
-    public String removeFromConnectionPool(byte[] bwConnection) {
-    	Connectable connectable = ConnectionRepository.getInstance().requestConnectable(bwConnection);
-    	return removeFromConnectionPool(connectable);
-    }
-
-    public void removeFromConnectionPool(String connectionId, byte[] bwConnection) {
-    	Connectable connectable = ConnectionRepository.getInstance().requestConnectable(bwConnection);
-    	removeFromConnectionPool(connectionId, connectable);
-    }
-
     public String removeFromConnectionConfig(byte[] bwConnection) {
     	Connectable connectable = ConnectionRepository.getInstance().requestConnectable(bwConnection);
     	return removeFromConnectionConfig(connectable);
@@ -79,11 +79,6 @@ public class PoolProxy extends BasePoolProxy {
     	return getConnectionId(connectable);
     }
 
-    public void receivedHeartBeat(byte[] bwConnection) {
-    	Connectable connectable = ConnectionRepository.getInstance().requestConnectable(bwConnection);
-    	receivedHeartBeat(connectable);
-    }
-    
     public byte[] getBWConnectionById(String connectionId) {
     	Connectable connectable = super.getConnectionById(connectionId);
     	if(connectable != null && connectable instanceof BWConnection) {
@@ -110,4 +105,19 @@ public class PoolProxy extends BasePoolProxy {
 		LogManager.getInstance().error("borrowConnection null");
         return null;
     }
+    
+    /*
+     * 지정한 connection을 ConnectionManager에서 삭제한다. 
+     */
+    public byte[] disconnectConnection(String groupId, String connectionKey) {
+    	Connectable connectable = super.removeConnection(groupId, connectionKey);
+    	if(connectable != null && connectable instanceof BWConnection) return ((BWConnection)connectable).getHandle();
+    	return null;
+    }
+
+    public void receivedHeartBeat(byte[] bwConnection) {
+    	Connectable connectable = ConnectionRepository.getInstance().requestConnectable(bwConnection);
+    	receivedHeartBeat(connectable);
+    }
+    
 }

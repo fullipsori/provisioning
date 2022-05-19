@@ -347,7 +347,7 @@ public class ConnectionConfig {
     	}
     }
     
-    public Connectable disconnectConnection(String connectionGroupId, String connectionKey) {
+    public Connectable removeConnection(String connectionGroupId, String connectionKey) {
     	Connectable connectable = null;    	
     	LogManager.getInstance().info(String.format("ConnectionConfig.disconnectConnection [%s;;%s] 연결 객체를 connection pool에서 삭제하도록 하겠습니다.\n", connectionGroupId, connectionKey));
     	String connectionId = String.format(ConnectionObject.CID_FORMAT, connectionGroupId, connectionKey);

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jndi:namedResource xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jdbc="http://xsd.tns.tibco.com/amf/models/sharedresource/jdbc" xmlns:jndi="http://xsd.tns.tibco.com/amf/models/sharedresource/jndi" xmlns:subject="http://xsd.tns.tibco.com/trinity/models/identity/subject" xmi:id="_bFpC4atUEeynWoUJNQW6jw" name="pvscommon.PostgresConn" type="jdbc:JdbcDataSource">
   <jndi:reference xmi:id="_bFpC4qtUEeynWoUJNQW6jw" key="subjectJndiName" type="subject:SubjectConfiguration" value=""/>
-  <jndi:configuration xsi:type="jdbc:JdbcDataSource" xmi:id="_bFpC46tUEeynWoUJNQW6jw" username="postgres" password="#!nofaliXzVuNHuZ1xcYgCz3FNdSlYh5aUKEawyem4e98=">
+  <jndi:configuration xsi:type="jdbc:JdbcDataSource" xmi:id="_bFpC46tUEeynWoUJNQW6jw" username="postgres" password="#!+kY/g8/LPJEckiS6V8dV3kO6M947JX8y">
     <connectionConfig xsi:type="jdbc:NonXaConnection" xmi:id="_bFpC5KtUEeynWoUJNQW6jw" jdbcDriver="tibcosoftwareinc.jdbc.postgresql.PostgreSQLDriver" dbURL="jdbc:tibcosoftwareinc:postgresql://localhost:5432;DatabaseName=postgres"/>
   </jndi:configuration>
 </jndi:namedResource>
