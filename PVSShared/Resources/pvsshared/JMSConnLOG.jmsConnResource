@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jndi:namedResource xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jms="http://xsd.tns.tibco.com/bw/models/sharedresource/jms" xmlns:jndi="http://xsd.tns.tibco.com/amf/models/sharedresource/jndi" xmi:id="_TVtI0bCQEeyALo7KGO5Qkw" name="pvsshared.JMSConnLOG" type="jms:JMSConnectionFactory">
+  <jndi:configuration xsi:type="jms:DirectConnectionFactory" xmi:id="_T1PkgLCQEeyALo7KGO5Qkw" factoryType="Queue/Topic" providerURL="tcp://192.168.242.139:7223"/>
+</jndi:namedResource>

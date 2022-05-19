@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sca:composite xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:BW="http://xsd.tns.tibco.com/amf/models/sca/implementationtype/BW" xmlns:XMLSchema="http://www.w3.org/2001/XMLSchema" xmlns:compositeext="http://schemas.tibco.com/amx/3.0/compositeext" xmlns:sca="http://www.osoa.org/xmlns/sca/1.0" xmlns:scaext="http://xsd.tns.tibco.com/amf/models/sca/extensions" xmi:id="_po-p4GUeEeywf8kEgPIgmg" targetNamespace="http://tns.tibco.com/bw/composite/NECommon" name="NECommon" compositeext:version="1.0.0" compositeext:formatVersion="2">
+  <sca:property xmi:id="_p2EDoGUeEeywf8kEgPIgmg" name="BW.APPNODE.NAME" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_p2W-kGUeEeywf8kEgPIgmg" name="BW.DEPLOYMENTUNIT.NAME" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_p2bQAGUeEeywf8kEgPIgmg" name="BW.HOST.NAME" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_p2dFMGUeEeywf8kEgPIgmg" name="BW.DEPLOYMENTUNIT.VERSION" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_p2fhcGUeEeywf8kEgPIgmg" name="BW.MODULE.VERSION" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_p2h9sGUeEeywf8kEgPIgmg" name="BW.CLOUD.PORT" type="XMLSchema:int" scalable="true"/>
+  <sca:property xmi:id="_p2jy4GUeEeywf8kEgPIgmg" name="BW.MODULE.NAME" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_cBtp8KRLEeyVi7G5i5VGMw" name="NECOMM.JMS_CONN_INFO" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_cG99YKRLEeyVi7G5i5VGMw" name="NECOMM.ORA_CONN_INFO" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:component xmi:id="_xEUaEGUeEeywf8kEgPIgmg" name="ComponentTCPConnect" compositeext:version="1.0.0.qualifier">
+    <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_xEUaEWUeEeywf8kEgPIgmg" processName="ConnManager.Starter.OpenConnection"/>
+  </sca:component>
+  <sca:component xmi:id="_YCq_MGZKEeyg6ZpZAByMyw" name="ComponentAppCtrlProc" compositeext:version="1.0.0.qualifier">
+    <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_YCq_MWZKEeyg6ZpZAByMyw" processName="PVSControl.AppCtrlProc"/>
+  </sca:component>
+  <sca:component xmi:id="_5JD5UGyBEeyyKex5g3gwpg" name="ComponentCopyOfTCPConnect" compositeext:version="1.0.0.qualifier">
+    <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_5JD5UWyBEeyyKex5g3gwpg" processName="ConnManager.Starter.DisconnectAndRemoveFromConfig"/>
+  </sca:component>
+  <sca:component xmi:id="_VdhzgGyNEeyyKex5g3gwpg" name="ComponentCopyOfTCPDisconnect" compositeext:version="1.0.0.qualifier">
+    <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_VdhzgWyNEeyyKex5g3gwpg" processName="ConnManager.Starter.DisconnectAndConnectionAgain"/>
+  </sca:component>
+  <sca:component xmi:id="_dt1AAG3xEeypwKz2VtItRw" name="ComponentStarterCMEventsSendRequest" compositeext:version="1.0.0.qualifier">
+    <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_dt1AAW3xEeypwKz2VtItRw" processName="ConnManager.Starter.ConnManagerEventsSendRequest"/>
+  </sca:component>
+</sca:composite>

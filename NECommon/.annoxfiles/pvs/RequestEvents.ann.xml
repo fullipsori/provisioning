@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ASCII"?>
+<annox:class xmlns:annox="http://annox.dev.java.net" xmlns:jaxb="http://annox.dev.java.net/javax.xml.bind.annotation" name="RequestEvents">
+  <jaxb:XmlAccessorType value="NONE"/>
+  <jaxb:XmlType name="RequestEventsType" propOrder="eventMessage "/>
+  <jaxb:XmlRootElement name="RequestEvents" namespace="www.tibco.com/plugin/java/xmlSchema/pvs.RequestEvents"/>
+  <annox:field name="eventMessage">
+    <jaxb:XmlElement name="EventMessage" namespace="www.tibco.com/plugin/java/xmlSchema/pvs.RequestEvents"/>
+  </annox:field>
+</annox:class>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ASCII"?>
+<annox:package xmlns:annox="http://annox.dev.java.net" xmlns:jaxb="http://annox.dev.java.net/javax.xml.bind.annotation">
+  <annox:class name="PoolProxy">
+    <jaxb:XmlAccessorType value="NONE"/>
+    <jaxb:XmlType name="PoolProxyType" propOrder="PooledObjectCount "/>
+    <jaxb:XmlRootElement name="PoolProxy" namespace="www.tibco.com/plugin/java/xmlSchema/com.lguplus.pvs.PoolProxy"/>
+    <annox:field name="PooledObjectCount">
+      <jaxb:XmlElement name="PooledObjectCount" namespace="www.tibco.com/plugin/java/xmlSchema/com.lguplus.pvs.PoolProxy" required="false" type="java.lang.Integer"/>
+    </annox:field>
+  </annox:class>
+  <jaxb:XmlSchema elementFormDefault="QUALIFIED" namespace="www.tibco.com/plugin/java/xmlSchema/com.lguplus.pvs.PoolProxy"/>
+</annox:package>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="ASCII"?>
+<annox:class xmlns:annox="http://annox.dev.java.net" xmlns:jaxb="http://annox.dev.java.net/javax.xml.bind.annotation" name="HeartbeatEventSource">
+  <jaxb:XmlAccessorType value="NONE"/>
+  <jaxb:XmlType name="HeartbeatEventSourceType" propOrder=""/>
+  <jaxb:XmlRootElement name="HeartbeatEventSource" namespace="www.tibco.com/plugin/java/xmlSchema/pvs.HeartbeatEventSource"/>
+</annox:class>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<msv:DocumentRoot xmlns:msv="http://tns.tibco.com/bw/model/core/moduleSV">
+  <moduleSharedVariables>
+    <moduleSharedVariable name="ProcName" type="{http://www.w3.org/2001/XMLSchema}string" initialValueMode="none"/>
+    <moduleSharedVariable name="HBQueName" type="{http://www.w3.org/2001/XMLSchema}string" initialValueMode="none"/>
+    <moduleSharedVariable name="AgentName" type="{http://www.w3.org/2001/XMLSchema}string" initialValueMode="none"/>
+    <moduleSharedVariable name="NEA_PODNAME" type="{http://www.w3.org/2001/XMLSchema}string" initialValueMode="none"/>
+    <moduleSharedVariable name="NECONFIG" type="{http://www.example.org/PVCNEConfig}NECONN" initialValueMode="none"/>
+    <moduleSharedVariable name="CONFIGXML" type="{http://www.w3.org/2001/XMLSchema}string" initialValueMode="textfile" initialValue="Resources/pvscommon/Config/WITH-DB-CONFIG.xml"/>
+  </moduleSharedVariables>
+  <import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.org/PVCNEConfig" location="../Schemas/PVCNEConfig.xsd"/>
+</msv:DocumentRoot>

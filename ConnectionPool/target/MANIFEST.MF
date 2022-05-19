@@ -1,0 +1,10 @@
+Manifest-Version: 1.0.0.202112141808
+Bundle-ManifestVersion: 2
+Bundle-Name: ConnectionPool
+Bundle-SymbolicName: ConnectionPool
+Bundle-Version: 1.0.0.202112141808
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: com.lguplus.pvs;version="1.1.0"
+Import-Package: com.tibco.bw.palette.shared.java
+Bundle-ClassPath: .
+
