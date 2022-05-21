@@ -8,6 +8,8 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import com.lguplus.pool.Pool;
+import com.lguplus.pvs.model.Connectable;
+import com.lguplus.pvs.util.LogManager;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -20,6 +22,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +40,7 @@ public class ConnectionConfig {
     private String NEA_PODNAME = null;
     private HeartbeatPolicy heartbeatPolicy = null;
     private ConnectionFailoverPolicy failoverPolicy = null;
-    private List<String> connectionGroupList = null;
+    private List<String> connectionGroupList = new ArrayList<>();
     
     // 호스트 단위 연결을 위하여 추가적인 정보 설정 - 별도의 명령어가 내려오기전까지는 단일 서버에 접속이 될 때까지 시도한다.
     private String autoFailOverYN = "Y";
@@ -57,13 +60,15 @@ public class ConnectionConfig {
     
 
     // Map< ConnectionGroupName, Pool<ConnecitonObject> > Connection Group별 connection pool을 갖는다. 
-    private Map<String, Pool<ConnectionObject>> poolMap = null;
+    private Map<String, Pool<ConnectionObject>> poolMap = new HashMap<>();
 
     // 모든 설정된 Connection, KEY=컨넥션ID, Value=컨넥션객체
-    private ConcurrentHashMap<String, ConnectionObject> connections = null;
+    private ConcurrentHashMap<String, ConnectionObject> connections = new ConcurrentHashMap<>();
+    
+    private final LogManager logManager;
     
     private ConnectionConfig() {
-    	
+    	logManager = LogManager.getInstance();
     }
     
     private int stringToInteger(String value) {
@@ -74,7 +79,7 @@ public class ConnectionConfig {
 	    		return -1;
 	    	}
     	}catch(Exception ex) {
-    		LogManager.getInstance().error(String.format("Unexpected value - please check the DB Value [%s]\n", value));
+    		logManager.error(String.format("Unexpected value - please check the DB Value [%s]\n", value));
     		return -1;
     	}
     }
@@ -87,7 +92,7 @@ public class ConnectionConfig {
 	    		return -1;
 	    	}
     	}catch(Exception ex) {
-    		LogManager.getInstance().error(String.format("Unexpected value - please check the DB Value [%s]\n", value));
+    		logManager.error(String.format("Unexpected value - please check the DB Value [%s]\n", value));
     		return -1;
     	}
     }
@@ -103,7 +108,8 @@ public class ConnectionConfig {
     
     public void displayConnectionObjectInfo(Connectable connectable) {
     	if(connectable != null) {
-    		this.getConnectionObject(connectable).logConnectionObjectInfo();
+    		String objLog = this.getConnectionObject(connectable).logConnectionObjectInfo();
+    		logManager.info(objLog);
     	}
     }
     
@@ -113,24 +119,28 @@ public class ConnectionConfig {
     
     public void displayConnectionObjectInfo() {   	    	
     	int idx = 0;    	
-    	for(String connectionId : this.connections.keySet()) {
-    		ConnectionObject connObj = this.connections.get(connectionId);
-    		idx++;
-    		LogManager.getInstance().info(String.format("[%d][%s][%s][%s][객체상태: %s] 현재상태 [%s] 서버 주소/포트 [%s][%d][접속서버유형: %s][연결시도횟수: %d회][처리 메시지: %d개]\n", 
-    								idx, connObj.getConnectionType(), connObj.getConnectionGroupId(), connObj.getConnectionKey(), 
-    								connObj.getConnectionObjectStatus(), connObj.getConnectionStatus(), connObj.getCurrentServerIp(), 
-    								connObj.getCurrentServerPort(), connObj.getCurrentServerType(), connObj.getFailoverTryCount(), connObj.getHandledMsgCount()));
+    	for(ConnectionObject connObj : this.connections.values()) {
+		   logManager.info(String.format("[%d][%s][%s][%s][객체상태: %s] 현재상태 [%s] 서버 주소/포트 [%s][%d][접속서버유형: %s][연결시도횟수: %d회][처리 메시지: %d개]\n", 
+				idx++, connObj.getConnectionType(), connObj.getConnectionGroupId(), connObj.getConnectionKey(), 
+				connObj.getConnectionObjectStatus(), connObj.getConnectionStatus(), connObj.getCurrentServerIp(), 
+				connObj.getCurrentServerPort(), connObj.getCurrentServerType(), connObj.getFailoverTryCount(), connObj.getHandledMsgCount()));
     	}
-    	LogManager.getInstance().info("===========================================================================================================");
+    	logManager.info("===========================================================================================================");
     }
     
     public String getAutoFailOverYN() { return this.autoFailOverYN; }  
 
     public ConnectionObject getConnectionObjectFromPool(String connectionGroupId, String connectionId) {
-    	return this.poolMap.get(connectionGroupId).getObjectById(connectionId);
+    	if(this.poolMap.containsKey(connectionGroupId)) {
+			return this.poolMap.get(connectionGroupId).getObjectById(connectionId);
+    	}else {
+			logManager.warn(String.format("connectionGroupId error:", connectionGroupId));
+    		return null;
+    	}
     }
     
-    public ConnectionObject getConnectionObjectByConnection(Connectable connectable) {    	
+    /** 하기 두 함수가 어떤 차이가 있는지 확인이 필요함. **/
+    public ConnectionObject getConnectionObjectByConnectable(Connectable connectable) {    	
 		Optional<ConnectionObject> connectionObject = this.connections.values().stream().filter(conn -> conn.getConnection().equals(connectable)).findFirst();
 		if(connectionObject.isPresent()) connectionObject.get();
     	return null;
@@ -138,7 +148,7 @@ public class ConnectionConfig {
     
     public ConnectionObject getConnectionObject(Connectable connectable) {
     	// bwConnection 정보를 기반으로 연결객체를 구한다. - BusinessWorks TCPOpen시 생성된 connection Binary 객체
-    	return this.connections.get(Registry.getInstance().getConnectionIdWithConnection(connectable));
+    	return this.connections.get(Registry.getInstance().getConnectionIdWithConnectable(connectable));
     }
     
     public String getConnectionInfo(String connectionGroupId, String connectionKey, String code, String reason) {
@@ -202,7 +212,7 @@ public class ConnectionConfig {
     		result = result.replace("@CONN_REAL_COUNT@", String.format("%d", numOfConns-numOfDisconns));
     	}
     	
-    	LogManager.getInstance().info(String.format("/// [현재 총 연결객체 수: %d개 / 총 연결객체 정보: %d개]\n", (numOfConns-numOfDisconns), numOfConns));
+    	logManager.info(String.format("/// [현재 총 연결객체 수: %d개 / 총 연결객체 정보: %d개]\n", (numOfConns-numOfDisconns), numOfConns));
     	
     	return result;
     }
@@ -222,7 +232,7 @@ public class ConnectionConfig {
     		retVal[1] = connObj.getReadTimeOutRetryCount();
     		retVal[2] = connObj.getWriteTimeOut();
     		retVal[3] = connObj.getWriteTimeOutRetryCount();
-    		LogManager.getInstance().info(String.format("[ReadTimeOut: %d초, RetryCount: %d회][WriteTimeOut: %d초, RetryCount: %d회]\n", retVal[0], retVal[1], retVal[2], retVal[3]));
+    		logManager.info(String.format("[ReadTimeOut: %d초, RetryCount: %d회][WriteTimeOut: %d초, RetryCount: %d회]\n", retVal[0], retVal[1], retVal[2], retVal[3]));
     	}
     		 
     	return retVal;
@@ -240,7 +250,7 @@ public class ConnectionConfig {
     			connectable = connObj.getConnection(); // BW Connection Binary 값을 가져온다.
     			connObj.resetByServerType(serverType);
     			
-    			LogManager.getInstance().info(String.format("[%d][요청-인덱스:%d][%s][%s] 현재 접속 상태 [%s][주소/포트: %s][%d][접속서버유형: %s][처리 메시지: %d개]\n", position, index,
+    			logManager.info(String.format("[%d][요청-인덱스:%d][%s][%s] 현재 접속 상태 [%s][주소/포트: %s][%d][접속서버유형: %s][처리 메시지: %d개]\n", position, index,
     									connObj.getConnectionGroupId(), connObj.getConnectionKey(), connObj.getConnectionStatus(), connObj.getCurrentServerIp(),
     									connObj.getCurrentServerPort(), connObj.getCurrentServerType(), connObj.getHandledMsgCount()));
     			break;
@@ -261,7 +271,7 @@ public class ConnectionConfig {
     		if(index == position) {
     			 
     			if(connObj.getConnectionType().equalsIgnoreCase("POOL")) {
-	    			LogManager.getInstance().info(String.format("[%d][req-index:%d][%s][%s] 현재 접속 상태 [%s][주소/포트: %s][%d][접속서버유형: %s][처리 메시지: %d개][연결객체 유형: %s]\n", position, index,
+	    			logManager.info(String.format("[%d][req-index:%d][%s][%s] 현재 접속 상태 [%s][주소/포트: %s][%d][접속서버유형: %s][처리 메시지: %d개][연결객체 유형: %s]\n", position, index,
 							connObj.getConnectionGroupId(), connObj.getConnectionKey(), connObj.getConnectionStatus(), connObj.getCurrentServerIp(),
 							connObj.getCurrentServerPort(), connObj.getCurrentServerType(), connObj.getHandledMsgCount(), connObj.getConnectionType()));
 	    			
@@ -270,11 +280,11 @@ public class ConnectionConfig {
 	    				connectable = connObj.getConnection();
 	    			}
     			} else {
-    				LogManager.getInstance().info("///////////////////////////////////////////////////////////////");
-    				LogManager.getInstance().info(String.format("[%d][req-index:%d][%s][%s] 현재 접속 상태 [%s][주소/포트: %s][%d][접속서버유형: %s][처리 메시지: %d개][연결객체 유형: %s]\n", position, index,
+    				logManager.info("///////////////////////////////////////////////////////////////");
+    				logManager.info(String.format("[%d][req-index:%d][%s][%s] 현재 접속 상태 [%s][주소/포트: %s][%d][접속서버유형: %s][처리 메시지: %d개][연결객체 유형: %s]\n", position, index,
 							connObj.getConnectionGroupId(), connObj.getConnectionKey(), connObj.getConnectionStatus(), connObj.getCurrentServerIp(),
 							connObj.getCurrentServerPort(), connObj.getCurrentServerType(), connObj.getHandledMsgCount(), connObj.getConnectionType()));
-    				LogManager.getInstance().info("///////////////////////////////////////////////////////////////");    				
+    				logManager.info("///////////////////////////////////////////////////////////////");    				
     			}
     			break;
     		}
@@ -293,10 +303,10 @@ public class ConnectionConfig {
     	
     	if(this.connections.containsKey(connectionId)) {
     		String retMsg = String.format("[ERROR] 이미 존재하는 연결객체 입니다. - AddNewConnection [%s][%s][%s]", connectionGroupId, connectionKey, serverIPsAndServerPorts);
-    		LogManager.getInstance().info(retMsg);
+    		logManager.info(retMsg);
     		return retMsg;
     	} else {    		
-    		LogManager.getInstance().info("연결객체의 서버유형은 총 "+connectionList.length+"개 입니다.");
+    		logManager.info("연결객체의 서버유형은 총 "+connectionList.length+"개 입니다.");
     		
     		// connectionObject의 키 값으로는 다음과 같다.
 			ConnectionObject connObj = new ConnectionObject(connectionGroupId, connectionKey);
@@ -336,7 +346,7 @@ public class ConnectionConfig {
 	            	connObj.setDrIp(serverIp);
 	            	connObj.setDrPort(serverPort);
 	            }
-    			LogManager.getInstance().info(String.format("신규 연결객체 [%s] 를 생성하겠습니다. - AddNewConnection [%s][%s][%s][%d][NEConnecion Id: %d]\n", serverType, connectionGroupId, connectionKey, serverIp, serverPort, neConnId));
+    			logManager.info(String.format("신규 연결객체 [%s] 를 생성하겠습니다. - AddNewConnection [%s][%s][%s][%d][NEConnecion Id: %d]\n", serverType, connectionGroupId, connectionKey, serverIp, serverPort, neConnId));
     			
     		}
 			// connections 에 넣어준다 생성된 객체를 넣어준다.
@@ -349,16 +359,16 @@ public class ConnectionConfig {
     
     public Connectable removeConnection(String connectionGroupId, String connectionKey) {
     	Connectable connectable = null;    	
-    	LogManager.getInstance().info(String.format("ConnectionConfig.disconnectConnection [%s;;%s] 연결 객체를 connection pool에서 삭제하도록 하겠습니다.\n", connectionGroupId, connectionKey));
+    	logManager.info(String.format("ConnectionConfig.disconnectConnection [%s;;%s] 연결 객체를 connection pool에서 삭제하도록 하겠습니다.\n", connectionGroupId, connectionKey));
     	String connectionId = String.format(ConnectionObject.CID_FORMAT, connectionGroupId, connectionKey);
     	
     	if(this.connections.containsKey(connectionId)) {
     		ConnectionObject connObj = this.connections.get(connectionId);
-    		LogManager.getInstance().info(String.format("[%s] 연결객체를 삭제하도록 하겠습니다. \n", connObj.getConnectionId()));
+    		logManager.info(String.format("[%s] 연결객체를 삭제하도록 하겠습니다. \n", connObj.getConnectionId()));
     		this.connections.remove(connectionId); // connection Object 객체 정보를 삭제를 해준다.
     		connectable = connObj.getConnection();
     	} else {
-    		LogManager.getInstance().warn(String.format("[%s] 연결객체가 ConnectionManager 내에 없습니다. 삭제 전에 다시 한번 확인부탁드립니다.\n", connectionId));
+    		logManager.warn(String.format("[%s] 연결객체가 ConnectionManager 내에 없습니다. 삭제 전에 다시 한번 확인부탁드립니다.\n", connectionId));
     	}
     	
     	return connectable;
@@ -370,7 +380,7 @@ public class ConnectionConfig {
     	for(String connectionId : this.connections.keySet()) {
     		ConnectionObject connObj = this.connections.get(connectionId);
     		this.connections.get(connectionId).setFailOverMode(failOverMode);
-    		LogManager.getInstance().info(String.format("[%s][%s][%s][%d][서버유형: %s][failOver모드: %s]\n",connObj.getConnectionGroupId(), 
+    		logManager.info(String.format("[%s][%s][%s][%d][서버유형: %s][failOver모드: %s]\n",connObj.getConnectionGroupId(), 
     								connObj.getConnectionKey(),connObj.getCurrentServerIp(), connObj.getCurrentServerPort(), 
     								connObj.getCurrentServerType(), connObj.getFailOverMode()));
     	}
@@ -379,7 +389,7 @@ public class ConnectionConfig {
     public void resetConnectionObjectInfoByForcedDisconnected(String connectionId) {
     
     	if(this.connections.containsKey(connectionId)) {
-    		LogManager.getInstance().info("["+connectionId+"]의 정보를 초기화 하겠습니다.");
+    		logManager.info("["+connectionId+"]의 정보를 초기화 하겠습니다.");
     		ConnectionObject connObj = this.connections.get(connectionId);
     		connObj.setConnectionFirstTime(true);
     		connObj.setConnectionReset(true);
@@ -387,7 +397,7 @@ public class ConnectionConfig {
     		connObj.setFailOverTryCount(0);
     		connObj.nullifyConnection();
     	} else {
-    		LogManager.getInstance().warn(String.format("[%s] 는 존재하지 않는 연결객체 입니다. 다시 한번 확인이 필요합니다.\n", connectionId));
+    		logManager.warn(String.format("[%s] 는 존재하지 않는 연결객체 입니다. 다시 한번 확인이 필요합니다.\n", connectionId));
     	}
     }
     
@@ -416,14 +426,14 @@ public class ConnectionConfig {
 	    		connObj.setCurrentServerPort(connObj.getCurrentServerType() != "A" ? connObj.getActivePort() : connObj.getBackupPort());
 	    		connObj.setCurrentServerType(connectionServerType);
 	    		connObj.setFailOverTryCount(0); // 0으로 초기화 해준다.
-	    		LogManager.getInstance().info(String.format("[%d] after  [%s][%d][%s][%s]\n", numOfAffectedObjects, connObj.getCurrentServerIp(), connObj.getCurrentServerPort(), connObj.getCurrentServerType(), connObj.getFailoverTryCount()));
+	    		logManager.info(String.format("[%d] after  [%s][%d][%s][%s]\n", numOfAffectedObjects, connObj.getCurrentServerIp(), connObj.getCurrentServerPort(), connObj.getCurrentServerType(), connObj.getFailoverTryCount()));
     		}
     	}
     	
     	if(numOfAffectedObjects > 0 ) {
     		String prevConnectionServerType = this.connectionServerType;
     		this.connectionServerType = connectionServerType;
-    		LogManager.getInstance().info(String.format("/// 이전 서버 유형 (%s)에서 (%s)로 변경되었습니다.\n", prevConnectionServerType, this.connectionServerType));
+    		logManager.info(String.format("/// 이전 서버 유형 (%s)에서 (%s)로 변경되었습니다.\n", prevConnectionServerType, this.connectionServerType));
     	}
     	
     	return numOfAffectedObjects;
@@ -489,7 +499,7 @@ public class ConnectionConfig {
     			countInfo++;
     		}
     	}
-    	LogManager.getInstance().info(String.format("//// 서버유형 [%s] 총 %d의 연결객체는 POOL유형 객체 %d개와 INFO유형 객체 %d개로 이루어져 있습니다.\n", 
+    	logManager.info(String.format("//// 서버유형 [%s] 총 %d의 연결객체는 POOL유형 객체 %d개와 INFO유형 객체 %d개로 이루어져 있습니다.\n", 
     				ConnectionObject.getServerType(connectionServerType), connections.size(), countPool, countInfo));
     	return countPool;
     }
@@ -503,39 +513,39 @@ public class ConnectionConfig {
         // 비교 후 정리작업을 수행한다. - 일단 모든 것을 멈춰준다. - 그리고 다음으로 넣어준다.
     	// 기존의 것을 모두 정리한 후 다시 기동한다.
     	connectionStatus = "U"; // 업데이트 중으로 표시한다.
-    	LogManager.getInstance().info("updateConfigWithDB() - 데이터베이스 내용을 읽은 정보를 기반으로 연결객체 정보를 재정립힙니다.");    	
+    	logManager.info("updateConfigWithDB() - 데이터베이스 내용을 읽은 정보를 기반으로 연결객체 정보를 재정립힙니다.");    	
     	this.checkUpdateConfigInfo(NEConfigInfo); // 초기화 한 후 재설정을 요청한다.    	    	
     	connectionStatus = "D"; // 업데이트 완료 후 표시한다. - Disconnected로 설정해준다.
     }
     
     public void checkUpdateConfigInfo(ArrayList<String> NEConfigInfo) {
     	
-    	LogManager.getInstance().info("************************************************************************");
-    	LogManager.getInstance().info("ConnectionConfig.checkUpdateConfigInfo 설정해야할 NE 갯수 ["+NEConfigInfo.size()+"]");
-    	LogManager.getInstance().info("************************************************************************");
+    	logManager.info("************************************************************************");
+    	logManager.info("ConnectionConfig.checkUpdateConfigInfo 설정해야할 NE 갯수 ["+NEConfigInfo.size()+"]");
+    	logManager.info("************************************************************************");
 
     	// 기본 연결객체 정보를 설정해준다.
     	String connectionIds = this.setConnectionObjectBasicInformation(NEConfigInfo);
     	
     	// Insert, Update, delete 작업을 수행한다.
-    	LogManager.getInstance().info("//////////////////////////////////////////////////////////////////////////////////////////////////////////");
-    	LogManager.getInstance().info("** 현재 UpdateConfig에 의해서 설정된 ConnectionId 목록 기준으로 Add, Udpate, Delete 업무 수행 예정: "+connectionIds);    
-    	LogManager.getInstance().info("//////////////////////////////////////////////////////////////////////////////////////////////////////////");
+    	logManager.info("//////////////////////////////////////////////////////////////////////////////////////////////////////////");
+    	logManager.info("** 현재 UpdateConfig에 의해서 설정된 ConnectionId 목록 기준으로 Add, Udpate, Delete 업무 수행 예정: "+connectionIds);    
+    	logManager.info("//////////////////////////////////////////////////////////////////////////////////////////////////////////");
     	for(String connectionId : this.connections.keySet()) {
     		ConnectionObject connObj = this.connections.get(connectionId);    		
     		if(connectionIds.contains(connectionId)) {
     			if(connObj.getConnectionObjectStatus().equalsIgnoreCase("NC") 
 					|| connObj.getConnectionObjectStatus().equalsIgnoreCase("SC")
 					|| connObj.getConnectionObjectStatus().equalsIgnoreCase("UC")) {
-    				LogManager.getInstance().info(String.format("이번 UpdateConfig에 신규로 포함된 연결객체 [%s] 입니다. - Connection 요청이 필요합니다.\n", connectionId));
+    				logManager.info(String.format("이번 UpdateConfig에 신규로 포함된 연결객체 [%s] 입니다. - Connection 요청이 필요합니다.\n", connectionId));
                 	// 한번만 수행하면 된다. - 첫번째 접속은 무조건 Active 서버로 접속하도록 설정해준다.
     				// 신규로 생성된 경우 어디로 붙는게 맞을 것인가?
     				if(failoverPolicy.isPortbasedFailOver()) {
-    					LogManager.getInstance().info("포트 기반 절체의 경우 Active Ip, Port 설정 후 연결처리에 맡긴다.");
+    					logManager.info("포트 기반 절체의 경우 Active Ip, Port 설정 후 연결처리에 맡긴다.");
     					// initDefaultServerInfo(connObj); // 정책을 최초 설정된 것으로 할 경우 - 기본은 지금 다른 연결객체가 설정된 것으로 그대로 간다. 	          
     					connObj.initServerInfoByServerType(connectionServerType);
     				} else if (failoverPolicy.isHostbasedFailOver()) {
-    					LogManager.getInstance().info("호스트 기반 절체의 경우 기본 연결된 serverType에 맞춰서 연결해준다.");
+    					logManager.info("호스트 기반 절체의 경우 기본 연결된 serverType에 맞춰서 연결해준다.");
     					connObj.initServerInfoByServerType(connectionServerType);
     				}    				
     				putConnectionRequestQueue(connectionId);
@@ -544,18 +554,18 @@ public class ConnectionConfig {
     				// 기존의 경우 현재 접속한 서버의 값이 변경되었는지 확인하고 값이 동일한 경우 스킵, 변경된 경우 종류 후 재연결을 위한 절차를 밟습니다.
     				if(connObj.isSameConnectedServerInfoWithNewConfigInfo()) {
     					// 기존과 같은 값이면 그대로 유지한다.
-    					LogManager.getInstance().info(String.format("[%s] 내 접속 정보가 동일하므로 별도의 조치 없이 현재 상태를 유지합니다.\n", connectionId));
+    					logManager.info(String.format("[%s] 내 접속 정보가 동일하므로 별도의 조치 없이 현재 상태를 유지합니다.\n", connectionId));
     				} else {
     					// 값이 다르므로 정리하고 새롭게 연결을 요청한다.
     					initDefaultServerInfo(connObj);
-    					LogManager.getInstance().info(String.format("[%s] 변경된 접속 정보 [%s][%d] : 신규 정보 기준으로 이전 상태를 종료시키고 새롭게 연결을 시도합니다.\n",
+    					logManager.info(String.format("[%s] 변경된 접속 정보 [%s][%d] : 신규 정보 기준으로 이전 상태를 종료시키고 새롭게 연결을 시도합니다.\n",
     											connectionId, connObj.getCurrentServerIp(), connObj.getCurrentServerPort()));
     					connObj.setConnectionObjectStatus("UC"); // 접속 정보가 변경되었으므로 현재 접속을 종료하고 신규 접속을 시도해야 합니다.
     					putDisconnAndConnectionRequestQueue(connectionId);
     				}
     			}
     		} else {
-    			LogManager.getInstance().info(String.format("이번 UpdateConfig에 포함되지 않은 연결객체입니다 [%s]는 삭제대상으로 지금 제거합니다\n.", connectionId));
+    			logManager.info(String.format("이번 UpdateConfig에 포함되지 않은 연결객체입니다 [%s]는 삭제대상으로 지금 제거합니다\n.", connectionId));
 				connObj.setConnectionObjectStatus("DC"); // 삭제 대상으로 마킹하고 삭제 요청큐에 넣어줍니다. - 작업이 끝나고 해야 하지 않을까 생각됩니다. - 무엇을 기준으로
 				putDisconnectionRequestQueue(connectionId);
     		}
@@ -572,34 +582,34 @@ public class ConnectionConfig {
 		 * 기존의 것을 모두 정리한 후 다시 기동한다.    	
     	 */
     	connectionStatus = "U"; // 업데이트 중으로 표시한다.
-    	LogManager.getInstance().info("updateConfigWithDBAndReconnect() - 데이터베이스 내용을 읽은 정보를 기반으로 연결객체 정보를 재정립힙니다.");    	
+    	logManager.info("updateConfigWithDBAndReconnect() - 데이터베이스 내용을 읽은 정보를 기반으로 연결객체 정보를 재정립힙니다.");    	
     	this.checkUpdateConfigInfoAndReconnect(NEConfigInfo); // 초기화 한 후 재설정을 요청한다.    	    	
     	connectionStatus = "D"; // 업데이트 완료 후 표시한다. - Disconnected로 설정해준다.
     }
     
     public void checkUpdateConfigInfoAndReconnect(ArrayList<String> NEConfigInfo) {
     	
-    	LogManager.getInstance().info("************************************************************************");
-    	LogManager.getInstance().info(String.format("ConnectionConfig.checkUpdateConfigInfoAndReconnect 설정해야할 NE 갯수 [%d]\n", NEConfigInfo.size()));
-    	LogManager.getInstance().info("************************************************************************");    	    	
+    	logManager.info("************************************************************************");
+    	logManager.info(String.format("ConnectionConfig.checkUpdateConfigInfoAndReconnect 설정해야할 NE 갯수 [%d]\n", NEConfigInfo.size()));
+    	logManager.info("************************************************************************");    	    	
     	
     	// 기본 연결객체 정보를 설정해준다.
     	String connectionIds = this.setConnectionObjectBasicInformation(NEConfigInfo);
     	
     	// Insert, Update, delete 작업을 수행한다.
-    	LogManager.getInstance().info(String.format("** 현재 UpdateConfig에 의해서 설정된 ConnectionId 목록 기준으로 Add, Udpate, Delete 업무 수행 예정 [대상 연결객체: %s]\n",connectionIds));    	
+    	logManager.info(String.format("** 현재 UpdateConfig에 의해서 설정된 ConnectionId 목록 기준으로 Add, Udpate, Delete 업무 수행 예정 [대상 연결객체: %s]\n",connectionIds));    	
     	for(String connectionId : this.connections.keySet()) {
     		ConnectionObject connObj = this.connections.get(connectionId);    		
     		if(connectionIds.contains(connectionId)) {
     			if(connObj.getConnectionObjectStatus().equalsIgnoreCase("NC")) {
-    				LogManager.getInstance().info(String.format("이번 UpdateConfig에 신규로 포함된 연결객체 [%s] 입니다. - Connection 요청이 필요합니다.\n", connectionId));
+    				logManager.info(String.format("이번 UpdateConfig에 신규로 포함된 연결객체 [%s] 입니다. - Connection 요청이 필요합니다.\n", connectionId));
                 	// 한번만 수행하면 된다. - 첫번째 접속은 무조건 Active 서버로 접속하도록 설정해준다.
     				// 신규로 생성된 경우 어디로 붙는게 맞을 것인가?
     				if(failoverPolicy.isPortbasedFailOver()) {
-    					LogManager.getInstance().info("포트 기반 절체의 경우 Active Ip, Port 설정 후 연결처리에 맡긴다.");    					
+    					logManager.info("포트 기반 절체의 경우 Active Ip, Port 설정 후 연결처리에 맡긴다.");    					
     					initDefaultServerInfo(connObj);    					
     				} else if (failoverPolicy.isHostbasedFailOver()) {
-    					LogManager.getInstance().info("호스트 기반 절체의 경우 기본 연결된 serverType에 맞춰서 연결해준다.");
+    					logManager.info("호스트 기반 절체의 경우 기본 연결된 serverType에 맞춰서 연결해준다.");
 
     					// DB 정보 갱신 후 업데이트 이전의 연결 서버 유형으로 접속하도록 설정한다.
     					// connObj.initServerInfoByServerType(this.connectionServerType);
@@ -618,14 +628,14 @@ public class ConnectionConfig {
     				this.connectionServerType = "A"; // Active를 기본으로 설정한다. <= 어떻게 할지 정책으로 결정
 					initDefaultServerInfo(connObj);
 					
-					LogManager.getInstance().info(String.format("[%s] 변경된 접속 정보 [%s][%d] : 갱신된 정보 기준으로 연결종류 후 재연결을 수행합니다\n.", 
+					logManager.info(String.format("[%s] 변경된 접속 정보 [%s][%d] : 갱신된 정보 기준으로 연결종류 후 재연결을 수행합니다\n.", 
 											connectionId, connObj.getCurrentServerIp(), connObj.getCurrentServerPort()));
 					connObj.setConnectionObjectStatus("UC"); // 접속 정보가 변경되었으므로 현재 접속을 종료하고 신규 접속을 시도해야 합니다.					
 					putDisconnAndConnectionRequestQueue(connectionId);
     			} 
 					
     		} else {
-    			LogManager.getInstance().info(String.format("이번 UpdateConfig에 포함되지 않은 연결객체입니다 [%s]는 삭제대상으로 지금 제거합니다.\n", connectionId));
+    			logManager.info(String.format("이번 UpdateConfig에 포함되지 않은 연결객체입니다 [%s]는 삭제대상으로 지금 제거합니다.\n", connectionId));
     			connObj.setConnectionObjectStatus("DC"); // 삭제 대상으로 마킹하고 삭제 요청큐에 넣어줍니다. - 작업이 끝나고 해야 하지 않을까 생각됩니다. - 무엇을 기준으로    			
     			putDisconnectionRequestQueue(connectionId);
     		}
@@ -638,25 +648,28 @@ public class ConnectionConfig {
 	// deprecated: 더 이상 사용하지 않는다.
     public void updateConfigWithXML(String xmlString) {
     	// 해당 정보를 가져와서 설정한다. XML대신 List에 있는 DB 데이터 정보를 기준으로 한다.
-        this.connections = this.parseXml(xmlString);;
+    	this.connections.clear();
+    	this.connectionGroupList.clear();
+        this.parseXml(xmlString);;
     }
 
     public void initConfigWithXML(String xmlString) {
     	// XML 파서로 무엇을 사용할지 명시적으로 지정해준다. - 지정해주지 않는 경우 다른 파서를 로딩하므로써 문제 발생
     	System.setProperty("javax.xml.parsers.DocumentBuilderFactory", "com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl" );
-        this.connections = this.parseXml(xmlString);
+    	this.connections.clear();
+    	this.connectionGroupList.clear();
+        this.parseXml(xmlString);
     }
     
     
     public void initConfigWithDB(ArrayList<String> NEConfigInfo) {
     	
-    	LogManager.getInstance().info("************************************************************************");
-    	LogManager.getInstance().info(String.format("ConnectionConfig.initConfigWithDB 설정해야할 NE 갯수 [%d] 2022-01-06 Refactoring work\n", NEConfigInfo.size()));
-    	LogManager.getInstance().info("************************************************************************");
+    	logManager.info("************************************************************************");
+    	logManager.info(String.format("ConnectionConfig.initConfigWithDB 설정해야할 NE 갯수 [%d] 2022-01-06 Refactoring work\n", NEConfigInfo.size()));
+    	logManager.info("************************************************************************");
     	    	
-    	// ConnectionObject를 담을 Map객체를 생성한다.
-    	this.connections = new ConcurrentHashMap<>(NEConfigInfo.size());    	
-    	this.connectionGroupList = new ArrayList<>();
+    	this.connections.clear();
+    	this.connectionGroupList.clear();
     	
     	this.setConnectionObjectBasicInformation(NEConfigInfo);
     	this.initDefaultServerInfoInConnectionObjects(); // ConnectionConfig 내에 있는 ConnectionObjects의 currentServerIp & Port 번호를 A(ctive) 서버로 초기화 해준다.
@@ -681,7 +694,7 @@ public class ConnectionConfig {
     	for(String elem : NEConfigInfo) {
     		cols = elem.split(";");
     		int connCount = stringToInteger(cols[NECONN.CONN_COUNT.idx]);
-    		LogManager.getInstance().info(String.format("[%d][neconn_id: %d][연결객체 생성 개수: %d개][%s;;%s][%s][%d]-[%s]\n", idx++,
+    		logManager.info(String.format("[%d][neconn_id: %d][연결객체 생성 개수: %d개][%s;;%s][%s][%d]-[%s]\n", idx++,
     																		stringToLong(cols[NECONN.NECONN_ID.idx]),
     																		connCount,
 																			cols[NECONN.CONN_GROUPNAME.idx], 
@@ -694,14 +707,14 @@ public class ConnectionConfig {
     		String connectionGroupId = cols[NECONN.CONN_GROUPNAME.idx]; // 컨넥션 풀의 그룹명 가져오기
     		if(!this.connectionGroupList.contains(connectionGroupId)) {
     			numOfGroups++;
-    			LogManager.getInstance().info(String.format("** 새로운 그룹 [%s] 를 등록하겠습니다. 총 그룹수 %d개 입니다.\n", connectionGroupId, numOfGroups));
+    			logManager.info(String.format("** 새로운 그룹 [%s] 를 등록하겠습니다. 총 그룹수 %d개 입니다.\n", connectionGroupId, numOfGroups));
     			this.connectionGroupList.add(connectionGroupId);
     		}
     		
     		if(connCount < 1) {
-    			LogManager.getInstance().info("////////////////////////////////////////////////////////////////////////////////");
-    			LogManager.getInstance().info(String.format("[NECONNP_ID: %s]의 CONN_COUNT 값에 문제가 있습니다. TB_PVSM_NECONN CONN_COUNT의 값이 최소 1이어야 합니다.\n", cols[NECONN.NECONN_ID.idx]));
-    			LogManager.getInstance().info("////////////////////////////////////////////////////////////////////////////////");
+    			logManager.info("////////////////////////////////////////////////////////////////////////////////");
+    			logManager.info(String.format("[NECONNP_ID: %s]의 CONN_COUNT 값에 문제가 있습니다. TB_PVSM_NECONN CONN_COUNT의 값이 최소 1이어야 합니다.\n", cols[NECONN.NECONN_ID.idx]));
+    			logManager.info("////////////////////////////////////////////////////////////////////////////////");
     		}
     		
     		for(int i=0; i < connCount; i++) {
@@ -714,11 +727,11 @@ public class ConnectionConfig {
 	    		if(!this.connections.containsKey(connectionId)) {
 	    			connObj = new ConnectionObject(connectionGroupId, connectionKey); // connectionObject의 키 값으로는 다음과 같다.
 	    			this.connections.put(connObj.getConnectionId(), connObj);
-	    			LogManager.getInstance().info(String.format("[%d/%d][%s] 는 신규 ConnectionObject 입니다. - connections 맵에 등록하였습니다. [%s]\n", i, connCount, connectionId, this.connections.containsKey(connectionId)));
+	    			logManager.info(String.format("[%d/%d][%s] 는 신규 ConnectionObject 입니다. - connections 맵에 등록하였습니다. [%s]\n", i, connCount, connectionId, this.connections.containsKey(connectionId)));
 	    			
 	    		} else {
 	    			connObj = connections.get(connectionId);
-	    			LogManager.getInstance().info(String.format("[%d/%d][%s] 는 이미 등록되어 있습니다. 정보를 필요한 추가 정보를 등록하겠습니다.\n", i, connCount, connObj.getConnectionId()));
+	    			logManager.info(String.format("[%d/%d][%s] 는 이미 등록되어 있습니다. 정보를 필요한 추가 정보를 등록하겠습니다.\n", i, connCount, connObj.getConnectionId()));
 	    		}
 	    		
 	    		connObj.setNEConnId(stringToLong(cols[NECONN.NECONN_ID.idx])); // NECONN_ID 유일값
@@ -751,14 +764,14 @@ public class ConnectionConfig {
 		    		connObj.setConnectionObjectStatus("IC");
 		    		this.initDefaultServerInfo(connObj);
 		    	}
-		    	LogManager.getInstance().info(String.format("[%d][%s]", i, connectionIds));
+		    	logManager.info(String.format("[%d][%s]", i, connectionIds));
     		} 
     	}
     	
     	return connectionIds;
     }
 
-    private ConcurrentHashMap<String, ConnectionObject> parseXml(String xmlString) {
+    private void parseXml(String xmlString) {
         
     	// DB 생성이 안되었을 경우 임시로 사용한다.
     	DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -782,18 +795,18 @@ public class ConnectionConfig {
 
         this.NEA_PODNAME = doc.getElementsByTagName("tns:TargetName").item(0).getTextContent();
         String failOverPolicy = doc.getElementsByTagName("tns:FailoverPolicy").item(0).getTextContent();
-        LogManager.getInstance().info(String.format("[지정된 Failover 정책: %s]\n", failOverPolicy));        
+        logManager.info(String.format("[지정된 Failover 정책: %s]\n", failOverPolicy));        
         this.reconnectionTryIntervalSec = Integer.parseInt(doc.getElementsByTagName("tns:ConnectionRetryIntervalSec").item(0).getTextContent());
         
         //--- start parse & config FailOverPolicy
         if("Port".equalsIgnoreCase(failOverPolicy)){
-        	LogManager.getInstance().info("* PORT 단위 절체 정책 사용");
+        	logManager.info("* PORT 단위 절체 정책 사용");
             failoverPolicy = new ConnectionFailoverPolicy(ConnectionFailoverPolicy.FailOver.Port_Level);
         } else if("Host".equalsIgnoreCase(failOverPolicy)){
-        	LogManager.getInstance().info("* HOST 단위 절체 정책 사용");
+        	logManager.info("* HOST 단위 절체 정책 사용");
         	failoverPolicy = new ConnectionFailoverPolicy(ConnectionFailoverPolicy.FailOver.Host_Level);
         } else {
-        	LogManager.getInstance().warn("* 알 수 없는 절체 정책 사용 - 확인 필요");
+        	logManager.warn("* 알 수 없는 절체 정책 사용 - 확인 필요");
         }
 
         //--- start parse & config FailOverPolicy
@@ -806,7 +819,6 @@ public class ConnectionConfig {
             this.heartbeatPolicy.setHeartbeatFailSeconds(Integer.parseInt(hbpolicy.getElementsByTagName("tns:Timeout").item(0).getTextContent()));
         }
 
-        ConcurrentHashMap<String, ConnectionObject> connectionMap = new ConcurrentHashMap<>(doc.getElementsByTagName("tns:Connection").getLength());
 
         // --- start parse & config ConnectionGroup
         NodeList grpList = doc.getElementsByTagName("tns:ConnectionGroup");
@@ -815,8 +827,8 @@ public class ConnectionConfig {
         for(int grpIdx=0; grpIdx<grpList.getLength(); grpIdx++) {
             Node grpNode = grpList.item(grpIdx);
             String grpId = grpNode.getAttributes().item(0).getNodeValue();
-            this.getConnectionGroupList().add(grpId);
-            LogManager.getInstance().info("/// ConnectionGroup=" + grpId);
+            this.connectionGroupList.add(grpId);
+            logManager.info("/// ConnectionGroup=" + grpId);
 
             // --- start parse & config Connections
             NodeList list = grpNode.getChildNodes();
@@ -826,8 +838,8 @@ public class ConnectionConfig {
                     Element connElement = (Element) node;
                     // connection-id
                     ConnectionObject connObj = new ConnectionObject(grpId, connElement.getElementsByTagName("tns:ConnectionId").item(0).getTextContent());
-                    connectionMap.put(connObj.getConnectionId(), connObj);
-                    LogManager.getInstance().info("/// ConnectionID=" + connObj.getConnectionId());
+                    this.connections.put(connObj.getConnectionId(), connObj);
+                    logManager.info("/// ConnectionID=" + connObj.getConnectionId());
                     
                     connObj.setFailOverPolicy(failOverPolicy); 
 
@@ -851,7 +863,6 @@ public class ConnectionConfig {
                 }
             }
         }
-        return connectionMap;
     }
     
     
@@ -861,57 +872,57 @@ public class ConnectionConfig {
     // 신규 연결객체 생성 후 연결이 필요한 경우 요청 - PVSCommon application - PVSConnManager.StarterTCPConnection.bwp
     public void putConnectionRequestQueue(String connectionId) {
 		try {
-			if(!Registry.getInstance().connectionRequestQueue.equals(connectionId)) {
-				
+			// 확인 필요함 : if(!Registry.getInstance().connectionRequestQueue.equals(connectionId)) {
+			if(!Registry.getInstance().connectionRequestQueue.contains(connectionId)) {
 				if(connections.get(connectionId).getConnectionType().equalsIgnoreCase("POOL")) {
-					LogManager.getInstance().info(String.format("신규 객체의 연결요청을 큐에 [%s]를 추가 하였습니다.\n", connectionId));
+					logManager.info(String.format("신규 객체의 연결요청을 큐에 [%s]를 추가 하였습니다.\n", connectionId));
 					Registry.getInstance().connectionRequestQueue.put(connectionId);
 				} else {
-					LogManager.getInstance().info(String.format("[%s]는 연결객체 유형이 [%s]로 연결이 필요없는 객체입니다.\n", connectionId, connections.get(connectionId).getConnectionType()));
+					logManager.info(String.format("[%s]는 연결객체 유형이 [%s]로 연결이 필요없는 객체입니다.\n", connectionId, connections.get(connectionId).getConnectionType()));
 				}
             } else {
-            	LogManager.getInstance().info("이미 연결요청 큐에 ["+connectionId+"]가 있습니다.");
+            	logManager.info("이미 연결요청 큐에 ["+connectionId+"]가 있습니다.");
             }
 		}catch(Exception ex) {
-			LogManager.getInstance().error(String.format("["+connectionId+"] 연결요청 큐에 넣는 중에 오류가 발생하였으므로 합당한 조치를 취하여 주십시요!!!"));
+			logManager.error(String.format("["+connectionId+"] 연결요청 큐에 넣는 중에 오류가 발생하였으므로 합당한 조치를 취하여 주십시요!!!"));
 		}
 	}
     
     // 현 연결객첵의 연결 종류 후 새롭게 연결이 필요한 경우 요청 - PVSCommon application - PVSConnManager.StarterDisconnectAndConnectionAgain.bwp
     public void putDisconnAndConnectionRequestQueue(String connectionId) {					
 		try {
-			if(!Registry.getInstance().disconnAndConnectionRequestQueue.equals(connectionId)) {
+			if(!Registry.getInstance().disconnAndConnectionRequestQueue.contains(connectionId)) {
 				if(connections.get(connectionId).getConnectionType().equalsIgnoreCase("POOL")) {
-	            	LogManager.getInstance().info("정보가 갱신되 연결객체에 대해서 disconnAndConnReq 큐에 ["+connectionId+"]을 추가 하였습니다.");
+	            	logManager.info("정보가 갱신되 연결객체에 대해서 disconnAndConnReq 큐에 ["+connectionId+"]을 추가 하였습니다.");
 	            	Registry.getInstance().disconnAndConnectionRequestQueue.put(connectionId);
 				} else {
-					LogManager.getInstance().info(String.format("[%s]는 연결객체 유형이 [%s]로 연결이 필요없는 객체입니다.\n", connectionId, connections.get(connectionId).getConnectionType()));
+					logManager.info(String.format("[%s]는 연결객체 유형이 [%s]로 연결이 필요없는 객체입니다.\n", connectionId, connections.get(connectionId).getConnectionType()));
 				}
             } else {
-            	LogManager.getInstance().info("이미 disconnAndConnReq 큐에 ["+connectionId+"] 등록되어 있습니다.");
+            	logManager.info("이미 disconnAndConnReq 큐에 ["+connectionId+"] 등록되어 있습니다.");
             }
 		}catch(Exception ex) {
-			LogManager.getInstance().error(String.format("["+connectionId+"] 연결요청 큐에 넣는 중에 오류가 발생하였으므로 합당한 조치를 취하여 주십시요!!!"));
+			logManager.error(String.format("["+connectionId+"] 연결요청 큐에 넣는 중에 오류가 발생하였으므로 합당한 조치를 취하여 주십시요!!!"));
 		}
 	}
     
     // 현 연결객첵의 연결 종류 후 연결객체 ConfigMap에서 완전히 제거를 해야하는 경우 요청 - PVSCommon application - PVSConnManager.StarterDisconnectAndRemoveFromConfig.bwp
     public void putDisconnectionRequestQueue(String connectionId) {
 		try {
-			if(!Registry.getInstance().disconnectionRequestQueue.equals(connectionId)) {
+			if(!Registry.getInstance().disconnectionRequestQueue.contains(connectionId)) {
 				if(connections.get(connectionId).getConnectionType().equalsIgnoreCase("POOL") && !connections.get(connectionId).getConnectionObjectStatus().equalsIgnoreCase("SC")) {
-	            	LogManager.getInstance().info("지정 객체의 삭제요청을 연결종료 요청 큐에 ["+connectionId+"]를 추가 하였습니다..");
+	            	logManager.info("지정 객체의 삭제요청을 연결종료 요청 큐에 ["+connectionId+"]를 추가 하였습니다..");
 	            	Registry.getInstance().disconnectionRequestQueue.put(connectionId);
 				} else {
 					// ConnectionTpye "INFO"인 경우로 connections 연결객체 MAP에서만 삭제한다.
 					connections.remove(connectionId);
-					LogManager.getInstance().info(String.format("[%s]는 연결객체 유형이 [%s]로 삭제 후 재연결이 필요 없는 객체입니다.\n", connectionId, connections.get(connectionId).getConnectionType()));
+					logManager.info(String.format("[%s]는 연결객체 유형이 [%s]로 삭제 후 재연결이 필요 없는 객체입니다.\n", connectionId, connections.get(connectionId).getConnectionType()));
 				}
             } else {
-            	LogManager.getInstance().info("이미 연결종료 요청큐에 ["+connectionId+"]가 있습니다.");
+            	logManager.info("이미 연결종료 요청큐에 ["+connectionId+"]가 있습니다.");
             }
 		}catch(Exception ex) {
-			LogManager.getInstance().error(String.format("["+connectionId+"] 연결종료 요청 큐에 넣는 중에 오류가 발생하였으므로 합당한 조치를 취하여 주십시요!!!"));
+			logManager.error(String.format("["+connectionId+"] 연결종료 요청 큐에 넣는 중에 오류가 발생하였으므로 합당한 조치를 취하여 주십시요!!!"));
 		}
 	}
     
@@ -938,23 +949,23 @@ public class ConnectionConfig {
 		
     	
     	if("Port".equalsIgnoreCase(cols[NECONN.FAILOVER_POLICY.idx])) {
-    		LogManager.getInstance().info("* PORT 단위 절체 정책 사용");
-            failoverPolicy = new ConnectionFailoverPolicy(ConnectionFailoverPolicy.FailOver.Port_Level);
+    		logManager.info("* PORT 단위 절체 정책 사용");
+            this.failoverPolicy = new ConnectionFailoverPolicy(ConnectionFailoverPolicy.FailOver.Port_Level);
     	} else if("Host".equalsIgnoreCase(cols[NECONN.FAILOVER_POLICY.idx])) {
-    		LogManager.getInstance().info("* HOST 단위 절체 정책 사용");
-        	failoverPolicy = new ConnectionFailoverPolicy(ConnectionFailoverPolicy.FailOver.Host_Level);
+    		logManager.info("* HOST 단위 절체 정책 사용");
+        	this.failoverPolicy = new ConnectionFailoverPolicy(ConnectionFailoverPolicy.FailOver.Host_Level);
     	} else {
-    		LogManager.getInstance().warn("* 알 수 없는 절체 정책 사용 - 확인 필요");
+    		logManager.warn("* 알 수 없는 절체 정책 사용 - 확인 필요");
     	}
     	
     	if("N".equalsIgnoreCase(cols[NECONN.HEARTBEAT_YN.idx])) {
     		this.heartbeatPolicy = new HeartbeatPolicy(false);
-    		LogManager.getInstance().info("* 하트비트 체크를 사용하지 않습니다. ["+cols[NECONN.HEARTBEAT_YN.idx]+"]");
+    		logManager.info("* 하트비트 체크를 사용하지 않습니다. ["+cols[NECONN.HEARTBEAT_YN.idx]+"]");
     	} else {
     		this.heartbeatPolicy = new HeartbeatPolicy(true);
             this.heartbeatPolicy.setIntervalSeconds(HBInterval);
             this.heartbeatPolicy.setHeartbeatFailSeconds(HBTryCount*HBInterval);
-            LogManager.getInstance().info(String.format("* 하트비트 체크를 사용 [%s] 합니다. [HB 간격: %d초][HB 실패 최대시간: %d초]\n", cols[NECONN.HEARTBEAT_YN.idx], HBInterval, HBTryCount));
+            logManager.info(String.format("* 하트비트 체크를 사용 [%s] 합니다. [HB 간격: %d초][HB 실패 최대시간: %d초]\n", cols[NECONN.HEARTBEAT_YN.idx], HBInterval, HBTryCount));
     	}
     	
     	// NE Agent 레벨의 설정값으로 SharedVariable을 통해서 설정이 가능하도록 한다.
@@ -972,27 +983,27 @@ public class ConnectionConfig {
     	this.writeTimeOutRetryCount = stringToInteger(cols[NECONN.WRITE_TIMEOUT_RETRY_COUNT.idx]);
     	
     	// NE Agent 동작에 중요한 각종 설정값을 보여준다.
-    	LogManager.getInstance().info(String.format("* POD 명: %s\n", NEA_PODNAME));
-    	LogManager.getInstance().info(String.format("* 하트비트 인터벌: %d초\n", HBInterval));
-    	LogManager.getInstance().info(String.format("* 하트비트 최대 시도 횟수: %d회\n", HBTryCount));
-    	LogManager.getInstance().info(String.format("* Borrow 타임아웃: %d초\n", this.borrowTimeOut/1000));
-    	LogManager.getInstance().info(String.format("* Borrow 타임아웃 발생 시 최대 재시도 횟수: %d회\n", this.borrowTimeOutRetryCount));
-    	LogManager.getInstance().info(String.format("* Read 타임아웃: %d초\n", this.readTimeOut/1000));
-    	LogManager.getInstance().info(String.format("* Read 타임아웃 발생 시 최대 재시도 횟수: %d회\n", this.readTimeOutRetryCount));
-    	LogManager.getInstance().info(String.format("* 재연결 시도 간격: %d초\n", reconnectionTryIntervalSec));
-    	LogManager.getInstance().info(String.format("* 서버 절체 모드 [%s]\n", ConnectionObject.getFailOverMode(connectionFailOverMode)));
-    	LogManager.getInstance().info("********************************************************************************************");
+    	logManager.info(String.format("* POD 명: %s\n", NEA_PODNAME));
+    	logManager.info(String.format("* 하트비트 인터벌: %d초\n", HBInterval));
+    	logManager.info(String.format("* 하트비트 최대 시도 횟수: %d회\n", HBTryCount));
+    	logManager.info(String.format("* Borrow 타임아웃: %d초\n", this.borrowTimeOut/1000));
+    	logManager.info(String.format("* Borrow 타임아웃 발생 시 최대 재시도 횟수: %d회\n", this.borrowTimeOutRetryCount));
+    	logManager.info(String.format("* Read 타임아웃: %d초\n", this.readTimeOut/1000));
+    	logManager.info(String.format("* Read 타임아웃 발생 시 최대 재시도 횟수: %d회\n", this.readTimeOutRetryCount));
+    	logManager.info(String.format("* 재연결 시도 간격: %d초\n", reconnectionTryIntervalSec));
+    	logManager.info(String.format("* 서버 절체 모드 [%s]\n", ConnectionObject.getFailOverMode(connectionFailOverMode)));
+    	logManager.info("********************************************************************************************");
 	}
     
     public boolean setConnectionServerType(String connectionServerType) {    	
     	boolean bValid = true;
     	    	
-    	LogManager.getInstance().info(String.format("1. [before: %s][request Type: %s]\n", this.connectionServerType, connectionServerType));    	
+    	logManager.info(String.format("1. [before: %s][request Type: %s]\n", this.connectionServerType, connectionServerType));    	
     	// 적용하기 전에 서버 유형으로 지정이 가능한지 확인한다.    	
     	for(String connectionId : this.connections.keySet()) {
     		ConnectionObject connObj = this.connections.get(connectionId);
     		if(!connObj.validServerTypeWithConnectionInfo(connectionServerType)) {
-    			LogManager.getInstance().warn(String.format("Invalid serverType: [%s] 해당 서버관련 접속 정보를 가지고 있지 않습니다.\n", connectionServerType));
+    			logManager.warn(String.format("Invalid serverType: [%s] 해당 서버관련 접속 정보를 가지고 있지 않습니다.\n", connectionServerType));
     			bValid = false;
     			break;
     		}
@@ -1000,9 +1011,9 @@ public class ConnectionConfig {
     	
     	if(bValid) {
     		this.connectionServerType =  connectionServerType;
-    		LogManager.getInstance().info(String.format("2. 연결객체의 서버 타입이 정상적으로 변경되었습니다. [%s]\n", this.connectionServerType));
+    		logManager.info(String.format("2. 연결객체의 서버 타입이 정상적으로 변경되었습니다. [%s]\n", this.connectionServerType));
     	}else {
-    		LogManager.getInstance().info(String.format("[Valid: %s][after: %s] 이전 값을 유지합니다.\n", bValid, displayServerType(this.connectionServerType)));
+    		logManager.info(String.format("[Valid: %s][after: %s] 이전 값을 유지합니다.\n", bValid, displayServerType(this.connectionServerType)));
     	}
     	return bValid;
     }

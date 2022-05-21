@@ -4,6 +4,11 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import com.lguplus.pvs.model.BWConnection;
+import com.lguplus.pvs.model.Connectable;
+import com.lguplus.pvs.model.SocketConnection;
+import com.lguplus.pvs.util.LogManager;
+
 public class ConnectionRepository {
     private enum ConnectionMode { 
         BW {
@@ -55,7 +60,7 @@ public class ConnectionRepository {
         return connectable;
     }
 
-    public void releaseConnectable(Connectable connectable) {
+    public void closeConnectable(Connectable connectable) {
         try{
             if(connectable != null) connectable.Close();
         }catch(Exception e) {

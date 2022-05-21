@@ -1,8 +1,10 @@
-package com.lguplus.pvs;
+package com.lguplus.pvs.model;
 
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.util.Objects;
+
+import com.lguplus.pvs.util.LogManager;
 
 public class SocketConnection implements Connectable {
     private Socket connHandle = null;

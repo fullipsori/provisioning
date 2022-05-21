@@ -1,4 +1,4 @@
-package com.lguplus.pvs;
+package com.lguplus.pvs.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

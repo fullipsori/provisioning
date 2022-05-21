@@ -5,11 +5,14 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import com.lguplus.pvs.util.LogManager;
+
 public class ConnectionTryMonitor {
     private ExecutorService monitor = null;
     private long reconn_interval = 0;
     private long start_delay = 10;
     private boolean bStarted = false;
+    private final LogManager logManager;
 
     /*
      * 연결 요청 처리를 위한 Thread
@@ -36,7 +39,7 @@ public class ConnectionTryMonitor {
      */
     private void checkInvalidateConnection() {    	
     	int count = 0;
-    	LogManager.getInstance().info("******************************************************************************");
+    	logManager.info("******************************************************************************");
     	for( String connectionId : ConnectionConfig.getInstance().getConnections().keySet()) {
 			count++;
 			ConnectionObject connObj = ConnectionConfig.getInstance().getConnections().get(connectionId);			            	
@@ -44,10 +47,10 @@ public class ConnectionTryMonitor {
 				// ConnectionPool에 해당 객체가 있는지 확인한다.
 				if(ConnectionConfig.getInstance().getConnectionObjectFromPool(connObj.getConnectionGroupId(), connObj.getConnectionId()) == null) {					
 					connObj.initServerInfoByServerType(connObj.getCurrentServerType());
-					LogManager.getInstance().info(String.format("[%d] Config는 있느나 Pool내 객체 정보가 없습니다. [%s][%s][%d][%s]를 넣어주었습니다.\n", 
+					logManager.info(String.format("[%d] Config는 있느나 Pool내 객체 정보가 없습니다. [%s][%s][%d][%s]를 넣어주었습니다.\n", 
 									count, connectionId, connObj.getCurrentServerIp(), connObj.getCurrentServerPort(), connObj.getCurrentServerType()));
 				} else {
-					LogManager.getInstance().info(String.format("[%d] Config와 Pool내 정보가 일치합니다. [%s][%s][%d][%s]\n", 
+					logManager.info(String.format("[%d] Config와 Pool내 정보가 일치합니다. [%s][%s][%d][%s]\n", 
 									count, connectionId, connObj.getCurrentServerIp(), connObj.getCurrentServerPort(), connObj.getCurrentServerType()));
 				}
 				
@@ -60,17 +63,18 @@ public class ConnectionTryMonitor {
 				}
 			}
 		}
-    	LogManager.getInstance().info("******************************************************************************");
+    	logManager.info("******************************************************************************");
     }
     
     public ConnectionTryMonitor() {
+    	logManager = LogManager.getInstance();
         monitor = Executors.newScheduledThreadPool(1);
     }
 
     public void startMonitor() {
         start_delay = ConnectionConfig.getInstance().getReconnectionTryIntervalSec();        
         reconn_interval = ConnectionConfig.getInstance().getReconnectionTryIntervalSec();
-        LogManager.getInstance().info(String.format("//// 재연결 모니터링 작업 [시작 지연: %d초][재연결 인터벌: %d초][재연결 모니터링 데몬을 시작합니다.]\n", start_delay, reconn_interval));
+        logManager.info(String.format("//// 재연결 모니터링 작업 [시작 지연: %d초][재연결 인터벌: %d초][재연결 모니터링 데몬을 시작합니다.]\n", start_delay, reconn_interval));
         
         ((ScheduledExecutorService) monitor).scheduleAtFixedRate(
                 new ConnectionTryMonitorTask(),
@@ -86,9 +90,9 @@ public class ConnectionTryMonitor {
     }
     
     public void stopMonitor() {
-    	LogManager.getInstance().info("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-    	LogManager.getInstance().info("+ NE Application 정지에 따라 TCP 연결 요청 모니터링 수행을 멈춥니다.");
-    	LogManager.getInstance().info("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+    	logManager.info("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+    	logManager.info("+ NE Application 정지에 따라 TCP 연결 요청 모니터링 수행을 멈춥니다.");
+    	logManager.info("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
     	if(!monitor.isShutdown()) {
     		monitor.shutdown();
     	}
@@ -126,10 +130,10 @@ public class ConnectionTryMonitor {
 		    	
 	    	} else if(connectionFailOverMode.equals("M") ) {
 	    		// 수동 절체 모드로 모니터링에서는 작업하지 않습니다.
-	    		LogManager.getInstance().info("*************************************************************************");
-	    		LogManager.getInstance().info("서버 접속 모드를 수동으로 운영 중입니다. 관리자 화면에서 접속을 원하는 서버 유형을 지정하십시요.");
-	    		LogManager.getInstance().info(String.format("    A(ctive) / B(ackup) / D(isaster Recovery) [%s]\n", ConnectionConfig.getInstance().getConnectionServerType()));
-	    		LogManager.getInstance().info("*************************************************************************");
+	    		logManager.info("*************************************************************************");
+	    		logManager.info("서버 접속 모드를 수동으로 운영 중입니다. 관리자 화면에서 접속을 원하는 서버 유형을 지정하십시요.");
+	    		logManager.info(String.format("    A(ctive) / B(ackup) / D(isaster Recovery) [%s]\n", ConnectionConfig.getInstance().getConnectionServerType()));
+	    		logManager.info("*************************************************************************");
 	    		
 	    		// 4. 수동 재연결 시도를 요청한 vector에서 꺼내서 재설정 요청을 수행한다.
 	    		putConnectionRequestQueueWhenManualMode();
@@ -140,9 +144,9 @@ public class ConnectionTryMonitor {
 	    	
     	} else if(connectionStatus.equalsIgnoreCase("U")) {
 	    	// 업데이트 중인 경우에 대해서 정리한다. (U)pdate connection object information
-    		LogManager.getInstance().info("//////////////////////////////////////////////////////////////////////////////");
-    		LogManager.getInstance().info("// 현재 NE 설정 정보를 업데이트하고 있습니다. - 완료가 되면 D(isconnet) or C(onnect)로 변경됩니다.");
-    		LogManager.getInstance().info("//////////////////////////////////////////////////////////////////////////////");
+    		logManager.info("//////////////////////////////////////////////////////////////////////////////");
+    		logManager.info("// 현재 NE 설정 정보를 업데이트하고 있습니다. - 완료가 되면 D(isconnet) or C(onnect)로 변경됩니다.");
+    		logManager.info("//////////////////////////////////////////////////////////////////////////////");
     	}
     }
     
@@ -191,19 +195,19 @@ public class ConnectionTryMonitor {
 		    	
 	    	} else if(connectionFailOverMode.equals("M") ) {
 	    		// 수동 절체 모드로 모니터링에서는 작업하지 않습니다.
-	    		LogManager.getInstance().info("*************************************************************************");
-	    		LogManager.getInstance().info("서버 접속 모드를 수동으로 운영 중입니다. 관리자 화면에서 접속을 원하는 서버 유형을 지정하십시요.");
-	    		LogManager.getInstance().info(String.format("    A(ctive) / B(ackup) / D(isaster Recovery) [%s]\n", ConnectionConfig.getInstance().getConnectionServerType()));
-	    		LogManager.getInstance().info("*************************************************************************");
+	    		logManager.info("*************************************************************************");
+	    		logManager.info("서버 접속 모드를 수동으로 운영 중입니다. 관리자 화면에서 접속을 원하는 서버 유형을 지정하십시요.");
+	    		logManager.info(String.format("    A(ctive) / B(ackup) / D(isaster Recovery) [%s]\n", ConnectionConfig.getInstance().getConnectionServerType()));
+	    		logManager.info("*************************************************************************");
 	    		
 	    		// 4. 수동 재연결 시도를 요청한 vector에서 꺼내서 재설정 요청을 수행한다.
 	    		putConnectionRequestQueueWhenManualMode();
 	    	} 
 
     	} else if(connectionStatus.equalsIgnoreCase("U")) {
-    		LogManager.getInstance().info("//////////////////////////////////////////////////////////////////////////////");
-    		LogManager.getInstance().info("// 현재 NE 설정 정보를 업데이트하고 있습니다. - 완료가 되면 D(isconnet) or C(onnect)로 변경됩니다.");
-    		LogManager.getInstance().info("//////////////////////////////////////////////////////////////////////////////");
+    		logManager.info("//////////////////////////////////////////////////////////////////////////////");
+    		logManager.info("// 현재 NE 설정 정보를 업데이트하고 있습니다. - 완료가 되면 D(isconnet) or C(onnect)로 변경됩니다.");
+    		logManager.info("//////////////////////////////////////////////////////////////////////////////");
     	}
 		// Connection 연결객체 정보를 콘솔에 출력한다.
 		displayConnectionObjectInfo(connectionServerType, numOfConnectionGroups, numOfConnectedObjects);
@@ -220,9 +224,9 @@ public class ConnectionTryMonitor {
     		ConnectionConfig.getInstance().displayConnectionObjectInfo();
     	}else if(ConnectionConfig.getInstance().getFailoverPolicy().isHostbasedFailOver()) {
     		ConnectionConfig.getInstance().displayConnectionObjectInfo();
-    		LogManager.getInstance().info(String.format("connectionTryMonitor 상에서 체크하기 [%d초] 수행 중 입니다. [for loop 진입 여부: %s][연결 서버타입:%s][그룹수: %d개][연결 객체수: %d개]\n",
+    		logManager.info(String.format("connectionTryMonitor 상에서 체크하기 [%d초] 수행 중 입니다. [for loop 진입 여부: %s][연결 서버타입:%s][그룹수: %d개][연결 객체수: %d개]\n",
     							reconn_interval, bLoop, ConnectionObject.getServerType(connectionServerType), numOfConnectionGroups, numOfConnectedObjects));		    		
-    		LogManager.getInstance().info("////////////////////////////////////////////////////////////////////////////////////////////////");
+    		logManager.info("////////////////////////////////////////////////////////////////////////////////////////////////");
     	}
     }
     
@@ -246,20 +250,19 @@ public class ConnectionTryMonitor {
      * 1. connectionTryVector에 연결 요청이 들어와 있는 경우
      */
     private String putConnectionRequestQueue() {
-    	
     	String alreadyReqConnectionIds = "";
     	for(String connectionId : Registry.getInstance().connectionTryVector) {        	
-        	LogManager.getInstance().info(String.format("1. [%s] 재연결을 위하여 connectionRequestQueue에 넣어줍니다.\n", connectionId));
+        	logManager.info(String.format("1. [%s] 재연결을 위하여 connectionRequestQueue에 넣어줍니다.\n", connectionId));
             try {
             	ConnectionObject connObj = ConnectionConfig.getInstance().getConnections().get(connectionId);			            	
             	if(connObj.getConnectionType().equalsIgnoreCase("POOL")) {
             		Registry.getInstance().connectionRequestQueue.put(connectionId);
             		alreadyReqConnectionIds += connectionId + ",";
             	} else {
-            		LogManager.getInstance().info("//// 연결객체 정보가 INFO 유형인 경우 - 연결에 필요한 정보만 보유 [필요시: 로직 구현]\n");
+            		logManager.info("//// 연결객체 정보가 INFO 유형인 경우 - 연결에 필요한 정보만 보유 [필요시: 로직 구현]\n");
             	}
             } catch (InterruptedException e) {
-                LogManager.getInstance().error(e.getMessage());
+                logManager.error(e.getMessage());
 				e.printStackTrace();
             }
         }
@@ -277,13 +280,13 @@ public class ConnectionTryMonitor {
 				count++;
 				ConnectionObject connObj = ConnectionConfig.getInstance().getConnections().get(connectionId);			            	
 	        	if(connObj.getConnectionType().equalsIgnoreCase("POOL") && !connObj.getConnectionObjectStatus().equalsIgnoreCase("SC")) {
-	        		LogManager.getInstance().info(String.format("2.1 [%d] 대상 서버가 변경되었습니다. 재접속을 요청 큐에 [%s][%s][%d]를 넣어주었습니다. [bChanged] \n", count, connectionId, 
+	        		logManager.info(String.format("2.1 [%d] 대상 서버가 변경되었습니다. 재접속을 요청 큐에 [%s][%s][%d]를 넣어주었습니다. [bChanged] \n", count, connectionId, 
 	        																				connObj.getCurrentServerIp(), connObj.getCurrentServerPort()));
 	        			
 	        		Registry.getInstance().connectionRequestQueue.put(connectionId);
 	        	}
 	        } catch (InterruptedException e) {
-                LogManager.getInstance().error(e.getMessage());
+                logManager.error(e.getMessage());
 	            e.printStackTrace();
 	        }
 		}
@@ -294,18 +297,18 @@ public class ConnectionTryMonitor {
 	 */
     private void putConnectionRequestQueueWhenAllDisconnected() {
     	int count = 0;
-		LogManager.getInstance().info(String.format("2.2 [(M)oving (C)onnections 로 옮겨간 서버 유형이 %s입니다.]\n", ConnectionConfig.getInstance().getConnectionServerType()));
+		logManager.info(String.format("2.2 [(M)oving (C)onnections 로 옮겨간 서버 유형이 %s입니다.]\n", ConnectionConfig.getInstance().getConnectionServerType()));
 		for( String connectionId : ConnectionConfig.getInstance().getConnections().keySet()) {
 			try {
 				count++;
 				ConnectionObject connObj = ConnectionConfig.getInstance().getConnections().get(connectionId);
 	
 	        	if(connObj.getConnectionType().equalsIgnoreCase("POOL") && connObj.getConnectionObjectStatus().equalsIgnoreCase("MC")) {
-	        		LogManager.getInstance().info(String.format("2.2 [%d] 대상 서버가 변경되었습니다. 재접속을 요청 큐에 [%s]를 넣어주었습니다. [연결객체 상태: %s] \n", count, connectionId, connObj.getConnectionObjectStatus()));
+	        		logManager.info(String.format("2.2 [%d] 대상 서버가 변경되었습니다. 재접속을 요청 큐에 [%s]를 넣어주었습니다. [연결객체 상태: %s] \n", count, connectionId, connObj.getConnectionObjectStatus()));
 	        		Registry.getInstance().connectionRequestQueue.put(connectionId);
 	        	}
 	        } catch (InterruptedException e) {
-                LogManager.getInstance().error(e.getMessage());
+                logManager.error(e.getMessage());
 	            e.printStackTrace();
 	        }
 		}
@@ -322,14 +325,14 @@ public class ConnectionTryMonitor {
 				ConnectionObject connObj = ConnectionConfig.getInstance().getConnections().get(connectionId);
 				if(connObj.getConnectionStatus() == false && connObj.getConnectionType().equalsIgnoreCase("POOL") &&
 				   alreadyReqConnectionIds.contains(connectionId) == false && !connObj.getConnectionObjectStatus().equalsIgnoreCase("SC")) {
-					LogManager.getInstance().info(String.format("3. [%d] 대상 서버가 변경되었습니다. 재접속을 요청 큐에 [%s]를 넣어주었습니다. [연결되지 않은 객체가 존재하는 경우]\n", count, connectionId));
+					logManager.info(String.format("3. [%d] 대상 서버가 변경되었습니다. 재접속을 요청 큐에 [%s]를 넣어주었습니다. [연결되지 않은 객체가 존재하는 경우]\n", count, connectionId));
 					Registry.getInstance().connectionRequestQueue.put(connectionId);
 				} else {
 					// 연결 대상이 아닙니다. ConnectionTryVector상에서 처리했거 연결객체 상태가 (S)uspend (C)onnection 인 경우입니다.
 					// System.out.printf("[%d] 이 연결객체[%s]은 이미 위에서 연결요청 큐에 있거나 대상이 아닙니다.\n", count, connectionId);
 				}
             } catch (InterruptedException e) {
-                LogManager.getInstance().error(e.getMessage());
+                logManager.error(e.getMessage());
                 e.printStackTrace();
             }
 		}
@@ -340,16 +343,16 @@ public class ConnectionTryMonitor {
      */
     private void putConnectionRequestQueueWhenManualMode() {
 	    for(String connectionId : Registry.getInstance().connectionTryVector) {
-	    	LogManager.getInstance().info(String.format("[재연결을 위하여 %s 객체를 연결요청 큐에 넣어줍니다]\n", connectionId));
+	    	logManager.info(String.format("[재연결을 위하여 %s 객체를 연결요청 큐에 넣어줍니다]\n", connectionId));
 	        try {
 	        	ConnectionObject connObj = ConnectionConfig.getInstance().getConnections().get(connectionId);
 	        	if(connObj.getConnectionType().equalsIgnoreCase("POOL")) {
 	        		Registry.getInstance().connectionRequestQueue.put(connectionId);
 	        	} else {
-	        		LogManager.getInstance().info("//// 연결객체 정보가 INFO 유형인 경우 - 연결에 필요한 정보만 보유 [필요시: 로직 구현]\n");
+	        		logManager.info("//// 연결객체 정보가 INFO 유형인 경우 - 연결에 필요한 정보만 보유 [필요시: 로직 구현]\n");
 	        	}
 	        } catch (InterruptedException e) {
-                LogManager.getInstance().error(e.getMessage());
+                logManager.error(e.getMessage());
 	            e.printStackTrace();
 	        }
 		}

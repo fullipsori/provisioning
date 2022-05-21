@@ -1,4 +1,4 @@
-package com.lguplus.pvs;
+package com.lguplus.pvs.model;
 
 public interface Connectable {
     public boolean Open(String server, int port) throws Exception;

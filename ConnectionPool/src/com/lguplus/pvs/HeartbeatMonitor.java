@@ -1,9 +1,13 @@
 package com.lguplus.pvs;
 
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import com.lguplus.pvs.util.LogManager;
+
 import java.time.format.DateTimeFormatter;  
 import java.time.LocalDateTime;    
 
@@ -13,8 +17,10 @@ public class HeartbeatMonitor {
     private static final int HB_MONITOR_DELAY = 30;
     private static final int HB_THREAD_INTERVAL_SEC =10;
     // ConnectionConfig.getInstance().getHeartbeatPolicy().getIntervalSeconds() <= 이전에 없다.
+    private final LogManager logManager;
 
     public HeartbeatMonitor() {
+    	logManager = LogManager.getInstance();
         monitor = Executors.newScheduledThreadPool(1);
     }
 
@@ -26,7 +32,7 @@ public class HeartbeatMonitor {
                 TimeUnit.SECONDS
         );
         bStarted = true;
-        LogManager.getInstance().info(String.format("//// 하트비트 모니터링을 시작합니다. [쓰레드 체크 간격: %d][%s]\n", HB_THREAD_INTERVAL_SEC, bStarted));
+        logManager.info(String.format("//// 하트비트 모니터링을 시작합니다. [쓰레드 체크 간격: %d][%s]\n", HB_THREAD_INTERVAL_SEC, bStarted));
     }
     
     public boolean isStarted() {
@@ -35,13 +41,13 @@ public class HeartbeatMonitor {
     
     public void stopMonitor() {
     	bStarted = false;
-    	LogManager.getInstance().info("///////////////////////////////////////////////////////////////////////");
-    	LogManager.getInstance().info(String.format("// NE Application 정지에 따라 하트비트 모니터링 수행을 멈춥니다. [%s]\n", bStarted));
-    	LogManager.getInstance().info("///////////////////////////////////////////////////////////////////////");
+    	logManager.info("///////////////////////////////////////////////////////////////////////");
+    	logManager.info(String.format("// NE Application 정지에 따라 하트비트 모니터링 수행을 멈춥니다. [%s]\n", bStarted));
+    	logManager.info("///////////////////////////////////////////////////////////////////////");
     }
     
     private void displayHeartbeatMessage(ConnectionObject connObj, long idleTime, String msg) {        
-    	LogManager.getInstance().info(String.format("[%s - 하트비트 Idle [%d초/%d초][%s][%d][%s][%s][하트비트 실패 인터벌: %d초][연결상태: %s][%s]\n",
+    	logManager.info(String.format("[%s - 하트비트 Idle [%d초/%d초][%s][%d][%s][%s][하트비트 실패 인터벌: %d초][연결상태: %s][%s]\n",
 			    			Thread.currentThread().getName(), idleTime/1000, connObj.getHeartBeatInterval()/1000, 
 			    			connObj.getCurrentServerIp(),
 			    			connObj.getCurrentServerPort(),
@@ -51,12 +57,21 @@ public class HeartbeatMonitor {
 			    			connObj.getConnectionStatus(), msg));
     }
 
+    public static boolean needHeartBeat(String connectionId) {
+    	ConnectionObject connObj = ConnectionConfig.getInstance().getConnections().get(connectionId);
+    	if(connObj == null) return false;
+
+		long idleTime = (System.currentTimeMillis() - connObj.getLastUsedTime()); 
+		return (!ConnectionConfig.getInstance().getConnectionStatus().equalsIgnoreCase("U") && ConnectionConfig.getInstance().getHeartbeatPolicy().isUseHeartbeat())
+				&& (connObj.getConnectionType().equalsIgnoreCase("POOL") && !connObj.getConnectionObjectStatus().equalsIgnoreCase("SC") && !connObj.isBorrowed() && idleTime > connObj.getHeartBeatInterval());
+    }
+
     private void monitorIdleConnections() {
     
     	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
 	   	LocalDateTime now = LocalDateTime.now();
 	   	int currSecond = now.getSecond();
-	   	LogManager.getInstance().info(String.format("/////////////////// 하트비트 모니터: %s [현재: %d초]\n", dtf.format(now), currSecond));
+	   	logManager.info(String.format("/////////////////// 하트비트 모니터: %s [현재: %d초]\n", dtf.format(now), currSecond));
 	   	
     	String connectionStatus = ConnectionConfig.getInstance().getConnectionStatus();
     	
@@ -101,10 +116,10 @@ public class HeartbeatMonitor {
     		boolean useHeartBeat = ConnectionConfig.getInstance().getHeartbeatPolicy().isUseHeartbeat();
     		if(connectionStatus.equalsIgnoreCase("U")) { 
     			
-    			LogManager.getInstance().info(String.format("* Heartbeat 메시지를 보낼 상태 [%s]가 아닙니다. Heartbeat 사용유무 [%s]\n", connectionStatus, useHeartBeat));
+    			logManager.info(String.format("* Heartbeat 메시지를 보낼 상태 [%s]가 아닙니다. Heartbeat 사용유무 [%s]\n", connectionStatus, useHeartBeat));
     		} else {
     			// Heartbeat 사용 여부 확인
-    			LogManager.getInstance().info(String.format("* Heartbeat 사용여부 [%s]로 확인되었습니다.\n", useHeartBeat));
+    			logManager.info(String.format("* Heartbeat 사용여부 [%s]로 확인되었습니다.\n", useHeartBeat));
     		}
     	}
     }

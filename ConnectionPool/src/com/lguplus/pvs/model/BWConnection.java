@@ -1,4 +1,4 @@
-package com.lguplus.pvs;
+package com.lguplus.pvs.model;
 
 import java.util.Arrays;
 import java.util.Base64;

@@ -1,5 +1,7 @@
 package com.lguplus.pvs;
 
+import com.lguplus.pvs.util.LogManager;
+
 public class HeartbeatPolicy {
     // heartbeat을 주고 받을 주기(단위=초)
     private int intervalSeconds;

@@ -7,6 +7,9 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.lguplus.pvs.model.Connectable;
+import com.lguplus.pvs.util.LogManager;
+
 public class Registry {
     private static Registry ourInstance = new Registry();
 
@@ -48,7 +51,7 @@ public class Registry {
         this.heartbeatQueue = new ArrayBlockingQueue<>(size);
     }
 
-    public String getConnectionIdWithConnection(Connectable connectable) {
+    public String getConnectionIdWithConnectable(Connectable connectable) {
         Optional<Entry<String, Connectable>> result = this.connectionMapByConnectionId.entrySet().stream().filter(conn -> conn.getValue().equals(connectable)).findFirst();
         if(result.isPresent()) {
             return result.get().getKey();
@@ -63,9 +66,18 @@ public class Registry {
 
     public void removeConnection(Connectable connectable, String connectionId) {
         this.connectionMapByConnectionId.remove(connectionId);
+        ConnectionObject connectionObject = ConnectionConfig.getInstance().getConnections().get(connectionId);
+        if(connectionObject != null) {
+        	connectionObject.closeSession();
+        }
     }
 
     public Connectable getConnection(String connectionId) {
         return this.connectionMapByConnectionId.get(connectionId);
     }
+    
+    public boolean needHeartBeat(String connectionId) {
+    	return HeartbeatMonitor.needHeartBeat(connectionId);
+    }
+    
 }

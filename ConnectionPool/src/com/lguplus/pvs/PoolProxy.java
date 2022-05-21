@@ -1,6 +1,12 @@
 package com.lguplus.pvs;
 
+import java.util.Arrays;
+import java.util.Optional;
 import java.util.concurrent.TimeoutException;
+
+import com.lguplus.pvs.model.BWConnection;
+import com.lguplus.pvs.model.Connectable;
+import com.lguplus.pvs.util.LogManager;
 
 // NE Agent 별도 컨네이너를 분리한다는 가정에서 Singleton 객체로 생성함
 public class PoolProxy extends BasePoolProxy {
@@ -21,62 +27,117 @@ public class PoolProxy extends BasePoolProxy {
     }
 
     public String removeFromConnectionPool(byte[] bwConnection) {
-    	Connectable connectable = ConnectionRepository.getInstance().requestConnectable(bwConnection);
-    	return removeFromConnectionPool(connectable);
+    	Optional<Connectable> found = ConnectionConfig.getInstance().getConnections().values().stream()
+    			.map(connObj -> connObj.getConnection())
+    			.filter(connectable -> (connectable != null) && (connectable instanceof BWConnection))
+    			.filter(connectable -> Arrays.equals(((BWConnection)connectable).getHandle(),bwConnection))
+    			.findFirst();
+    	if(found.isEmpty()) return null;
+    	return removeFromConnectionPool(found.get());
     }
 
     public void removeFromConnectionPool(String connectionId, byte[] bwConnection) {
-    	Connectable connectable = ConnectionRepository.getInstance().requestConnectable(bwConnection);
-    	removeFromConnectionPool(connectionId, connectable);
+    	Optional<Connectable> found = ConnectionConfig.getInstance().getConnections().values().stream()
+    			.map(connObj -> connObj.getConnection())
+    			.filter(connectable -> (connectable != null) && (connectable instanceof BWConnection))
+    			.filter(connectable -> Arrays.equals(((BWConnection)connectable).getHandle(),bwConnection))
+    			.findFirst();
+    	if(found.isEmpty()) return ;
+    	removeFromConnectionPool(connectionId, found.get());
     }
 
     public void invalidateConnection(byte[] bwConnection, String code, String reason) {
     	if(bwConnection != null) {
-		   Connectable connectable = ConnectionRepository.getInstance().requestConnectable(bwConnection);
-		   invalidateConnection(connectable, code, reason);
+    		Optional<Connectable> found = ConnectionConfig.getInstance().getConnections().values().stream()
+    				.map(connObj -> connObj.getConnection())
+    				.filter(connectable -> (connectable != null) && (connectable instanceof BWConnection))
+    				.filter(connectable -> Arrays.equals(((BWConnection)connectable).getHandle(),bwConnection))
+    				.findFirst();
+    		if(found.isEmpty()) return ;
+    		invalidateConnection(found.get(), code, reason);
     	}
     }
 
     public void requestSendEventMessage(String reason, byte[] bwConnection) {    	
-    	Connectable connectable = ConnectionRepository.getInstance().requestConnectable(bwConnection);
-    	super.requestSendEventMessage(reason, connectable);
+		Optional<Connectable> found = ConnectionConfig.getInstance().getConnections().values().stream()
+				.map(connObj -> connObj.getConnection())
+				.filter(connectable -> (connectable != null) && (connectable instanceof BWConnection))
+				.filter(connectable -> Arrays.equals(((BWConnection)connectable).getHandle(),bwConnection))
+				.findFirst();
+		if(found.isEmpty()) return ;
+    	super.requestSendEventMessage(reason, found.get());
     }
 
     
     public int[] getReadWriteTimeOutAndRetryCount(byte[] bwConnection) {
-    	Connectable connectable = ConnectionRepository.getInstance().requestConnectable(bwConnection);
-    	return super.getReadWriteTimeOutAndRetryCount(connectable);
+		Optional<Connectable> found = ConnectionConfig.getInstance().getConnections().values().stream()
+				.map(connObj -> connObj.getConnection())
+				.filter(connectable -> (connectable != null) && (connectable instanceof BWConnection))
+				.filter(connectable -> Arrays.equals(((BWConnection)connectable).getHandle(),bwConnection))
+				.findFirst();
+		if(found.isEmpty()) return null;
+    	return super.getReadWriteTimeOutAndRetryCount(found.get());
     }
     
     
     public void sendConnManagerEvent(byte[] bwConnection, String code, String reason) {
-		Connectable connectable = ConnectionRepository.getInstance().requestConnectable(bwConnection);
-		super.sendConnManagerEvent(connectable, code, reason);
+		Optional<Connectable> found = ConnectionConfig.getInstance().getConnections().values().stream()
+				.map(connObj -> connObj.getConnection())
+				.filter(connectable -> (connectable != null) && (connectable instanceof BWConnection))
+				.filter(connectable -> Arrays.equals(((BWConnection)connectable).getHandle(),bwConnection))
+				.findFirst();
+		if(found.isEmpty()) return ;
+		super.sendConnManagerEvent(found.get(), code, reason);
     }
 
     public void returnConnection(byte[] bwConnection) {
-    	Connectable connectable = ConnectionRepository.getInstance().requestConnectable(bwConnection);
-    	returnConnection(connectable);
+		Optional<Connectable> found = ConnectionConfig.getInstance().getConnections().values().stream()
+				.map(connObj -> connObj.getConnection())
+				.filter(connectable -> (connectable != null) && (connectable instanceof BWConnection))
+				.filter(connectable -> Arrays.equals(((BWConnection)connectable).getHandle(),bwConnection))
+				.findFirst();
+		if(found.isEmpty()) return ;
+    	returnConnection(found.get());
     }
 
     public void requestReconnect(byte[] bwConnection) {
-    	Connectable connectable = ConnectionRepository.getInstance().requestConnectable(bwConnection);
-    	requestReconnect(connectable);
+		Optional<Connectable> found = ConnectionConfig.getInstance().getConnections().values().stream()
+				.map(connObj -> connObj.getConnection())
+				.filter(connectable -> (connectable != null) && (connectable instanceof BWConnection))
+				.filter(connectable -> Arrays.equals(((BWConnection)connectable).getHandle(),bwConnection))
+				.findFirst();
+		if(found.isEmpty()) return ;
+    	requestReconnect(found.get());
     }
     
     public String removeFromConnectionConfig(byte[] bwConnection) {
-    	Connectable connectable = ConnectionRepository.getInstance().requestConnectable(bwConnection);
-    	return removeFromConnectionConfig(connectable);
+		Optional<Connectable> found = ConnectionConfig.getInstance().getConnections().values().stream()
+				.map(connObj -> connObj.getConnection())
+				.filter(connectable -> (connectable != null) && (connectable instanceof BWConnection))
+				.filter(connectable -> Arrays.equals(((BWConnection)connectable).getHandle(),bwConnection))
+				.findFirst();
+		if(found.isEmpty()) return null;
+    	return removeFromConnectionConfig(found.get());
     }
 
     public void removeFromConnectionConfig(String connectionId, byte[] bwConnection) {
-    	Connectable connectable = ConnectionRepository.getInstance().requestConnectable(bwConnection);
-    	removeFromConnectionConfig(connectionId, connectable);
+		Optional<Connectable> found = ConnectionConfig.getInstance().getConnections().values().stream()
+				.map(connObj -> connObj.getConnection())
+				.filter(connectable -> (connectable != null) && (connectable instanceof BWConnection))
+				.filter(connectable -> Arrays.equals(((BWConnection)connectable).getHandle(),bwConnection))
+				.findFirst();
+		if(found.isEmpty()) return ;
+    	removeFromConnectionConfig(connectionId, found.get());
     }
 
     public String[] getConnectionId(byte[] bwConnection) {
-    	Connectable connectable = ConnectionRepository.getInstance().requestConnectable(bwConnection);
-    	return getConnectionId(connectable);
+		Optional<Connectable> found = ConnectionConfig.getInstance().getConnections().values().stream()
+				.map(connObj -> connObj.getConnection())
+				.filter(connectable -> (connectable != null) && (connectable instanceof BWConnection))
+				.filter(connectable -> Arrays.equals(((BWConnection)connectable).getHandle(),bwConnection))
+				.findFirst();
+		if(found.isEmpty()) return new String[]{"",""};
+    	return getConnectionId(found.get());
     }
 
     public byte[] getBWConnectionById(String connectionId) {
@@ -116,8 +177,13 @@ public class PoolProxy extends BasePoolProxy {
     }
 
     public void receivedHeartBeat(byte[] bwConnection) {
-    	Connectable connectable = ConnectionRepository.getInstance().requestConnectable(bwConnection);
-    	receivedHeartBeat(connectable);
+		Optional<Connectable> found = ConnectionConfig.getInstance().getConnections().values().stream()
+				.map(connObj -> connObj.getConnection())
+				.filter(connectable -> (connectable != null) && (connectable instanceof BWConnection))
+				.filter(connectable -> Arrays.equals(((BWConnection)connectable).getHandle(),bwConnection))
+				.findFirst();
+		if(found.isEmpty()) return ;
+    	receivedHeartBeat(found.get());
     }
     
 }

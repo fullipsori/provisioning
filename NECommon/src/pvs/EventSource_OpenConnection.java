@@ -40,7 +40,6 @@ public class EventSource_OpenConnection extends JavaProcessStarter {
 			while(true) {
 				try {
 					this.javaProcessStarter.onEvent(new RequestVo(Registry.getInstance().connectionRequestQueue.take()));
-//					this.javaProcessStarter.onEvent(Registry.getInstance().connectionRequestQueue.take());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

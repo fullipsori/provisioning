@@ -1,5 +1,8 @@
 package com.lguplus.pvs;
 
+import com.lguplus.pvs.model.Connectable;
+import com.lguplus.pvs.util.LogManager;
+
 public class ConnectionObject {
     // ConnectionID 포맷 = ConctionGroup + delimeter(";;") + ConnectionId
     public static String CID_FORMAT = "%s;;%s";
@@ -98,11 +101,13 @@ public class ConnectionObject {
     private int heartbeatFailSeconds = 30000 * 6; // 180초 => 기본 3분     
     private int failoverMaxTryCountToSendEvent = 12; // 12회까지 반복 후 오류 이벤트를 보내준다.
 
+    private final LogManager logManager;
     public ConnectionObject(String connectionGroupId, String connectionKey) {
+    	this.logManager = LogManager.getInstance();
         this.connectionId = String.format(CID_FORMAT, connectionGroupId, connectionKey);
         this.connectionGroupId = connectionGroupId;
         this.connectionKey = connectionKey;        
-        LogManager.getInstance().info(String.format("/// >>>%s, [NEW-ConnectionObject][%s]\n",Thread.currentThread().getName(), this.connectionId));
+        logManager.info(String.format("/// >>>%s, [NEW-ConnectionObject][%s]\n",Thread.currentThread().getName(), this.connectionId));
     }
     
     public boolean isBorrowed() { return borrowed; }
@@ -179,7 +184,7 @@ public class ConnectionObject {
     		currentServerIp = drIp;
     		currentServerPort = drPort;
     	} else {
-    		LogManager.getInstance().warn("* 지정하신 ["+serverType+"] 타입은 존재하지는 않는 유형입니다. 다시 한번 확인해주십시요. A(ctive)/ B(ackup)/ D(isaster Recovery)");
+    		logManager.warn("* 지정하신 ["+serverType+"] 타입은 존재하지는 않는 유형입니다. 다시 한번 확인해주십시요. A(ctive)/ B(ackup)/ D(isaster Recovery)");
     		return;
     	}
     	
@@ -192,7 +197,7 @@ public class ConnectionObject {
     	connectionObjectStatus = "MC"; // 모두 초기화 된다는 의미로 타켓 이동을 위하여 MC(Move Connection) 객체로 상태를 변경해준다.
     	currentServerType = serverType;
     	
-    	LogManager.getInstance().info(String.format("* 연결객체 [%s][%s] 재설정 작업[%s][%d][%s]\n", connectionGroupId, connectionKey, currentServerIp, currentServerPort, getServerType(currentServerType)));
+    	logManager.info(String.format("* 연결객체 [%s][%s] 재설정 작업[%s][%d][%s]\n", connectionGroupId, connectionKey, currentServerIp, currentServerPort, getServerType(currentServerType)));
     }    
     
     public void initServerInfoByServerType(String serverType) {    	
@@ -206,7 +211,7 @@ public class ConnectionObject {
     		currentServerIp = drIp;
     		currentServerPort = drPort;
     	} else {
-    		LogManager.getInstance().warn(String.format("* 지정하신 [%s] 타입은 존재하지는 않는 유형입니다. 다시 한번 확인해주십시요. A(ctive)/ B(ackup)/ D(isaster Recovery)", getServerType(serverType)));
+    		logManager.warn(String.format("* 지정하신 [%s] 타입은 존재하지는 않는 유형입니다. 다시 한번 확인해주십시요. A(ctive)/ B(ackup)/ D(isaster Recovery)", getServerType(serverType)));
     		return;
     	}
     	
@@ -219,7 +224,7 @@ public class ConnectionObject {
     	connectionFirstTime = true;
     	currentServerType = serverType;
     	
-    	LogManager.getInstance().info(String.format("* 서버타입 [%s]으로 지정연결객체[%s][%s]를 초기화 합니다. 서버 연결 정보[%s][%d]\n", getServerType(currentServerType), connectionGroupId, connectionKey, currentServerIp, currentServerPort));
+    	logManager.info(String.format("* 서버타입 [%s]으로 지정연결객체[%s][%s]를 초기화 합니다. 서버 연결 정보[%s][%d]\n", getServerType(currentServerType), connectionGroupId, connectionKey, currentServerIp, currentServerPort));
     }
     
     public boolean validServerTypeWithConnectionInfo(String connectionServerType) {
@@ -232,7 +237,7 @@ public class ConnectionObject {
     	} else if(connectionServerType.equalsIgnoreCase("A")) {
     		if(activeIp == "") bValid = false;
     	} else {
-    		LogManager.getInstance().warn(String.format("["+connectionServerType+"] 알 수 없는 서버 유형입니다. 확인해보시기 바랍니다."));
+    		logManager.warn(String.format("["+connectionServerType+"] 알 수 없는 서버 유형입니다. 확인해보시기 바랍니다."));
     		bValid = false;
     	}
     	
@@ -250,7 +255,7 @@ public class ConnectionObject {
     			break;
     		case "B":
     			if(backupIp.isBlank() || backupPort == 0) {
-    				LogManager.getInstance().warn(String.format("ERROR: 지정하신 %s 서버유형의 접속정보가 존재하지 않습니다. 재확인 바랍니다.\n", serverType));
+    				logManager.warn(String.format("ERROR: 지정하신 %s 서버유형의 접속정보가 존재하지 않습니다. 재확인 바랍니다.\n", serverType));
     			} else {
     				currentServerType = serverType;
     				currentServerIp = backupIp;
@@ -259,7 +264,7 @@ public class ConnectionObject {
     			break;
     		case "D":
     			if(drIp.isBlank() || drPort == 0) {
-    				LogManager.getInstance().warn(String.format("ERROR: 지정하신 %s 서버유형의 접속정보가 존재하지 않습니다. 재확인 바랍니다.\n", serverType));
+    				logManager.warn(String.format("ERROR: 지정하신 %s 서버유형의 접속정보가 존재하지 않습니다. 재확인 바랍니다.\n", serverType));
     			} else {
     				currentServerType = serverType;
     				currentServerIp = drIp;
@@ -267,10 +272,10 @@ public class ConnectionObject {
     			}	
     			break;
     		default:
-    			LogManager.getInstance().warn(String.format("ERROR: 지정하신 %s 서버유형은 존재하지 않습니다. 재확인 바랍니다.\n", serverType));
+    			logManager.warn(String.format("ERROR: 지정하신 %s 서버유형은 존재하지 않습니다. 재확인 바랍니다.\n", serverType));
     		}
     	} else {
-    		LogManager.getInstance().warn(String.format("ERROR: 이미 연결된 서버와 동일한 서버에 연결하려고 시도합였습니다. 현재 접속서버유형: %s\n", this.currentServerType));
+    		logManager.warn(String.format("ERROR: 이미 연결된 서버와 동일한 서버에 연결하려고 시도합였습니다. 현재 접속서버유형: %s\n", this.currentServerType));
     	}
     	
     	// 오류가 발생한 경우 방금접속 종료되었던 서버에 재접속을 신청한다.
@@ -290,23 +295,23 @@ public class ConnectionObject {
     		// 필요시 특정 Action을 취한다.- 지정된 횟수 이상 접속 시도를 수행햇으나 실패했을 경우
     		String eventMessage = String.format("%s;%s;ERROR;|%s| 연결 시도 횟수가 %d회에 도달하였습니다. NE에 문제가 있는지 확인바랍니다.", connectionGroupId, connectionKey, this.description, failoverTryCount);    		
     		Registry.getInstance().eventSendRequestQueue.add(eventMessage);
-    		LogManager.getInstance().warn(eventMessage);
+    		logManager.warn(eventMessage);
     	}
     	
     	if(connectionReset) {
         	// 이미 resetByServerType에서 변경을 하였기에 connectionInfo 설정해서 넘겨주고, reset flag를 false 상태로 만들어준다.
         	connectionReset = false;
         	connectionInfo = this.currentServerIp+";"+this.currentServerPort;
-        	LogManager.getInstance().info("connection Reset 되었습니다. ["+this.currentServerIp+"]["+this.currentServerPort+"]");
+        	logManager.info("connection Reset 되었습니다. ["+this.currentServerIp+"]["+this.currentServerPort+"]");
         	
         } else {        
         	// 포트기반 절체이면서 failover 모드가 자동(Auto)인 경우만 들어온다.
 	        if(isPortbasedFailOver && failoverMode.equals("A")) {
-	        	LogManager.getInstance().info("//// getConnectionTarget: Port 기반 절체인 경우 ["+this.failoverPolicy+"][현재서버유형: "+currentServerType+"]");
+	        	logManager.info("//// getConnectionTarget: Port 기반 절체인 경우 ["+this.failoverPolicy+"][현재서버유형: "+currentServerType+"]");
 	        	
 	        	if(connectionFirstTime) {
 	        		connectionFirstTime = false; // 첫번째 접속입니다.
-	        		LogManager.getInstance().info("* 첫번쨰 접속 시도입니다. 이후 포트단위 절체에서는 A => B => A 반복 접속을 시도합니다.");
+	        		logManager.info("* 첫번쨰 접속 시도입니다. 이후 포트단위 절체에서는 A => B => A 반복 접속을 시도합니다.");
 	        	} else {
 
 		        	// 해당 값이 존재하지 않을 경우 다시 이전의 연결정보로 롤백하기 위하여 임시 저장해준다.
@@ -320,9 +325,9 @@ public class ConnectionObject {
 		        	
 		        	// 연결을 위해 지정한 IP나 Port의 값이 없거나 0인 경우 서버 접속 정보를 원상태 해준다.
 		        	if(currentServerIp.isBlank() || currentServerPort == 0) {
-		        		LogManager.getInstance().info("////////////////////////////////////////////////////////////////////////////////////////////");
-		        		LogManager.getInstance().info(String.format("//// 새로 설정한 서버유형에 접속 정보가 존재하지 않습니다. 다시 기존의 서버유형으로 접속을 시도합니다. [%s][%d]///\n", currentServerIp, currentServerPort));
-		        		LogManager.getInstance().info("////////////////////////////////////////////////////////////////////////////////////////////");
+		        		logManager.info("////////////////////////////////////////////////////////////////////////////////////////////");
+		        		logManager.info(String.format("//// 새로 설정한 서버유형에 접속 정보가 존재하지 않습니다. 다시 기존의 서버유형으로 접속을 시도합니다. [%s][%d]///\n", currentServerIp, currentServerPort));
+		        		logManager.info("////////////////////////////////////////////////////////////////////////////////////////////");
 		        		currentServerType = tmpServerType;
 		        		currentServerIp = tmpServerIp;
 		        		currentServerPort = tmpServerPort;
@@ -333,9 +338,9 @@ public class ConnectionObject {
 	        } else if ((!isPortbasedFailOver || failoverMode.equals("M"))) { // 호스트 기반의 경우 처리를 위하여 들어본다.
 	        	// 호스트 기반 절체인 경우 현재의 연결 정보를 유지해준다. (서버 정보 변경 위치: ConnectionTryMonitor 에서 수행)
 	        	if(!isPortbasedFailOver && !currentServerType.equals("D")) {
-	        		LogManager.getInstance().info(String.format("** getConnectionTarget: Host 기반 절체인 경우 [%d][FailOver정책: %s][현재 접속 서버: %s]\n", pooledObjectCount, this.failoverPolicy, getServerType(this.currentServerType)));
+	        		logManager.info(String.format("** getConnectionTarget: Host 기반 절체인 경우 [%d][FailOver정책: %s][현재 접속 서버: %s]\n", pooledObjectCount, this.failoverPolicy, getServerType(this.currentServerType)));
 	        	} else {
-	        		LogManager.getInstance().info(String.format("** getConnectionTarget: [FailOver정책:%s] 기반 절체 [%s][현재 Pool에 있는 갯수 %d]", this.failoverPolicy, getServerType(this.currentServerType), pooledObjectCount));
+	        		logManager.info(String.format("** getConnectionTarget: [FailOver정책:%s] 기반 절체 [%s][현재 Pool에 있는 갯수 %d]", this.failoverPolicy, getServerType(this.currentServerType), pooledObjectCount));
 	        	}
 	        	connectionInfo = this.currentServerIp+";"+this.currentServerPort;
 	        }
@@ -457,17 +462,22 @@ public class ConnectionObject {
     public Connectable getConnection() { return connectableSession; }
     public void nullifyConnection() {
     	if(!this.connectionObjectStatus.equalsIgnoreCase("SC")) {
-			ConnectionRepository.getInstance().releaseConnectable(this.connectableSession);
+			ConnectionRepository.getInstance().closeConnectable(this.connectableSession);
     		this.connectableSession = null;
     	}
     }
+    public void closeSession() {
+		ConnectionRepository.getInstance().closeConnectable(this.connectableSession);
+		this.connectableSession = null;
+    }
+
     public ConnectionObject setConnection(Connectable connectable) {
 		try{
 			this.connectableSession = connectable;
 			this.initialize();
 			return this;
 		}catch(Exception e){
-			LogManager.getInstance().error(String.format("Exception:" + e.getMessage()));
+			logManager.error(String.format("Exception:" + e.getMessage()));
 			return null;
 		}
     }
@@ -487,10 +497,10 @@ public class ConnectionObject {
     public void setBackupIp(String backupIp) {
     	
     	if(!backupIp.isEmpty() && !backupIp.equalsIgnoreCase("NULL")) { 
-    		LogManager.getInstance().info("////// 1111 backupIp value is ["+backupIp+"]");
+    		logManager.info("////// 1111 backupIp value is ["+backupIp+"]");
     		this.backupIp = backupIp;
     	} else {
-    		LogManager.getInstance().info("////// 2222 backupIp value is ["+backupIp+"]");
+    		logManager.info("////// 2222 backupIp value is ["+backupIp+"]");
     	}
     }
 
@@ -519,34 +529,34 @@ public class ConnectionObject {
     	
     	boolean bRet = false;
     	if(currentServerType.equalsIgnoreCase("A")) {
-    		LogManager.getInstance().info(String.format("**** Active 서버 접속 상태 현재 정보 [%s][%d] == [%s][%d]\n", currentServerIp, currentServerPort, activeIp, activePort));    		
+    		logManager.info(String.format("**** Active 서버 접속 상태 현재 정보 [%s][%d] == [%s][%d]\n", currentServerIp, currentServerPort, activeIp, activePort));    		
     		if(currentServerIp.equalsIgnoreCase(activeIp) && currentServerPort == activePort) {
     			return true;
     		} else {
-    			LogManager.getInstance().warn(String.format("Active 서버 접속 상태이나 정보가 서로 다릅니다. [%s][%d] != [%s][%d]\n", currentServerIp, currentServerPort, activeIp, activePort));
+    			logManager.warn(String.format("Active 서버 접속 상태이나 정보가 서로 다릅니다. [%s][%d] != [%s][%d]\n", currentServerIp, currentServerPort, activeIp, activePort));
     			currentServerIp = activeIp;
     			currentServerPort = activePort;
     		}
     	} else if(currentServerType.equalsIgnoreCase("B")) {
-    		LogManager.getInstance().info(String.format("**** Backup 서버 접속 상태 현재 정보. [%s][%d] == [%s][%d]\n", currentServerIp, currentServerPort, backupIp, backupPort));
+    		logManager.info(String.format("**** Backup 서버 접속 상태 현재 정보. [%s][%d] == [%s][%d]\n", currentServerIp, currentServerPort, backupIp, backupPort));
     		if(currentServerIp.equalsIgnoreCase(backupIp) && currentServerPort == backupPort) {
     			return true;
     		} else {
-    			LogManager.getInstance().warn(String.format("Backup 서버 접속 상태이나 정보가 서로 다릅니다. [%s][%d] != [%s][%d]\n", currentServerIp, currentServerPort, backupIp, backupPort));
+    			logManager.warn(String.format("Backup 서버 접속 상태이나 정보가 서로 다릅니다. [%s][%d] != [%s][%d]\n", currentServerIp, currentServerPort, backupIp, backupPort));
     			currentServerIp = backupIp;
     			currentServerPort = backupPort;
     		}    		
     	} else if(currentServerType.equalsIgnoreCase("D")) {
-    		LogManager.getInstance().info(String.format("***** DR 서버 접속 상태 현재 정보 [%s][%d] == [%s][%d]\n", currentServerIp, currentServerPort, drIp, drPort));
+    		logManager.info(String.format("***** DR 서버 접속 상태 현재 정보 [%s][%d] == [%s][%d]\n", currentServerIp, currentServerPort, drIp, drPort));
     		if(currentServerIp.equalsIgnoreCase(drIp) && currentServerPort == drPort) {
     			return true;
     		} else {
-    			LogManager.getInstance().warn(String.format("DR 서버 접속 상태이나 정보가 서로 다릅니다. [%s][%d] != [%s][%d]\n", currentServerIp, currentServerPort, drIp, drPort));
+    			logManager.warn(String.format("DR 서버 접속 상태이나 정보가 서로 다릅니다. [%s][%d] != [%s][%d]\n", currentServerIp, currentServerPort, drIp, drPort));
     			currentServerIp = drIp;
     			currentServerPort = drPort;
     		}
     	} else {
-    		LogManager.getInstance().warn(String.format("알 수 없는 서버 유형입니다. - 확인이 필요합니다. ["+currentServerType+"]"));
+    		logManager.warn(String.format("알 수 없는 서버 유형입니다. - 확인이 필요합니다. ["+currentServerType+"]"));
     	}
     	
     	return bRet;	

@@ -1,5 +1,7 @@
 package com.lguplus.pvs;
 
+import com.lguplus.pvs.util.LogManager;
+
 public enum NECONN {
 	/*
 	 *  0. NECONN_ID						NE 시퀀스 넘버 (유일키)
