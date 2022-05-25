@@ -1,13 +1,9 @@
 package com.lguplus.pvs;
 
-import java.util.Optional;
 import java.util.Vector;
-import java.util.Map.Entry;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ConcurrentHashMap;
 
-import com.lguplus.pvs.model.Connectable;
 import com.lguplus.pvs.util.LogManager;
 
 public class Registry {
@@ -18,29 +14,29 @@ public class Registry {
     }
 
     // Queue for Heartbeat
-    public BlockingQueue<String> heartbeatQueue = null;
+    private BlockingQueue<String> heartbeatQueue = null;
 
     // Queue for Open Connection
-    public BlockingQueue<String> connectionRequestQueue = null;
+    private BlockingQueue<String> connectionRequestQueue = null;
     
     // Queue for Close Connection
-    public BlockingQueue<String> disconnectionRequestQueue = null;
+    private BlockingQueue<String> disconnectionRequestQueue = null;
     
     // Queue for DisconnectAdnConnection
-    public BlockingQueue<String> disconnAndConnectionRequestQueue = null;
+    private BlockingQueue<String> disconnAndConnectionRequestQueue = null;
     
     // Queue for send ConnectionManager's events to the system monitoring  
-    public BlockingQueue<String> eventSendRequestQueue = null;
-
-    // 모든 연결을 저장관리, KEY=컨넥션ID, Value=BW컨넥션
-    private ConcurrentHashMap<String, Connectable> connectionMapByConnectionId = new ConcurrentHashMap<>();
+    private BlockingQueue<String> eventSendRequestQueue = null;
 
     // 모든 연결 요청 온것들의 컨넥션 ID를 관리, 연결 성공시 까지 계속 시도하는 것을 보장하기 위함.
     // 별도 Thread가 주기적으로 이 Vector를 모니터링 하여,
     // 즉, 향후 연결 성공하면 삭제 됨
-    public Vector<String> connectionTryVector = new Vector<>();
+    private final Vector<String> connectionTryVector = new Vector<>();
+    
+    private final LogManager logManager;
 
     private Registry() {
+    	logManager = LogManager.getInstance();
     }
 
     public void init(int size) {
@@ -51,33 +47,143 @@ public class Registry {
         this.heartbeatQueue = new ArrayBlockingQueue<>(size);
     }
 
-    public String getConnectionIdWithConnectable(Connectable connectable) {
-        Optional<Entry<String, Connectable>> result = this.connectionMapByConnectionId.entrySet().stream().filter(conn -> conn.getValue().equals(connectable)).findFirst();
-        if(result.isPresent()) {
-            return result.get().getKey();
-        }
-        LogManager.getInstance().warn("getConnectionIdWithConnection not found : " + connectable);
-        return null;
-    }
-
-    public void putConnection(Connectable connectable, String connectionId) {
-        this.connectionMapByConnectionId.put(connectionId, connectable);
-    }
-
-    public void removeConnection(Connectable connectable, String connectionId) {
-        this.connectionMapByConnectionId.remove(connectionId);
-        ConnectionObject connectionObject = ConnectionConfig.getInstance().getConnections().get(connectionId);
-        if(connectionObject != null) {
-        	connectionObject.closeSession();
-        }
-    }
-
-    public Connectable getConnection(String connectionId) {
-        return this.connectionMapByConnectionId.get(connectionId);
-    }
-    
     public boolean needHeartBeat(String connectionId) {
     	return HeartbeatMonitor.needHeartBeat(connectionId);
     }
     
+    public String takeHeartBeat() throws Exception {
+    	return heartbeatQueue.take();
+    }
+    
+    public boolean putHeartBeat(String connectionId) {
+    	try {
+			if(connectionId != null && !heartbeatQueue.contains(connectionId)) heartbeatQueue.put(connectionId);
+			return true;
+    	}catch(Exception e) {
+    		logManager.error("heartBeatQueue error:" + e.getMessage());
+    		return false;
+    	}
+    }
+    
+    public boolean addHeartBeat(String connectionId) {
+    	try {
+			if(connectionId != null && !heartbeatQueue.contains(connectionId)) heartbeatQueue.add(connectionId);
+			return true;
+    	}catch(Exception e) {
+    		logManager.error("ConnectionId:" + connectionId + " dont add because HeartBeat queue is full " + " error:" + e.getMessage());
+    		return false;
+    	}
+    }
+
+    public String takeConnRequest() throws Exception {
+    	return connectionRequestQueue.take();
+    }
+    
+    /** put은 queue 에 공간이 없는 경우에 무한 블록킹이 된다.  add 는 exception 이 발생되고 바로 반환된다. **/
+    public boolean putConnRequest(String connectionId) {
+    	try {
+			if(connectionId != null && !connectionRequestQueue.contains(connectionId)) connectionRequestQueue.put(connectionId);
+			return true;
+    	}catch(Exception e) {
+    		logManager.error("connectionRequestQueue error:" + e.getMessage());
+    		return false;
+    	}
+    }
+
+    public boolean addConnRequest(String connectionId){
+    	try {
+			if(connectionId != null && !connectionRequestQueue.contains(connectionId)) connectionRequestQueue.add(connectionId);
+			return true;
+    	}catch(Exception e) {
+    		logManager.error("ConnectionId:" + connectionId + " dont add because connectionRequestQueue is full " + " error:" + e.getMessage());
+    		return false;
+    	}
+    }
+
+    public String takeDisconnRequest() throws Exception {
+    	return disconnectionRequestQueue.take();
+    }
+    
+    public boolean putDisconnRequest(String connectionId) {
+    	try {
+			if(connectionId != null && !disconnectionRequestQueue.contains(connectionId)) disconnectionRequestQueue.put(connectionId);
+			return true;
+    	}catch(Exception e) {
+    		logManager.error("disconnectionRequestQueue error" + e.getMessage());
+    		return false;
+    	}
+    }
+
+    public boolean addDisconnRequest(String connectionId) {
+    	try {
+			if(connectionId != null && !disconnectionRequestQueue.contains(connectionId)) disconnectionRequestQueue.add(connectionId);
+			return true;
+    	}catch(Exception e) {
+    		logManager.error("ConnectionId:" + connectionId + " dont add because disconnectionRequestQueue is full " + " error:" + e.getMessage() );
+    		return false;
+    	}
+    }
+    
+    public String takeDisconnAndConnRequest() throws Exception {
+    	return disconnAndConnectionRequestQueue.take();
+    }
+    
+    public boolean putDisconnAndConnRequest(String connectionId) {
+    	try {
+			if(connectionId != null && !disconnAndConnectionRequestQueue.contains(connectionId)) disconnAndConnectionRequestQueue.put(connectionId);
+			return true;
+    	}catch(Exception e) {
+    		logManager.error("disconnAndConnectionRequestQueue error" + e.getMessage());
+    		return false;
+    	}
+    }
+    
+    public boolean addDisconnAndConnRequest(String connectionId) {
+    	try {
+			if(connectionId != null && !disconnAndConnectionRequestQueue.contains(connectionId)) disconnAndConnectionRequestQueue.add(connectionId);
+			return true;
+    	}catch(Exception e) {
+    		logManager.error("ConnectionId:" + connectionId + " dont add because disconnAndConnectionRequestQueue is full " + " error:" + e.getMessage());
+    		return false;
+    	}
+    }
+    
+    public String takeEventSendRequest() throws Exception {
+    	return eventSendRequestQueue.take();
+    }
+    
+    public boolean putEventSendRequest(String message) {
+    	try {
+			eventSendRequestQueue.put(message);
+			return true;
+    	}catch(Exception e) {
+    		logManager.error("eventSendRequestQueue error" + e.getMessage());
+    		return false;
+    	}
+    }
+    
+    public boolean addEventSendRequest(String message) {
+    	try {
+			eventSendRequestQueue.add(message);
+			return true;
+    	}catch(Exception e) {
+    		logManager.error("Message:" + message + " dont add because eventSendRequestQueue is full " + " error:" + e.getMessage());
+    		return false;
+    	}
+    }
+    
+    public void addConnectionTry(String connectionId) {
+    	if(!connectionTryVector.contains(connectionId)) {
+    		connectionTryVector.add(connectionId);
+    	}
+    }
+    
+    public boolean removeConnectionTry(String connectionId) {
+    	if(connectionTryVector.contains(connectionId)) return connectionTryVector.remove(connectionId);
+    	return false;
+    }
+    
+    public Vector<String> getConnectionTry() {
+    	return connectionTryVector;
+    }
 }

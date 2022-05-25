@@ -20,6 +20,9 @@
     xmlns:ns2="http://www.tibco.com/namespaces/tnt/plugins/file"
     xmlns:ns20="http://www.tibco.com/pe/WriteToLogActivitySchema"
     xmlns:ns21="http://tns.tibco.com/bw/palette/internal/errorlinkhandler+9cb1ba13-c2a9-495a-b6ce-5659adc713fd"
+    xmlns:ns22="www.tibco.com/plugin/java/JavaInvokeActivityInput+c8f78de0-fe18-4e7a-830e-048ab8f1cbf8+JavaInvokeActivityInput"
+    xmlns:ns23="www.tibco.com/plugin/java/JavaInvokeActivityOutput+c8f78de0-fe18-4e7a-830e-048ab8f1cbf8+JavaInvokeActivityOutput"
+    xmlns:ns24="http://tns.tibco.com/bw/palette/internal/activityerror+c8f78de0-fe18-4e7a-830e-048ab8f1cbf8"
     xmlns:ns3="http://tns.tibco.com/bw/palette/internal/activityerror+bw.file.read"
     xmlns:ns4="http://www.tibco.com/namespaces/tnt/plugins/parsexml"
     xmlns:ns5="http://tns.tibco.com/bw/palette/internal/activityerror+bw.xml.parsexml"
@@ -454,7 +457,7 @@
                                     gradientEndColor="50431"
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
                                     <element href="//0/@process/@activity/@activity/@activities.1"/>
-                                    <layoutConstraint x="1084"
+                                    <layoutConstraint x="1224"
                                     xsi:type="notation:Bounds" y="185"/>
                                     </children>
                                     <children type="4002 bw.java.javamethod">
@@ -565,7 +568,7 @@
                                     <element href="//0/@process/@activity/@activity/@activities.4"/>
                                     <layoutConstraint
                                     height="40" width="129"
-                                    x="843"
+                                    x="938"
                                     xsi:type="notation:Bounds" y="185"/>
                                     </children>
                                     <children type="4002 bw.generalactivities.log">
@@ -676,7 +679,7 @@
                                     <element href="//0/@process/@activity/@activity/@activities.7"/>
                                     <layoutConstraint
                                     height="40" width="40"
-                                    x="964"
+                                    x="1072"
                                     xsi:type="notation:Bounds" y="185"/>
                                     </children>
                                     <children type="4002 bw.internal.getSharedVariable">
@@ -1239,6 +1242,8 @@
             namespace="http://www.example.org/NEConnectionSchema" prefix="tns6"/>
         <tibex:namespaceItem
             namespace="http://www.example.com/namespaces/tns/1638240759845" prefix="tns7"/>
+        <tibex:namespaceItem
+            namespace="http://www.w3.org/2001/XMLSchema" prefix="xsd"/>
     </tibex:NamespaceRegistry>
     <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.org/NEConnectionSchema"/>
     <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.com/namespaces/tns/1638240759845"/>
@@ -1296,7 +1301,7 @@
         <bpws:flow name="flow">
             <bpws:links>
                 <bpws:link name="StartToEnd" tibex:linkType="SUCCESS"/>
-                <bpws:link name="Borrow_ConnectionToActivate_Pool" tibex:linkType="SUCCESS"/>
+                <bpws:link name="IsReadyToGoToActivate_Pool_Monitors" tibex:linkType="SUCCESS"/>
                 <bpws:link name="JavaInvoke2ToEnd" tibex:linkType="SUCCESS"/>
                 <bpws:link name="Borrow_ConnectionToLog" tibex:linkType="ERROR"/>
                 <bpws:link name="LogToEngineCommand" tibex:linkType="SUCCESS"/>
@@ -1388,7 +1393,7 @@
                         <bpws:target linkName="IterateToBorrow_Connection"/>
                     </bpws:targets>
                     <bpws:sources>
-                        <bpws:source linkName="Borrow_ConnectionToActivate_Pool"/>
+                        <bpws:source linkName="IsReadyToGoToActivate_Pool_Monitors"/>
                         <bpws:source linkName="Borrow_ConnectionToLog"
                             tibex:faultDetailsVar="IsReadyToGo" tibex:faultNameVar="FaultName">
                             <tibex:DesignExpression>
@@ -1430,7 +1435,7 @@
                     outputVariable="Activate_Pool_Monitors"
                     tibex:xpdlId="5167fe11-e086-4458-b54a-141c09d810ed" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
                     <bpws:targets>
-                        <bpws:target linkName="Borrow_ConnectionToActivate_Pool"/>
+                        <bpws:target linkName="IsReadyToGoToActivate_Pool_Monitors"/>
                     </bpws:targets>
                     <bpws:sources>
                         <bpws:source linkName="JavaInvoke2ToEnd"/>
@@ -1562,7 +1567,8 @@
                     <tibex:GetSharedVariable variableName="NEA_PODNAME" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions"/>
                 </tibex:extActivity>
             </bpws:extensionActivity>
-            <bpws:scope name="Iterate" tibex:group="iterate" tibex:xpdlId="d6e34833-2d05-44fd-a974-d8c8f97799e1">
+            <bpws:scope name="Iterate" tibex:group="iterate"
+                tibex:indexToGlobal="false" tibex:xpdlId="d6e34833-2d05-44fd-a974-d8c8f97799e1">
                 <bpws:targets>
                     <bpws:target linkName="InitPoolToIterate"/>
                 </bpws:targets>

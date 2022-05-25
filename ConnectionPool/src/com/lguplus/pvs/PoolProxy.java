@@ -149,14 +149,25 @@ public class PoolProxy extends BasePoolProxy {
         return null;
     }
     
+    /** BW index 는 1 부터 시작함으로 java 함수를 호출할때는 index-1 값으로 호출하도록 한다. **/
     public byte[] getBWConnectionByIndex(int index) {    	
-    	Connectable connectable = super.getConnectionByIndex(index);
+    	Connectable connectable = super.getConnectionByIndex(index-1);
     	if(connectable != null && connectable instanceof BWConnection) {
     		return ((BWConnection)connectable).getHandle();
     	}
 		LogManager.getInstance().error("borrowConnectionByIndex null");
         return null;
     }
+    
+    public void setConnectionInfoByIndexWithServerType(int index, String serverType) {
+    	Connectable connectable = ConnectionConfig.getInstance().setConnectionInfoByIndexWithServerType(index-1, serverType);
+    	if(connectable != null) {
+    		this.requestReconnect(connectable);
+    	} else {
+    		LogManager.getInstance().info(String.format("PoolProxy:setConnectionInfoByIndexWithServerType[%d][%s]\n", index, serverType));
+    	}
+    }
+    /** BW index problem **/
     
     public byte[] borrowConnection(String connectionGroupId, long waitTimeSeconds) throws TimeoutException {
     	Connectable connectable = super.borrowConnectable(connectionGroupId, waitTimeSeconds);
@@ -171,8 +182,11 @@ public class PoolProxy extends BasePoolProxy {
      * 지정한 connection을 ConnectionManager에서 삭제한다. 
      */
     public byte[] disconnectConnection(String groupId, String connectionKey) {
+    	/* 먼저 handle 값을 가져온다. */
     	Connectable connectable = super.removeConnection(groupId, connectionKey);
-    	if(connectable != null && connectable instanceof BWConnection) return ((BWConnection)connectable).getHandle();
+    	if(connectable != null && connectable instanceof BWConnection) {
+    		return ((BWConnection)connectable).getHandle();
+    	}
     	return null;
     }
 
@@ -184,6 +198,10 @@ public class PoolProxy extends BasePoolProxy {
 				.findFirst();
 		if(found.isEmpty()) return ;
     	receivedHeartBeat(found.get());
+    }
+    
+    public byte[] returnNull() {
+    	return null;
     }
     
 }

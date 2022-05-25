@@ -1,5 +1,6 @@
 package com.lguplus.pvs;
 
+import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -216,7 +217,7 @@ public class ConnectionTryMonitor {
     private void displayConnectionObjectInfo(String connectionServerType, int numOfConnectionGroups, int numOfConnectedObjects) {
         // 매5초마다 들어오는지 확인한다 - 현재 연결되어 있는 서버 타입 : 총 그룹 수와 연결객체 수 -> 0로면 변경해주고 연결 방실을 정리해줘야 한다.
     	boolean bLoop = true;
-    	if(Registry.getInstance().connectionTryVector.size() == 0) {
+    	if(Registry.getInstance().getConnectionTry().size() == 0) {
     		bLoop = false;
     	}
     	
@@ -251,22 +252,18 @@ public class ConnectionTryMonitor {
      */
     private String putConnectionRequestQueue() {
     	String alreadyReqConnectionIds = "";
-    	for(String connectionId : Registry.getInstance().connectionTryVector) {        	
-        	logManager.info(String.format("1. [%s] 재연결을 위하여 connectionRequestQueue에 넣어줍니다.\n", connectionId));
-            try {
-            	ConnectionObject connObj = ConnectionConfig.getInstance().getConnections().get(connectionId);			            	
-            	if(connObj.getConnectionType().equalsIgnoreCase("POOL")) {
-            		Registry.getInstance().connectionRequestQueue.put(connectionId);
-            		alreadyReqConnectionIds += connectionId + ",";
-            	} else {
-            		logManager.info("//// 연결객체 정보가 INFO 유형인 경우 - 연결에 필요한 정보만 보유 [필요시: 로직 구현]\n");
-            	}
-            } catch (InterruptedException e) {
-                logManager.error(e.getMessage());
-				e.printStackTrace();
-            }
-        }
     	
+    	Vector<String> connTryVector = Registry.getInstance().getConnectionTry();
+    	for(String connectionId : connTryVector) {        	
+        	logManager.info(String.format("1. [%s] 재연결을 위하여 connectionRequestQueue에 넣어줍니다.\n", connectionId));
+			ConnectionObject connObj = ConnectionConfig.getInstance().getConnections().get(connectionId);			            	
+			if(connObj.getConnectionType().equalsIgnoreCase("POOL")) {
+				Registry.getInstance().putConnRequest(connectionId);
+				alreadyReqConnectionIds += connectionId + ",";
+			} else {
+				logManager.info("//// 연결객체 정보가 INFO 유형인 경우 - 연결에 필요한 정보만 보유 [필요시: 로직 구현]\n");
+			}
+        }
     	return alreadyReqConnectionIds;
     }
 
@@ -276,19 +273,15 @@ public class ConnectionTryMonitor {
     private void putConnectionRequestQueueWhenServerTypeChanged() {
     	int count = 0;
 		for( String connectionId : ConnectionConfig.getInstance().getConnections().keySet()) {
-			try {
-				count++;
-				ConnectionObject connObj = ConnectionConfig.getInstance().getConnections().get(connectionId);			            	
-	        	if(connObj.getConnectionType().equalsIgnoreCase("POOL") && !connObj.getConnectionObjectStatus().equalsIgnoreCase("SC")) {
-	        		logManager.info(String.format("2.1 [%d] 대상 서버가 변경되었습니다. 재접속을 요청 큐에 [%s][%s][%d]를 넣어주었습니다. [bChanged] \n", count, connectionId, 
-	        																				connObj.getCurrentServerIp(), connObj.getCurrentServerPort()));
-	        			
-	        		Registry.getInstance().connectionRequestQueue.put(connectionId);
-	        	}
-	        } catch (InterruptedException e) {
-                logManager.error(e.getMessage());
-	            e.printStackTrace();
-	        }
+			count++;
+			ConnectionObject connObj = ConnectionConfig.getInstance().getConnections().get(connectionId);			            	
+			if(connObj.getConnectionType().equalsIgnoreCase("POOL") && !connObj.getConnectionObjectStatus().equalsIgnoreCase("SC")) {
+				if(Registry.getInstance().putConnRequest(connectionId)) {
+					logManager.info(String.format("2.1 [%d] 대상 서버가 변경되었습니다. 재접속을 요청 큐에 [%s][%s][%d]를 넣어주었습니다. [bChanged] \n", count, connectionId, 
+																						connObj.getCurrentServerIp(), connObj.getCurrentServerPort()));
+					
+				}
+			}
 		}
     }
 
@@ -299,18 +292,14 @@ public class ConnectionTryMonitor {
     	int count = 0;
 		logManager.info(String.format("2.2 [(M)oving (C)onnections 로 옮겨간 서버 유형이 %s입니다.]\n", ConnectionConfig.getInstance().getConnectionServerType()));
 		for( String connectionId : ConnectionConfig.getInstance().getConnections().keySet()) {
-			try {
-				count++;
-				ConnectionObject connObj = ConnectionConfig.getInstance().getConnections().get(connectionId);
-	
-	        	if(connObj.getConnectionType().equalsIgnoreCase("POOL") && connObj.getConnectionObjectStatus().equalsIgnoreCase("MC")) {
-	        		logManager.info(String.format("2.2 [%d] 대상 서버가 변경되었습니다. 재접속을 요청 큐에 [%s]를 넣어주었습니다. [연결객체 상태: %s] \n", count, connectionId, connObj.getConnectionObjectStatus()));
-	        		Registry.getInstance().connectionRequestQueue.put(connectionId);
-	        	}
-	        } catch (InterruptedException e) {
-                logManager.error(e.getMessage());
-	            e.printStackTrace();
-	        }
+			count++;
+			ConnectionObject connObj = ConnectionConfig.getInstance().getConnections().get(connectionId);
+
+			if(connObj.getConnectionType().equalsIgnoreCase("POOL") && connObj.getConnectionObjectStatus().equalsIgnoreCase("MC")) {
+				if(Registry.getInstance().putConnRequest(connectionId)) {
+					logManager.info(String.format("2.2 [%d] 대상 서버가 변경되었습니다. 재접속을 요청 큐에 [%s]를 넣어주었습니다. [연결객체 상태: %s] \n", count, connectionId, connObj.getConnectionObjectStatus()));
+				}
+			}
 		}
     }
 	    
@@ -320,21 +309,17 @@ public class ConnectionTryMonitor {
     public void putConnectionRequestQueueWhenlessNumOfConnectedObjected(String alreadyReqConnectionIds) {
     	int count = 0;
     	for( String connectionId : ConnectionConfig.getInstance().getConnections().keySet()) {
-			try {
-				count++;
-				ConnectionObject connObj = ConnectionConfig.getInstance().getConnections().get(connectionId);
-				if(connObj.getConnectionStatus() == false && connObj.getConnectionType().equalsIgnoreCase("POOL") &&
-				   alreadyReqConnectionIds.contains(connectionId) == false && !connObj.getConnectionObjectStatus().equalsIgnoreCase("SC")) {
+			count++;
+			ConnectionObject connObj = ConnectionConfig.getInstance().getConnections().get(connectionId);
+			if(connObj.getConnectionStatus() == false && connObj.getConnectionType().equalsIgnoreCase("POOL") &&
+			   alreadyReqConnectionIds.contains(connectionId) == false && !connObj.getConnectionObjectStatus().equalsIgnoreCase("SC")) {
+				if(Registry.getInstance().putConnRequest(connectionId)) {
 					logManager.info(String.format("3. [%d] 대상 서버가 변경되었습니다. 재접속을 요청 큐에 [%s]를 넣어주었습니다. [연결되지 않은 객체가 존재하는 경우]\n", count, connectionId));
-					Registry.getInstance().connectionRequestQueue.put(connectionId);
-				} else {
-					// 연결 대상이 아닙니다. ConnectionTryVector상에서 처리했거 연결객체 상태가 (S)uspend (C)onnection 인 경우입니다.
-					// System.out.printf("[%d] 이 연결객체[%s]은 이미 위에서 연결요청 큐에 있거나 대상이 아닙니다.\n", count, connectionId);
 				}
-            } catch (InterruptedException e) {
-                logManager.error(e.getMessage());
-                e.printStackTrace();
-            }
+			} else {
+				// 연결 대상이 아닙니다. ConnectionTryVector상에서 처리했거 연결객체 상태가 (S)uspend (C)onnection 인 경우입니다.
+				// System.out.printf("[%d] 이 연결객체[%s]은 이미 위에서 연결요청 큐에 있거나 대상이 아닙니다.\n", count, connectionId);
+			}
 		}
     }
     
@@ -342,19 +327,15 @@ public class ConnectionTryMonitor {
      * 4. 수동 재연결 시도를 요청한 vector에서 꺼내서 재설정 요청을 수행한다.
      */
     private void putConnectionRequestQueueWhenManualMode() {
-	    for(String connectionId : Registry.getInstance().connectionTryVector) {
+    	Vector<String> connTryVector = Registry.getInstance().getConnectionTry();
+	    for(String connectionId : connTryVector) {
 	    	logManager.info(String.format("[재연결을 위하여 %s 객체를 연결요청 큐에 넣어줍니다]\n", connectionId));
-	        try {
-	        	ConnectionObject connObj = ConnectionConfig.getInstance().getConnections().get(connectionId);
-	        	if(connObj.getConnectionType().equalsIgnoreCase("POOL")) {
-	        		Registry.getInstance().connectionRequestQueue.put(connectionId);
-	        	} else {
-	        		logManager.info("//// 연결객체 정보가 INFO 유형인 경우 - 연결에 필요한 정보만 보유 [필요시: 로직 구현]\n");
-	        	}
-	        } catch (InterruptedException e) {
-                logManager.error(e.getMessage());
-	            e.printStackTrace();
-	        }
+			ConnectionObject connObj = ConnectionConfig.getInstance().getConnections().get(connectionId);
+			if(connObj.getConnectionType().equalsIgnoreCase("POOL")) {
+				Registry.getInstance().putConnRequest(connectionId);
+			} else {
+				logManager.info("//// 연결객체 정보가 INFO 유형인 경우 - 연결에 필요한 정보만 보유 [필요시: 로직 구현]\n");
+			}
 		}
     }
 }

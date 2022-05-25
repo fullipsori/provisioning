@@ -39,7 +39,7 @@ public class EventSource_DisConnectionAndConnectionReq extends JavaProcessStarte
 		public void run() {
 			while(true) {
 				try {
-					this.javaProcessStarter.onEvent(new RequestVo(Registry.getInstance().disconnAndConnectionRequestQueue.take()));
+					this.javaProcessStarter.onEvent(new RequestVo(Registry.getInstance().takeDisconnAndConnRequest()));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

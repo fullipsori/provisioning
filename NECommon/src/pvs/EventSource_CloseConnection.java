@@ -38,7 +38,7 @@ public class EventSource_CloseConnection extends JavaProcessStarter {
 		public void run() {
 			while(true) {
 				try {
-					this.javaProcessStarter.onEvent(new RequestVo(Registry.getInstance().disconnectionRequestQueue.take()));
+					this.javaProcessStarter.onEvent(new RequestVo(Registry.getInstance().takeDisconnRequest()));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

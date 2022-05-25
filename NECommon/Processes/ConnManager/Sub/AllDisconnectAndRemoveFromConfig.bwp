@@ -1466,8 +1466,7 @@
                     </tibex:config>
                 </tibex:activityExtension>
             </bpws:extensionActivity>
-            <bpws:scope name="While" tibex:group="while"
-                tibex:indexToGlobal="false" tibex:xpdlId="8c7fe0a4-c292-41c5-a1b9-39af32887014">
+            <bpws:scope name="While" tibex:group="while" tibex:xpdlId="8c7fe0a4-c292-41c5-a1b9-39af32887014">
                 <bpws:targets>
                     <bpws:target linkName="TCPDisconnectLogToWhile"/>
                 </bpws:targets>
@@ -1500,7 +1499,7 @@
                                 <bpws:link
                                     name="TCPCloseConnectionToLog" tibex:linkType="ERROR"/>
                                 <bpws:link
-                                    name="GetConnByIdxToDisconnToLog" tibex:linkType="SUCCESS"/>
+                                    name="GetConnByIdxToDisconnToLog" tibex:linkType="SUCCESSWITHNOCONDITION"/>
                             </bpws:links>
                             <bpws:empty name="GroupStart"
                                 tibex:group="groupStart" tibex:xpdlId="b6ebdea3-bd7c-4384-90e8-6c7ddfef4812">
@@ -1531,7 +1530,13 @@
                                     </tibex:DesignExpression>
                                     <bpws:transitionCondition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[count($GetConnByIdxToDisconn/MethodReturnValue) > 0]]></bpws:transitionCondition>
                                     </bpws:source>
-                                    <bpws:source linkName="GetConnByIdxToDisconnToLog"/>
+                                    <bpws:source linkName="GetConnByIdxToDisconnToLog">
+                                    <tibex:DesignExpression>
+                                    <tibex:expression
+                                    expression="##otherwise##" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"/>
+                                    </tibex:DesignExpression>
+                                    <bpws:transitionCondition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[##otherwise##]]></bpws:transitionCondition>
+                                    </bpws:source>
                                     </bpws:sources>
                                     <tibex:inputBindings>
                                     <tibex:inputBinding

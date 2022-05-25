@@ -294,7 +294,7 @@ public class ConnectionObject {
     	if(failoverTryCount == failoverMaxTryCountToSendEvent ) {
     		// 필요시 특정 Action을 취한다.- 지정된 횟수 이상 접속 시도를 수행햇으나 실패했을 경우
     		String eventMessage = String.format("%s;%s;ERROR;|%s| 연결 시도 횟수가 %d회에 도달하였습니다. NE에 문제가 있는지 확인바랍니다.", connectionGroupId, connectionKey, this.description, failoverTryCount);    		
-    		Registry.getInstance().eventSendRequestQueue.add(eventMessage);
+    		Registry.getInstance().addEventSendRequest(eventMessage);
     		logManager.warn(eventMessage);
     	}
     	
@@ -460,12 +460,6 @@ public class ConnectionObject {
     public void SetFailOverMaxTryCountToSendEvent(int failoverMaxTryCountToSendEvent) { if(readTimeOut != -1) this.failoverMaxTryCountToSendEvent = failoverMaxTryCountToSendEvent;}
 
     public Connectable getConnection() { return connectableSession; }
-    public void nullifyConnection() {
-    	if(!this.connectionObjectStatus.equalsIgnoreCase("SC")) {
-			ConnectionRepository.getInstance().closeConnectable(this.connectableSession);
-    		this.connectableSession = null;
-    	}
-    }
     public void closeSession() {
 		ConnectionRepository.getInstance().closeConnectable(this.connectableSession);
 		this.connectableSession = null;

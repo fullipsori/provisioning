@@ -39,7 +39,7 @@ public class EventSource_CMEventsSendRequest extends JavaProcessStarter {
 		public void run() {
 			while(true) {
 				try {
-					this.javaProcessStarter.onEvent(new RequestEvents(Registry.getInstance().eventSendRequestQueue.take()));
+					this.javaProcessStarter.onEvent(new RequestEvents(Registry.getInstance().takeEventSendRequest()));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

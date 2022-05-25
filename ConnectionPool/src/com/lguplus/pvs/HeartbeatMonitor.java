@@ -93,12 +93,12 @@ public class HeartbeatMonitor {
 		            	// 삭제 먼저 진행하고 작업해야 한다. -  설정값에 따라서 진행되진다. 종료 후 재연결을 시도한다.  POOL 타입이건, SC(Suspended Connection 상태)인 경우
 		            	// heartbeatInterval * heartbeatTryCount = 최대 시도횟수 곱하기를 시도한다.
 	            		displayHeartbeatMessage(connObj, idleTime, "하트비트 메시지 체크 시간 초과: 연결종료 후 재접속 시도");		                
-		                Registry.getInstance().disconnAndConnectionRequestQueue.add(connObj.getConnectionId());
+		                Registry.getInstance().addDisconnAndConnRequest(connObj.getConnectionId());
 		                
 		            } else if(idleTime > connObj.getHeartBeatInterval()) {	            	
 		                // 하트비트 인터벌을 초과했으며, 현재 접속 상태인 경우에만 보낸다.		            	
 		            	displayHeartbeatMessage(connObj, idleTime, "마지막 사용시간이 하트비트 인터벌 시간 초과하였습니다. - 하트비트 메시지 보내기");	            	
-		                Registry.getInstance().heartbeatQueue.add(connObj.getConnectionId());
+		                Registry.getInstance().addHeartBeat(connObj.getConnectionId());
 		                
 		            } else {
 		            	// 하트비트 체크 대상이 아닌 경우  idleTime < connObj.getHeartBeatFailSeconds() 미만인 경우 

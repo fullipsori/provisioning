@@ -1605,7 +1605,8 @@
                     </tibex:config>
                 </tibex:activityExtension>
             </bpws:extensionActivity>
-            <bpws:scope name="RepeatOnError" tibex:group="repeatOnError" tibex:xpdlId="d6ecbd3b-ee51-4a58-ab19-b48f8a5de8aa">
+            <bpws:scope name="RepeatOnError" tibex:group="repeatOnError"
+                tibex:indexToGlobal="false" tibex:xpdlId="d6ecbd3b-ee51-4a58-ab19-b48f8a5de8aa">
                 <bpws:targets>
                     <bpws:target linkName="LogToRepeatOnError"/>
                 </bpws:targets>

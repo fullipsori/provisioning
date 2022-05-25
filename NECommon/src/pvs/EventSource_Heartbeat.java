@@ -39,7 +39,7 @@ public class EventSource_Heartbeat extends JavaProcessStarter {
 		public void run() {
 			while(true) {
 				try {
-					String connectionId = Registry.getInstance().heartbeatQueue.take();
+					String connectionId = Registry.getInstance().takeHeartBeat();
 					if(Registry.getInstance().needHeartBeat(connectionId)) {
 						this.javaProcessStarter.onEvent(new RequestVo(connectionId));
 					}

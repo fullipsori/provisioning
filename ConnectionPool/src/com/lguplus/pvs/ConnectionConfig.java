@@ -23,7 +23,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -107,8 +106,8 @@ public class ConnectionConfig {
     }
     
     public void displayConnectionObjectInfo(Connectable connectable) {
-    	if(connectable != null) {
-    		String objLog = this.getConnectionObject(connectable).logConnectionObjectInfo();
+    	if(connectable != null && this.getConnectionIdByConnectable(connectable) != null) {
+    		String objLog = this.getConnectionObjectByConnectable(connectable).logConnectionObjectInfo();
     		logManager.info(objLog);
     	}
     }
@@ -139,17 +138,13 @@ public class ConnectionConfig {
     	}
     }
     
-    /** 하기 두 함수가 어떤 차이가 있는지 확인이 필요함. **/
+    /** connectable 로 부터 ConnectionObject 를 구한다. **/
     public ConnectionObject getConnectionObjectByConnectable(Connectable connectable) {    	
 		Optional<ConnectionObject> connectionObject = this.connections.values().stream().filter(conn -> conn.getConnection().equals(connectable)).findFirst();
 		if(connectionObject.isPresent()) connectionObject.get();
     	return null;
     }
     
-    public ConnectionObject getConnectionObject(Connectable connectable) {
-    	// bwConnection 정보를 기반으로 연결객체를 구한다. - BusinessWorks TCPOpen시 생성된 connection Binary 객체
-    	return this.connections.get(Registry.getInstance().getConnectionIdWithConnectable(connectable));
-    }
     
     public String getConnectionInfo(String connectionGroupId, String connectionKey, String code, String reason) {
     	
@@ -225,7 +220,7 @@ public class ConnectionConfig {
     public int[] getReadWriteTimeOutAndRetryCount(Connectable connectable) {
     	// ENUM default 값 설정으로 간다.
     	int[] retVal = {30000, 3, 30000, 3}; // 30초 3번을 기본값으로 설정해준다. 
-    	ConnectionObject connObj = this.getConnectionObject(connectable);
+    	ConnectionObject connObj = this.getConnectionObjectByConnectable(connectable);
     	
     	if(connObj != null) {
     		retVal[0] = connObj.getReadTimeOut();
@@ -244,7 +239,6 @@ public class ConnectionConfig {
     	Connectable connectable = null;
     	
     	for(String connectionId : this.connections.keySet()) {
-    		position++;
     		if(index == position) {
     			ConnectionObject connObj = this.connections.get(connectionId);
     			connectable = connObj.getConnection(); // BW Connection Binary 값을 가져온다.
@@ -254,7 +248,9 @@ public class ConnectionConfig {
     									connObj.getConnectionGroupId(), connObj.getConnectionKey(), connObj.getConnectionStatus(), connObj.getCurrentServerIp(),
     									connObj.getCurrentServerPort(), connObj.getCurrentServerType(), connObj.getHandledMsgCount()));
     			break;
-    		}	
+    		}else {
+    			position++;
+    		}
     	}    	
     	return connectable;
     }
@@ -267,9 +263,7 @@ public class ConnectionConfig {
     	
     	for(String connectionId : this.connections.keySet()) {
     		ConnectionObject connObj = this.connections.get(connectionId);
-    		position++;
     		if(index == position) {
-    			 
     			if(connObj.getConnectionType().equalsIgnoreCase("POOL")) {
 	    			logManager.info(String.format("[%d][req-index:%d][%s][%s] 현재 접속 상태 [%s][주소/포트: %s][%d][접속서버유형: %s][처리 메시지: %d개][연결객체 유형: %s]\n", position, index,
 							connObj.getConnectionGroupId(), connObj.getConnectionKey(), connObj.getConnectionStatus(), connObj.getCurrentServerIp(),
@@ -287,6 +281,8 @@ public class ConnectionConfig {
     				logManager.info("///////////////////////////////////////////////////////////////");    				
     			}
     			break;
+    		}else {
+				position++;
     		}
     	}
     	return connectable;
@@ -357,23 +353,6 @@ public class ConnectionConfig {
     	}
     }
     
-    public Connectable removeConnection(String connectionGroupId, String connectionKey) {
-    	Connectable connectable = null;    	
-    	logManager.info(String.format("ConnectionConfig.disconnectConnection [%s;;%s] 연결 객체를 connection pool에서 삭제하도록 하겠습니다.\n", connectionGroupId, connectionKey));
-    	String connectionId = String.format(ConnectionObject.CID_FORMAT, connectionGroupId, connectionKey);
-    	
-    	if(this.connections.containsKey(connectionId)) {
-    		ConnectionObject connObj = this.connections.get(connectionId);
-    		logManager.info(String.format("[%s] 연결객체를 삭제하도록 하겠습니다. \n", connObj.getConnectionId()));
-    		this.connections.remove(connectionId); // connection Object 객체 정보를 삭제를 해준다.
-    		connectable = connObj.getConnection();
-    	} else {
-    		logManager.warn(String.format("[%s] 연결객체가 ConnectionManager 내에 없습니다. 삭제 전에 다시 한번 확인부탁드립니다.\n", connectionId));
-    	}
-    	
-    	return connectable;
-    }
-    
     public void setConnectionFailOverMode(String failOverMode) {
     	connectionFailOverMode = failOverMode;
     	// 모든 connectionObjce의 연결 모드도 자동에서 수동으로 변환해준다.
@@ -395,7 +374,7 @@ public class ConnectionConfig {
     		connObj.setConnectionReset(true);
     		connObj.setConnectionStatus(false);
     		connObj.setFailOverTryCount(0);
-    		connObj.nullifyConnection();
+    		connObj.closeSession();
     	} else {
     		logManager.warn(String.format("[%s] 는 존재하지 않는 연결객체 입니다. 다시 한번 확인이 필요합니다.\n", connectionId));
     	}
@@ -873,16 +852,13 @@ public class ConnectionConfig {
     public void putConnectionRequestQueue(String connectionId) {
 		try {
 			// 확인 필요함 : if(!Registry.getInstance().connectionRequestQueue.equals(connectionId)) {
-			if(!Registry.getInstance().connectionRequestQueue.contains(connectionId)) {
-				if(connections.get(connectionId).getConnectionType().equalsIgnoreCase("POOL")) {
+			if(connections.get(connectionId).getConnectionType().equalsIgnoreCase("POOL")) {
+				if(Registry.getInstance().putConnRequest(connectionId)) {
 					logManager.info(String.format("신규 객체의 연결요청을 큐에 [%s]를 추가 하였습니다.\n", connectionId));
-					Registry.getInstance().connectionRequestQueue.put(connectionId);
-				} else {
-					logManager.info(String.format("[%s]는 연결객체 유형이 [%s]로 연결이 필요없는 객체입니다.\n", connectionId, connections.get(connectionId).getConnectionType()));
 				}
-            } else {
-            	logManager.info("이미 연결요청 큐에 ["+connectionId+"]가 있습니다.");
-            }
+			} else {
+				logManager.info(String.format("[%s]는 연결객체 유형이 [%s]로 연결이 필요없는 객체입니다.\n", connectionId, connections.get(connectionId).getConnectionType()));
+			}
 		}catch(Exception ex) {
 			logManager.error(String.format("["+connectionId+"] 연결요청 큐에 넣는 중에 오류가 발생하였으므로 합당한 조치를 취하여 주십시요!!!"));
 		}
@@ -891,16 +867,13 @@ public class ConnectionConfig {
     // 현 연결객첵의 연결 종류 후 새롭게 연결이 필요한 경우 요청 - PVSCommon application - PVSConnManager.StarterDisconnectAndConnectionAgain.bwp
     public void putDisconnAndConnectionRequestQueue(String connectionId) {					
 		try {
-			if(!Registry.getInstance().disconnAndConnectionRequestQueue.contains(connectionId)) {
-				if(connections.get(connectionId).getConnectionType().equalsIgnoreCase("POOL")) {
-	            	logManager.info("정보가 갱신되 연결객체에 대해서 disconnAndConnReq 큐에 ["+connectionId+"]을 추가 하였습니다.");
-	            	Registry.getInstance().disconnAndConnectionRequestQueue.put(connectionId);
-				} else {
-					logManager.info(String.format("[%s]는 연결객체 유형이 [%s]로 연결이 필요없는 객체입니다.\n", connectionId, connections.get(connectionId).getConnectionType()));
+			if(connections.get(connectionId).getConnectionType().equalsIgnoreCase("POOL")) {
+				if(Registry.getInstance().putDisconnAndConnRequest(connectionId)) {
+					logManager.info("정보가 갱신되 연결객체에 대해서 disconnAndConnReq 큐에 ["+connectionId+"]을 추가 하였습니다.");
 				}
-            } else {
-            	logManager.info("이미 disconnAndConnReq 큐에 ["+connectionId+"] 등록되어 있습니다.");
-            }
+			} else {
+				logManager.info(String.format("[%s]는 연결객체 유형이 [%s]로 연결이 필요없는 객체입니다.\n", connectionId, connections.get(connectionId).getConnectionType()));
+			}
 		}catch(Exception ex) {
 			logManager.error(String.format("["+connectionId+"] 연결요청 큐에 넣는 중에 오류가 발생하였으므로 합당한 조치를 취하여 주십시요!!!"));
 		}
@@ -909,18 +882,15 @@ public class ConnectionConfig {
     // 현 연결객첵의 연결 종류 후 연결객체 ConfigMap에서 완전히 제거를 해야하는 경우 요청 - PVSCommon application - PVSConnManager.StarterDisconnectAndRemoveFromConfig.bwp
     public void putDisconnectionRequestQueue(String connectionId) {
 		try {
-			if(!Registry.getInstance().disconnectionRequestQueue.contains(connectionId)) {
-				if(connections.get(connectionId).getConnectionType().equalsIgnoreCase("POOL") && !connections.get(connectionId).getConnectionObjectStatus().equalsIgnoreCase("SC")) {
-	            	logManager.info("지정 객체의 삭제요청을 연결종료 요청 큐에 ["+connectionId+"]를 추가 하였습니다..");
-	            	Registry.getInstance().disconnectionRequestQueue.put(connectionId);
-				} else {
-					// ConnectionTpye "INFO"인 경우로 connections 연결객체 MAP에서만 삭제한다.
-					connections.remove(connectionId);
-					logManager.info(String.format("[%s]는 연결객체 유형이 [%s]로 삭제 후 재연결이 필요 없는 객체입니다.\n", connectionId, connections.get(connectionId).getConnectionType()));
+			if(connections.get(connectionId).getConnectionType().equalsIgnoreCase("POOL") && !connections.get(connectionId).getConnectionObjectStatus().equalsIgnoreCase("SC")) {
+				if(Registry.getInstance().putDisconnRequest(connectionId)) {
+					logManager.info("지정 객체의 삭제요청을 연결종료 요청 큐에 ["+connectionId+"]를 추가 하였습니다..");
 				}
-            } else {
-            	logManager.info("이미 연결종료 요청큐에 ["+connectionId+"]가 있습니다.");
-            }
+			} else {
+				// ConnectionTpye "INFO"인 경우로 connections 연결객체 MAP에서만 삭제한다.
+				connections.remove(connectionId);
+				logManager.info(String.format("[%s]는 연결객체 유형이 [%s]로 삭제 후 재연결이 필요 없는 객체입니다.\n", connectionId, connections.get(connectionId).getConnectionType()));
+			}
 		}catch(Exception ex) {
 			logManager.error(String.format("["+connectionId+"] 연결종료 요청 큐에 넣는 중에 오류가 발생하였으므로 합당한 조치를 취하여 주십시요!!!"));
 		}
@@ -1027,4 +997,43 @@ public class ConnectionConfig {
     		this.initDefaultServerInfo(connObj);
     	}
     }
+    
+    
+    public String getConnectionIdByConnectable(Connectable connectable) {
+    	Optional<String> connectionId = this.connections.entrySet().stream()
+    					.filter(conn-> (conn.getValue() != null))
+    					.filter(conn-> connectable.equals(conn.getValue().getConnection()))
+    					.map(conn->conn.getKey())
+    					.findFirst();
+    	if(connectionId.isPresent()) return connectionId.get();
+    	return null;
+    }
+
+    /**
+     * ConnectionConfig 에서 connectionId 를 삭제하는 역할을 한다.
+     * 주의 : 하지만 여기서는 connectable 을 close 하지 않고 반환되는 곳에서 close 를 시도해야 한다.
+     * 다시 체크 필요함.
+     * @param connectionGroupId
+     * @param connectionKey
+     * @return
+     */
+    public Connectable removeConnection(String connectionGroupId, String connectionKey) {
+    	Connectable connectable = null;    	
+    	logManager.info(String.format("ConnectionConfig.disconnectConnection [%s;;%s] 연결 객체를 connection pool에서 삭제하도록 하겠습니다.\n", connectionGroupId, connectionKey));
+    	String connectionId = String.format(ConnectionObject.CID_FORMAT, connectionGroupId, connectionKey);
+    	
+    	if(this.connections.containsKey(connectionId)) {
+    		ConnectionObject connObj = this.connections.remove(connectionId); // connection Object 객체 정보를 삭제를 해준다.
+    		if(connObj != null) {
+				connectable = connObj.getConnection();
+				connObj.closeSession();
+				logManager.info(String.format("[%s] 연결객체를 삭제하도록 하겠습니다. \n", connObj.getConnectionId()));
+    		}
+    	} else {
+    		logManager.warn(String.format("[%s] 연결객체가 ConnectionManager 내에 없습니다. 삭제 전에 다시 한번 확인부탁드립니다.\n", connectionId));
+    	}
+    	
+    	return connectable;
+    }
+    
 }
