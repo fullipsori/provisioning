@@ -115,72 +115,79 @@
       <packaging:overrideValue>false</packaging:overrideValue>
     </packaging:property>
     <packaging:property>
-      <packaging:name>//PVSShared//BW.DEPLOYMENTUNIT.TYPE</packaging:name>
+      <packaging:name>//PVSMShared//BW.DEPLOYMENTUNIT.TYPE</packaging:name>
       <packaging:type>xsd:string</packaging:type>
       <packaging:visibility>private</packaging:visibility>
       <packaging:scalable>true</packaging:scalable>
       <packaging:overrideValue>false</packaging:overrideValue>
     </packaging:property>
     <packaging:property>
-      <packaging:name>//PVSShared//BW.APPNODE.NAME</packaging:name>
+      <packaging:name>//PVSMShared//BW.APPNODE.NAME</packaging:name>
       <packaging:type>xsd:string</packaging:type>
       <packaging:visibility>private</packaging:visibility>
       <packaging:scalable>true</packaging:scalable>
       <packaging:overrideValue>false</packaging:overrideValue>
     </packaging:property>
     <packaging:property>
-      <packaging:name>//PVSShared//BW.DEPLOYMENTUNIT.NAME</packaging:name>
+      <packaging:name>//PVSMShared//BW.DEPLOYMENTUNIT.NAME</packaging:name>
       <packaging:type>xsd:string</packaging:type>
       <packaging:visibility>private</packaging:visibility>
       <packaging:scalable>true</packaging:scalable>
       <packaging:overrideValue>false</packaging:overrideValue>
     </packaging:property>
     <packaging:property>
-      <packaging:name>//PVSShared//BW.HOST.NAME</packaging:name>
+      <packaging:name>//PVSMShared//BW.HOST.NAME</packaging:name>
       <packaging:type>xsd:string</packaging:type>
       <packaging:visibility>private</packaging:visibility>
       <packaging:scalable>true</packaging:scalable>
       <packaging:overrideValue>false</packaging:overrideValue>
     </packaging:property>
     <packaging:property>
-      <packaging:name>//PVSShared//BW.DOMAIN.NAME</packaging:name>
+      <packaging:name>//PVSMShared//BW.DOMAIN.NAME</packaging:name>
       <packaging:type>xsd:string</packaging:type>
       <packaging:visibility>private</packaging:visibility>
       <packaging:scalable>true</packaging:scalable>
       <packaging:overrideValue>false</packaging:overrideValue>
     </packaging:property>
     <packaging:property>
-      <packaging:name>//PVSShared//BW.DEPLOYMENTUNIT.VERSION</packaging:name>
+      <packaging:name>//PVSMShared//BW.DEPLOYMENTUNIT.VERSION</packaging:name>
       <packaging:type>xsd:string</packaging:type>
       <packaging:visibility>private</packaging:visibility>
       <packaging:scalable>true</packaging:scalable>
       <packaging:overrideValue>false</packaging:overrideValue>
     </packaging:property>
     <packaging:property>
-      <packaging:name>//PVSShared//BW.APPSPACE.NAME</packaging:name>
+      <packaging:name>//PVSMShared//BW.APPSPACE.NAME</packaging:name>
       <packaging:type>xsd:string</packaging:type>
       <packaging:visibility>private</packaging:visibility>
       <packaging:scalable>true</packaging:scalable>
       <packaging:overrideValue>false</packaging:overrideValue>
     </packaging:property>
     <packaging:property>
-      <packaging:name>//PVSShared//BW.MODULE.VERSION</packaging:name>
+      <packaging:name>//PVSMShared//BW.MODULE.VERSION</packaging:name>
       <packaging:type>xsd:string</packaging:type>
       <packaging:visibility>private</packaging:visibility>
       <packaging:scalable>true</packaging:scalable>
       <packaging:overrideValue>false</packaging:overrideValue>
     </packaging:property>
     <packaging:property>
-      <packaging:name>//PVSShared//BW.CLOUD.PORT</packaging:name>
+      <packaging:name>//PVSMShared//BW.CLOUD.PORT</packaging:name>
       <packaging:type>xsd:int</packaging:type>
       <packaging:visibility>private</packaging:visibility>
       <packaging:scalable>true</packaging:scalable>
       <packaging:overrideValue>false</packaging:overrideValue>
     </packaging:property>
     <packaging:property>
-      <packaging:name>//PVSShared//BW.MODULE.NAME</packaging:name>
+      <packaging:name>//PVSMShared//BW.MODULE.NAME</packaging:name>
       <packaging:type>xsd:string</packaging:type>
       <packaging:visibility>private</packaging:visibility>
+      <packaging:scalable>true</packaging:scalable>
+      <packaging:overrideValue>false</packaging:overrideValue>
+    </packaging:property>
+    <packaging:property>
+      <packaging:name>//NECommon//NECOMM.LOG_LEVEL</packaging:name>
+      <packaging:type>xsd:string</packaging:type>
+      <packaging:visibility>public</packaging:visibility>
       <packaging:scalable>true</packaging:scalable>
       <packaging:overrideValue>false</packaging:overrideValue>
     </packaging:property>
@@ -202,7 +209,7 @@
       <packaging:technologyVersion>1.0.0.qualifier</packaging:technologyVersion>
     </packaging:module>
     <packaging:module>
-      <packaging:symbolicName>PVSShared</packaging:symbolicName>
+      <packaging:symbolicName>PVSMShared</packaging:symbolicName>
       <packaging:technologyType>osgi-bundle,bw-sharedmodule</packaging:technologyType>
       <packaging:technologyVersion>1.0.0.qualifier</packaging:technologyVersion>
     </packaging:module>

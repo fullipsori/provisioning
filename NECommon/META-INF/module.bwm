@@ -9,6 +9,7 @@
   <sca:property xmi:id="_p2jy4GUeEeywf8kEgPIgmg" name="BW.MODULE.NAME" type="XMLSchema:string" scalable="true"/>
   <sca:property xmi:id="_cBtp8KRLEeyVi7G5i5VGMw" name="NECOMM.JMS_CONN_INFO" type="XMLSchema:string" publicAccess="true" scalable="true"/>
   <sca:property xmi:id="_cG99YKRLEeyVi7G5i5VGMw" name="NECOMM.ORA_CONN_INFO" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_lArcMOCoEeyTmLrhZVxUeA" name="NECOMM.LOG_LEVEL" type="XMLSchema:string" publicAccess="true" scalable="true"/>
   <sca:component xmi:id="_xEUaEGUeEeywf8kEgPIgmg" name="ComponentTCPConnect" compositeext:version="1.0.0.qualifier">
     <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_xEUaEWUeEeywf8kEgPIgmg" processName="ConnManager.Starter.OpenConnection"/>
   </sca:component>

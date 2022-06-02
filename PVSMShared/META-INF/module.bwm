@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sca:composite xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:BW="http://xsd.tns.tibco.com/amf/models/sca/implementationtype/BW" xmlns:XMLSchema="http://www.w3.org/2001/XMLSchema" xmlns:compositeext="http://schemas.tibco.com/amx/3.0/compositeext" xmlns:sca="http://www.osoa.org/xmlns/sca/1.0" xmlns:scaext="http://xsd.tns.tibco.com/amf/models/sca/extensions" xmi:id="_F4xpoLCQEeyALo7KGO5Qkw" targetNamespace="http://tns.tibco.com/bw/composite/PVSMShared" name="PVSMShared" compositeext:version="1.0.0" compositeext:formatVersion="2">
+  <sca:property xmi:id="_GCqlcLCQEeyALo7KGO5Qkw" name="BW.DEPLOYMENTUNIT.TYPE" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_GC1kkLCQEeyALo7KGO5Qkw" name="BW.APPNODE.NAME" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_GC4n4LCQEeyALo7KGO5Qkw" name="BW.DEPLOYMENTUNIT.NAME" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_GC52ALCQEeyALo7KGO5Qkw" name="BW.HOST.NAME" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_GC7rMLCQEeyALo7KGO5Qkw" name="BW.DOMAIN.NAME" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_GC-HcLCQEeyALo7KGO5Qkw" name="BW.DEPLOYMENTUNIT.VERSION" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_GC_8oLCQEeyALo7KGO5Qkw" name="BW.APPSPACE.NAME" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_GDCY4LCQEeyALo7KGO5Qkw" name="BW.MODULE.VERSION" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_GDE1ILCQEeyALo7KGO5Qkw" name="BW.MODULE.NAME" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_rENlgLCQEeyALo7KGO5Qkw" name="BW.CLOUD.PORT" type="XMLSchema:int" scalable="true"/>
+  <sca:component xmi:id="_IuG4ALCQEeyALo7KGO5Qkw" name="ComponentTimerProcess" compositeext:version="1.0.0.qualifier">
+    <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_IuG4AbCQEeyALo7KGO5Qkw" processName="pvsshared.TimerProcess"/>
+  </sca:component>
+</sca:composite>

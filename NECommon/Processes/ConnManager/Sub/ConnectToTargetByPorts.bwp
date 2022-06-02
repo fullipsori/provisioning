@@ -46,6 +46,7 @@
     xmlns:ns42="www.tibco.com/plugin/java/JavaInvokeActivityOutput+2c44b7b7-13c4-49ad-aea7-72ecf892e84a+JavaInvokeActivityOutput"
     xmlns:ns43="http://tns.tibco.com/bw/palette/internal/activityerror+2c44b7b7-13c4-49ad-aea7-72ecf892e84a"
     xmlns:ns44="http://tns.tibco.com/bw/palette/internal/errorlinkhandler+71653afc-1614-4d16-b2ec-4f184f3ad622"
+    xmlns:ns45="http://www.example.com/namespaces/tns/1653980060660"
     xmlns:ns5="www.tibco.com/plugin/java/JavaInvokeActivityOutput+5919b1ce-f36c-4a2c-841b-674f484667dc+JavaInvokeActivityOutput"
     xmlns:ns6="http://tns.tibco.com/bw/palette/internal/activityerror+5919b1ce-f36c-4a2c-841b-674f484667dc"
     xmlns:ns7="http://xmlns.tibco.com/2003/5/bw/plugins/tcp/tcpcloseconnection"
@@ -216,23 +217,6 @@
             </complexType>
             <element name="DuplicateKeyException" type="tns:DuplicateKeyExceptionType"/>
         </schema>
-        <xs:schema attributeFormDefault="unqualified"
-            elementFormDefault="qualified"
-            targetNamespace="http://www.tibco.com/pe/WriteToLogActivitySchema"
-            xmlns:tns="http://www.tibco.com/pe/WriteToLogActivitySchema" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-            <xs:complexType name="LogParametersType">
-                <xs:sequence>
-                    <xs:element form="unqualified" minOccurs="0"
-                        name="msgCode" type="xs:string"/>
-                    <xs:element form="unqualified" minOccurs="0"
-                        name="loggerName" type="xs:string"/>
-                    <xs:element form="unqualified" minOccurs="0"
-                        name="logLevel" type="xs:string"/>
-                    <xs:element form="unqualified" name="message" type="xs:string"/>
-                </xs:sequence>
-            </xs:complexType>
-            <xs:element name="ActivityInput" type="tns:LogParametersType"/>
-        </xs:schema>
         <schema elementFormDefault="unqualified"
             targetNamespace="http://www.example.org/JavaExceptions"
             xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.example.org/JavaExceptions">
@@ -625,62 +609,6 @@
                                     <children type="4005">
                                     <children type="3007">
 
-                                    <children type="4002 bw.generalactivities.log">
-
-                                    <children type="4017">
-
-                                    <styles
-                                    fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-
-                                    <layoutConstraint xsi:type="notation:Bounds"/>
-                                    </children>
-
-                                    <children type="4017">
-
-                                    <styles
-                                    fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-
-                                    <layoutConstraint xsi:type="notation:Bounds"/>
-                                    </children>
-
-                                    <children type="4017">
-
-                                    <styles
-                                    fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-
-                                    <layoutConstraint xsi:type="notation:Bounds"/>
-                                    </children>
-
-                                    <children type="4017">
-
-                                    <styles
-                                    fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-
-                                    <layoutConstraint xsi:type="notation:Bounds"/>
-                                    </children>
-
-                                    <styles
-                                    fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-
-                                    <styles
-                                    backgroundColor="16777215"
-                                    gradientEndColor="50431"
-                                    gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
-
-                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activities.1/@activity/@activity/@activities.2"/>
-
-                                    <layoutConstraint
-                                    height="40"
-                                    width="40"
-                                    x="300"
-                                    xsi:type="notation:Bounds" y="55"/>
-                                    </children>
-
                                     <children type="4002 bw.java.javamethod">
 
                                     <children type="4017">
@@ -728,7 +656,7 @@
                                     gradientEndColor="50431"
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
 
-                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activities.1/@activity/@activity/@activities.3"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activities.1/@activity/@activity/@activities.2"/>
 
                                     <layoutConstraint
                                     height="40"
@@ -784,67 +712,13 @@
                                     gradientEndColor="50431"
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
 
-                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activities.1/@activity/@activity/@activities.4"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activities.1/@activity/@activity/@activities.3"/>
 
                                     <layoutConstraint
                                     height="40"
                                     width="40"
                                     x="424"
                                     xsi:type="notation:Bounds" y="55"/>
-                                    </children>
-
-                                    <children type="4002">
-
-                                    <children type="4017">
-
-                                    <styles
-                                    fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-
-                                    <layoutConstraint xsi:type="notation:Bounds"/>
-                                    </children>
-
-                                    <children type="4017">
-
-                                    <styles
-                                    fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-
-                                    <layoutConstraint xsi:type="notation:Bounds"/>
-                                    </children>
-
-                                    <children type="4017">
-
-                                    <styles
-                                    fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-
-                                    <layoutConstraint xsi:type="notation:Bounds"/>
-                                    </children>
-
-                                    <children type="4017">
-
-                                    <styles
-                                    fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-
-                                    <layoutConstraint xsi:type="notation:Bounds"/>
-                                    </children>
-
-                                    <styles
-                                    fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-
-                                    <styles
-                                    backgroundColor="16777215"
-                                    gradientEndColor="50431"
-                                    gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
-
-                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activities.1/@activity/@activity/@activities.5"/>
-
-                                    <layoutConstraint
-                                    x="424"
-                                    xsi:type="notation:Bounds" y="202"/>
                                     </children>
 
                                     <children type="4002 bw.java.javamethod">
@@ -894,7 +768,7 @@
                                     gradientEndColor="50431"
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
 
-                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activities.1/@activity/@activity/@activities.6"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activities.1/@activity/@activity/@activities.4"/>
 
                                     <layoutConstraint
                                     height="40"
@@ -950,7 +824,7 @@
                                     gradientEndColor="50431"
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
 
-                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activities.1/@activity/@activity/@activities.7"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activities.1/@activity/@activity/@activities.5"/>
 
                                     <layoutConstraint
                                     height="40"
@@ -959,7 +833,119 @@
                                     xsi:type="notation:Bounds" y="55"/>
                                     </children>
 
-                                    <children type="4002">
+                                    <children type="4002 bw.java.javamethod">
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="맑은 고딕"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="맑은 고딕"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="맑은 고딕"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="맑은 고딕"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <styles
+                                    fontName="맑은 고딕"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <styles
+                                    backgroundColor="16777215"
+                                    gradientEndColor="50431"
+                                    gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
+
+                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activities.1/@activity/@activity/@activities.6"/>
+
+                                    <layoutConstraint
+                                    height="40"
+                                    width="40"
+                                    x="839"
+                                    xsi:type="notation:Bounds" y="55"/>
+                                    </children>
+
+                                    <children type="4002 bw.generalactivities.callprocess">
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="맑은 고딕"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="맑은 고딕"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="맑은 고딕"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="맑은 고딕"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <styles
+                                    fontName="맑은 고딕"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <styles
+                                    backgroundColor="16777215"
+                                    gradientEndColor="50431"
+                                    gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
+
+                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activities.1/@activity/@activity/@activities.7"/>
+
+                                    <layoutConstraint
+                                    height="40"
+                                    width="40"
+                                    x="258"
+                                    xsi:type="notation:Bounds" y="135"/>
+                                    </children>
+
+                                    <children type="4002 bw.generalactivities.callprocess">
 
                                     <children type="4017">
 
@@ -1009,11 +995,13 @@
                                     <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activities.1/@activity/@activity/@activities.8"/>
 
                                     <layoutConstraint
-                                    x="701"
-                                    xsi:type="notation:Bounds" y="202"/>
+                                    height="40"
+                                    width="40"
+                                    x="376"
+                                    xsi:type="notation:Bounds" y="217"/>
                                     </children>
 
-                                    <children type="4002 bw.java.javamethod">
+                                    <children type="4002 bw.generalactivities.callprocess">
 
                                     <children type="4017">
 
@@ -1065,8 +1053,8 @@
                                     <layoutConstraint
                                     height="40"
                                     width="40"
-                                    x="839"
-                                    xsi:type="notation:Bounds" y="55"/>
+                                    x="762"
+                                    xsi:type="notation:Bounds" y="202"/>
                                     </children>
                                     <styles xsi:type="notation:DrawerStyle"/>
                                     <styles xsi:type="notation:SortingStyle"/>
@@ -1084,7 +1072,7 @@
                                     <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activities.1/@activity/@activity"/>
 
                                     <layoutConstraint
-                                    height="309"
+                                    height="312"
                                     width="1057" xsi:type="notation:Bounds"/>
                                     </children>
                                     <styles xsi:type="notation:SortingStyle"/>
@@ -1098,7 +1086,7 @@
                                     <styles xsi:type="bwnotation:ResizingStyle"/>
                                     <element href="//0/@process/@activity/@activity/@activities.2"/>
                                     <layoutConstraint
-                                    height="309"
+                                    height="312"
                                     width="1060"
                                     x="15"
                                     xsi:type="notation:Bounds" y="20"/>
@@ -1195,7 +1183,7 @@
                                     <styles xsi:type="bwnotation:ResizingStyle"/>
                                     <element href="//0/@process/@activity/@activity/@activities.2"/>
                                     <layoutConstraint
-                                    height="353"
+                                    height="356"
                                     width="1100" x="124"
                                     xsi:type="notation:Bounds" y="-3"/>
                                     </children>
@@ -1306,7 +1294,7 @@
         </edges>
         <edges
             source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.1"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.1" type="4006">
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0" type="4006">
             <children type="6002">
                 <layoutConstraint xsi:type="notation:Location" y="40"/>
             </children>
@@ -1328,8 +1316,8 @@
             <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
         </edges>
         <edges
-            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2" type="4006">
+            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.5"
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.1" type="4006">
             <children type="6002">
                 <layoutConstraint xsi:type="notation:Location" y="40"/>
             </children>
@@ -1337,10 +1325,11 @@
             <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
             <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activities.1/@activity/@activity/@links/@children.1"/>
             <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
+            <sourceAnchor id="(1.0,0.4897959183673469)" xsi:type="notation:IdentityAnchor"/>
         </edges>
         <edges
-            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.1"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0" type="4006">
+            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0"
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.5" type="4006">
             <children type="6002">
                 <layoutConstraint xsi:type="notation:Location" y="40"/>
             </children>
@@ -1348,21 +1337,23 @@
             <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
             <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activities.1/@activity/@activity/@links/@children.2"/>
             <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
+            <targetAnchor id="(0.0,0.6122448979591837)" xsi:type="notation:IdentityAnchor"/>
         </edges>
         <edges
-            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3" type="4006">
+            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.1"
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.6" type="4006">
             <children type="6002">
                 <layoutConstraint xsi:type="notation:Location" y="40"/>
             </children>
             <styles lineColor="255" xsi:type="notation:ConnectorStyle"/>
             <styles fontColor="255" fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
             <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activities.1/@activity/@activity/@links/@children.3"/>
-            <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
+            <bendpoints
+                points="[-24, 13, 24, -149]$[-41, 13, 7, -149]$[-41, 138, 7, -24]" xsi:type="notation:RelativeBendpoints"/>
         </edges>
         <edges
-            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.5"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.7" type="4006">
+            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3"
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.4" type="4006">
             <children type="6002">
                 <layoutConstraint xsi:type="notation:Location" y="40"/>
             </children>
@@ -1372,8 +1363,8 @@
             <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
         </edges>
         <edges
-            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.5"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.6" type="4006">
+            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3"
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.7" type="4006">
             <children type="6002">
                 <layoutConstraint xsi:type="notation:Location" y="40"/>
             </children>
@@ -1381,9 +1372,10 @@
             <styles fontColor="255" fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
             <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activities.1/@activity/@activity/@links/@children.5"/>
             <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
+            <targetAnchor id="(0.5102040816326531,0.10204081632653061)" xsi:type="notation:IdentityAnchor"/>
         </edges>
         <edges
-            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.7"
+            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.4"
             target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.2" type="4006">
             <children type="6002">
                 <layoutConstraint xsi:type="notation:Location" y="40"/>
@@ -1394,8 +1386,8 @@
             <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
         </edges>
         <edges
-            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.4" type="4006">
+            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.1"
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2" type="4006">
             <children type="6002">
                 <layoutConstraint xsi:type="notation:Location" y="40"/>
             </children>
@@ -1405,8 +1397,8 @@
             <bendpoints points="[25, 7, -190, 0]$[191, 0, -24, -7]" xsi:type="notation:RelativeBendpoints"/>
         </edges>
         <edges
-            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.4"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.5" type="4006">
+            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2"
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3" type="4006">
             <children type="6002">
                 <layoutConstraint xsi:type="notation:Location" y="40"/>
             </children>
@@ -1414,6 +1406,18 @@
             <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
             <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activities.1/@activity/@activity/@links/@children.8"/>
             <bendpoints points="[25, 0, -102, 0]$[103, 0, -24, 0]" xsi:type="notation:RelativeBendpoints"/>
+        </edges>
+        <edges
+            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.6"
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2" type="4006">
+            <children type="6002">
+                <layoutConstraint xsi:type="notation:Location" y="40"/>
+            </children>
+            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
+            <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
+            <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activities.1/@activity/@activity/@links/@children.9"/>
+            <bendpoints
+                points="[23, -24, -113, 123]$[113, -122, -23, 25]" xsi:type="notation:RelativeBendpoints"/>
         </edges>
     </notation:Diagram>
     <tibex:NamespaceRegistry enabled="true">
@@ -1445,8 +1449,11 @@
             namespace="www.tibco.com/plugin/java/JavaInvokeActivityInput+71653afc-1614-4d16-b2ec-4f184f3ad622+JavaInvokeActivityInput" prefix="tns11"/>
         <tibex:namespaceItem
             namespace="http://www.tibco.com/namespaces/tnt/plugins/tcp" prefix="tns12"/>
+        <tibex:namespaceItem
+            namespace="http://www.example.com/namespaces/tns/1653980060660" prefix="tns13"/>
     </tibex:NamespaceRegistry>
     <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.org/AppControl"/>
+    <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.com/namespaces/tns/1653980060660"/>
     <bpws:variables>
         <bpws:variable element="ns:ProcessContext"
             name="_processContext" sca-bpel:internal="true"/>
@@ -1468,8 +1475,6 @@
         <bpws:variable name="Msg" type="xsd:string"/>
         <bpws:variable element="ns21:command" name="Start"
             sca-bpel:internal="true" tibex:parameter="in"/>
-        <bpws:variable element="ns0:ActivityInput"
-            name="PortBasedMoveLog-input" sca-bpel:internal="true"/>
         <bpws:variable element="ns31:JavaInvokeActivityInput"
             name="GetBWConnectionByConnectionId-input" sca-bpel:internal="true"/>
         <bpws:variable element="ns32:JavaInvokeActivityOutput"
@@ -1480,8 +1485,6 @@
             name="TCPCloseConnection-input" sca-bpel:internal="true"/>
         <bpws:variable element="ns34:ErrorLinkHandlerFaultData"
             name="_error_TCPCloseConnection" sca-bpel:internal="true"/>
-        <bpws:variable element="ns0:ActivityInput"
-            name="CloseErrLog-input" sca-bpel:internal="true"/>
         <bpws:variable name="FaultName" sca-bpel:internal="true" type="xsd:string"/>
         <bpws:variable element="ns:OptionalErrorReport"
             name="_errorOptional" sca-bpel:internal="true"/>
@@ -1505,14 +1508,16 @@
             name="TCPOpenConnection" sca-bpel:internal="true"/>
         <bpws:variable element="ns40:ErrorLinkHandlerFaultData"
             name="_error_TCPOpenConnection" sca-bpel:internal="true"/>
-        <bpws:variable element="ns0:ActivityInput"
-            name="OpenErrLog-input" sca-bpel:internal="true"/>
         <bpws:variable element="ns41:JavaInvokeActivityInput"
             name="AddConnectionToPool-input" sca-bpel:internal="true"/>
         <bpws:variable element="ns42:JavaInvokeActivityOutput"
             name="AddConnectionToPool" sca-bpel:internal="true"/>
         <bpws:variable element="ns43:ActivityErrorData"
             name="_error_AddConnectionToPool" sca-bpel:internal="true"/>
+        <bpws:variable element="ns45:Element"
+            name="PortBasedMoveToLog-input" sca-bpel:internal="true"/>
+        <bpws:variable element="ns45:Element" name="closeErrLog-input" sca-bpel:internal="true"/>
+        <bpws:variable element="ns45:Element" name="OpenErrLog-input" sca-bpel:internal="true"/>
     </bpws:variables>
     <bpws:extensions>
         <bpws:extension mustUnderstand="no" namespace="http://www.eclipse.org/gmf/runtime/1.0.2/notation"/>
@@ -1592,20 +1597,24 @@
                                 <bpws:links>
                                     <bpws:link
                                     name="GroupStartToGetBWConnectionByConnectionId" tibex:linkType="SUCCESS"/>
-                                    <bpws:link name="LogToGroupEnd" tibex:linkType="SUCCESS"/>
-                                    <bpws:link name="JavaInvokeToLog" tibex:linkType="SUCCESS"/>
                                     <bpws:link
-                                    name="TCPCloseConnectionToLog" tibex:linkType="ERROR"/>
+                                    name="TCPDisconnectLogToTCPCloseConnection" tibex:linkType="SUCCESS"/>
+                                    <bpws:link
+                                    name="GetBWConnectionByConnectionIdToTCPDisconnectLog" tibex:linkType="SUCCESS"/>
+                                    <bpws:link
+                                    name="TCPCloseConnectionToCopy_1_PortBasedMoveTo" tibex:linkType="ERROR"/>
                                     <bpws:link
                                     name="TCPOpenConnectionToGroupEnd" tibex:linkType="SUCCESS"/>
                                     <bpws:link
-                                    name="TCPOpenConnectionToLog" tibex:linkType="ERROR"/>
+                                    name="TCPOpenConnectionToCopy_1_closeErrLog" tibex:linkType="ERROR"/>
                                     <bpws:link
                                     name="JavaInvokeToGroupEnd1" tibex:linkType="SUCCESS"/>
                                     <bpws:link
                                     name="TCPCloseConnectionToGetTargetInfoByServerType" tibex:linkType="SUCCESS"/>
                                     <bpws:link
                                     name="GetTargetInfoByServerTypeToTCPOpenConnection" tibex:linkType="SUCCESS"/>
+                                    <bpws:link
+                                    name="Copy_1_PortBasedMoveToToGetTargetInfoByServerType" tibex:linkType="SUCCESS"/>
                                 </bpws:links>
                                 <bpws:assign name="GroupStart"
                                     tibex:group="groupStart"
@@ -1626,41 +1635,6 @@
                                 </bpws:empty>
                                 <bpws:extensionActivity>
                                     <tibex:activityExtension
-                                    inputVariable="PortBasedMoveLog-input"
-                                    name="PortBasedMoveLog"
-                                    tibex:xpdlId="935fa6b0-c6e3-4528-bf31-01031dfe5991" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
-                                    <bpws:targets>
-                                    <bpws:target linkName="JavaInvokeToLog"/>
-                                    </bpws:targets>
-                                    <bpws:sources>
-                                    <bpws:source linkName="LogToGroupEnd"/>
-                                    </bpws:sources>
-                                    <tibex:inputBindings>
-                                    <tibex:inputBinding
-                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns=&quot;http://www.tibco.com/pe/WriteToLogActivitySchema&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;index&quot;/>&lt;xsl:param name=&quot;changeTargetServerBasedOnPorts&quot;/>&lt;xsl:param name=&quot;GetBWConnectionByConnectionId&quot;/>&lt;xsl:template name=&quot;Log-input&quot; match=&quot;/&quot;>&lt;tns:ActivityInput>&lt;message>&lt;xsl:value-of select=&quot;concat(&amp;quot;[&amp;quot;,xsd:string($index),&amp;quot;][&amp;quot;,$changeTargetServerBasedOnPorts/MethodReturnValue[$index],&amp;quot;][&amp;quot;,xsd:string($GetBWConnectionByConnectionId/MethodReturnValue),&amp;quot;]&amp;quot;)&quot;/>&lt;/message>&lt;/tns:ActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
-                                    </tibex:inputBindings>
-                                    <tibex:config>
-                                    <bwext:BWActivity
-                                    activityTypeID="bw.generalactivities.log"
-                                    version="6.0.0.001"
-                                    xmlns:activityconfig="http://tns.tibco.com/bw/model/activityconfig"
-                                    xmlns:bwext="http://tns.tibco.com/bw/model/core/bwext"
-                                    xmlns:generalactivities="http://ns.tibco.com/bw/palette/generalactivities" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                    <activityConfig>
-                                    <properties
-                                    name="config" xsi:type="activityconfig:EMFProperty">
-                                    <type href="http://ns.tibco.com/bw/palette/generalactivities#//Log"/>
-                                    <value
-                                    role="Info"
-                                    suppressJobInfo="true" xsi:type="generalactivities:Log"/>
-                                    </properties>
-                                    </activityConfig>
-                                    </bwext:BWActivity>
-                                    </tibex:config>
-                                    </tibex:activityExtension>
-                                </bpws:extensionActivity>
-                                <bpws:extensionActivity>
-                                    <tibex:activityExtension
                                     inputVariable="GetBWConnectionByConnectionId-input"
                                     name="GetBWConnectionByConnectionId"
                                     outputVariable="GetBWConnectionByConnectionId"
@@ -1669,7 +1643,7 @@
                                     <bpws:target linkName="GroupStartToGetBWConnectionByConnectionId"/>
                                     </bpws:targets>
                                     <bpws:sources>
-                                    <bpws:source linkName="JavaInvokeToLog"/>
+                                    <bpws:source linkName="GetBWConnectionByConnectionIdToTCPDisconnectLog"/>
                                     </bpws:sources>
                                     <tibex:inputBindings>
                                     <tibex:inputBinding
@@ -1708,11 +1682,11 @@
                                     name="TCPCloseConnection"
                                     tibex:xpdlId="d8102dd9-2169-4e15-854d-be64f97d605e" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
                                     <bpws:targets>
-                                    <bpws:target linkName="LogToGroupEnd"/>
+                                    <bpws:target linkName="TCPDisconnectLogToTCPCloseConnection"/>
                                     </bpws:targets>
                                     <bpws:sources>
                                     <bpws:source
-                                    linkName="TCPCloseConnectionToLog"
+                                    linkName="TCPCloseConnectionToCopy_1_PortBasedMoveTo"
                                     tibex:faultDetailsVar="_error" tibex:faultNameVar="FaultName">
                                     <tibex:DesignExpression>
                                     <tibex:expression
@@ -1746,44 +1720,13 @@
                                 </bpws:extensionActivity>
                                 <bpws:extensionActivity>
                                     <tibex:activityExtension
-                                    inputVariable="CloseErrLog-input"
-                                    name="CloseErrLog"
-                                    tibex:xpdlId="05a421a3-292e-4c90-92cc-bcb13d3f0ee8" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
-                                    <bpws:targets>
-                                    <bpws:target linkName="TCPCloseConnectionToLog"/>
-                                    </bpws:targets>
-                                    <tibex:inputBindings>
-                                    <tibex:inputBinding
-                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns=&quot;http://www.tibco.com/pe/WriteToLogActivitySchema&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;_error&quot;/>&lt;xsl:template name=&quot;CloseErrLog-input&quot; match=&quot;/&quot;>&lt;tns:ActivityInput>&lt;message>&lt;xsl:value-of select=&quot;concat($_error/MsgCode,&amp;quot; : &amp;quot;,$_error/Msg)&quot;/>&lt;/message>&lt;/tns:ActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
-                                    </tibex:inputBindings>
-                                    <tibex:config>
-                                    <bwext:BWActivity
-                                    activityTypeID="bw.generalactivities.log"
-                                    version="6.0.0.001"
-                                    xmlns:activityconfig="http://tns.tibco.com/bw/model/activityconfig"
-                                    xmlns:bwext="http://tns.tibco.com/bw/model/core/bwext"
-                                    xmlns:generalactivities="http://ns.tibco.com/bw/palette/generalactivities" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                    <activityConfig>
-                                    <properties
-                                    name="config" xsi:type="activityconfig:EMFProperty">
-                                    <type href="http://ns.tibco.com/bw/palette/generalactivities#//Log"/>
-                                    <value
-                                    role="Info"
-                                    suppressJobInfo="true" xsi:type="generalactivities:Log"/>
-                                    </properties>
-                                    </activityConfig>
-                                    </bwext:BWActivity>
-                                    </tibex:config>
-                                    </tibex:activityExtension>
-                                </bpws:extensionActivity>
-                                <bpws:extensionActivity>
-                                    <tibex:activityExtension
                                     inputVariable="GetTargetInfoByServerType-input"
                                     name="GetTargetInfoByServerType"
                                     outputVariable="GetTargetInfoByServerType"
                                     tibex:xpdlId="71653afc-1614-4d16-b2ec-4f184f3ad622" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
                                     <bpws:targets>
                                     <bpws:target linkName="TCPCloseConnectionToGetTargetInfoByServerType"/>
+                                    <bpws:target linkName="Copy_1_PortBasedMoveToToGetTargetInfoByServerType"/>
                                     </bpws:targets>
                                     <bpws:sources>
                                     <bpws:source linkName="GetTargetInfoByServerTypeToTCPOpenConnection"/>
@@ -1834,7 +1777,7 @@
                                     <bpws:sources>
                                     <bpws:source linkName="TCPOpenConnectionToGroupEnd"/>
                                     <bpws:source
-                                    linkName="TCPOpenConnectionToLog"
+                                    linkName="TCPOpenConnectionToCopy_1_closeErrLog"
                                     tibex:faultDetailsVar="TCPOpenConnection" tibex:faultNameVar="FaultName">
                                     <tibex:DesignExpression>
                                     <tibex:expression
@@ -1861,38 +1804,6 @@
                                     <value
                                     localHost=""
                                     tcpConnection="tcpConnectionProperty" xsi:type="tcpPalette:TCPOpenConnection"/>
-                                    </properties>
-                                    </activityConfig>
-                                    </bwext:BWActivity>
-                                    </tibex:config>
-                                    </tibex:activityExtension>
-                                </bpws:extensionActivity>
-                                <bpws:extensionActivity>
-                                    <tibex:activityExtension
-                                    inputVariable="OpenErrLog-input"
-                                    name="OpenErrLog"
-                                    tibex:xpdlId="99c4567c-c659-42c7-9e8d-e74078718a2c" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
-                                    <bpws:targets>
-                                    <bpws:target linkName="TCPOpenConnectionToLog"/>
-                                    </bpws:targets>
-                                    <tibex:inputBindings>
-                                    <tibex:inputBinding
-                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns=&quot;http://www.tibco.com/pe/WriteToLogActivitySchema&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;_error&quot;/>&lt;xsl:template name=&quot;OpenErrLog-input&quot; match=&quot;/&quot;>&lt;tns:ActivityInput>&lt;message>&lt;xsl:value-of select=&quot;concat($_error/MsgCode,&amp;quot; : &amp;quot;,$_error/Msg)&quot;/>&lt;/message>&lt;/tns:ActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
-                                    </tibex:inputBindings>
-                                    <tibex:config>
-                                    <bwext:BWActivity
-                                    activityTypeID="bw.generalactivities.log"
-                                    version="6.0.0.001"
-                                    xmlns:activityconfig="http://tns.tibco.com/bw/model/activityconfig"
-                                    xmlns:bwext="http://tns.tibco.com/bw/model/core/bwext"
-                                    xmlns:generalactivities="http://ns.tibco.com/bw/palette/generalactivities" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                    <activityConfig>
-                                    <properties
-                                    name="config" xsi:type="activityconfig:EMFProperty">
-                                    <type href="http://ns.tibco.com/bw/palette/generalactivities#//Log"/>
-                                    <value
-                                    role="Info"
-                                    suppressJobInfo="true" xsi:type="generalactivities:Log"/>
                                     </properties>
                                     </activityConfig>
                                     </bwext:BWActivity>
@@ -1944,6 +1855,67 @@
                                     </bwext:BWActivity>
                                     </tibex:config>
                                     </tibex:activityExtension>
+                                </bpws:extensionActivity>
+                                <bpws:extensionActivity>
+                                    <tibex:extActivity
+                                    inputVariable="PortBasedMoveToLog-input"
+                                    name="PortBasedMoveToLog"
+                                    tibex:xpdlId="8315053f-71c8-40b0-b49b-095f6e26d445"
+                                    type="bw.generalactivities.callprocess" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
+                                    <bpws:targets>
+                                    <bpws:target linkName="GetBWConnectionByConnectionIdToTCPDisconnectLog"/>
+                                    </bpws:targets>
+                                    <bpws:sources>
+                                    <bpws:source linkName="TCPDisconnectLogToTCPCloseConnection"/>
+                                    </bpws:sources>
+                                    <tibex:inputBindings>
+                                    <tibex:inputBinding
+                                    coercion=""
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns13=&quot;http://www.example.com/namespaces/tns/1653980060660&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;index&quot;/>&lt;xsl:param name=&quot;changeTargetServerBasedOnPorts&quot;/>&lt;xsl:param name=&quot;GetBWConnectionByConnectionId&quot;/>&lt;xsl:template name=&quot;PortBasedMoveToLog-input&quot; match=&quot;/&quot;>&lt;tns13:Element>&lt;tns13:pname>&lt;xsl:value-of select=&quot;&amp;quot;ConnectToTargetByPorts&amp;quot;&quot;/>&lt;/tns13:pname>&lt;tns13:level>&lt;xsl:value-of select=&quot;&amp;quot;info&amp;quot;&quot;/>&lt;/tns13:level>&lt;tns13:log>&lt;xsl:value-of select=&quot;concat(&amp;quot;[&amp;quot;,xsd:string($index),&amp;quot;][&amp;quot;,$changeTargetServerBasedOnPorts/MethodReturnValue[$index],&amp;quot;][&amp;quot;,xsd:string($GetBWConnectionByConnectionId/MethodReturnValue),&amp;quot;]&amp;quot;)&quot;/>&lt;/tns13:log>&lt;/tns13:Element>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                                    </tibex:inputBindings>
+                                    <tibex:CallProcess
+                                    subProcessName="ConnManager.Sub.LogProcess" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions"/>
+                                    </tibex:extActivity>
+                                </bpws:extensionActivity>
+                                <bpws:extensionActivity>
+                                    <tibex:extActivity
+                                    inputVariable="closeErrLog-input"
+                                    name="closeErrLog"
+                                    tibex:xpdlId="309d1038-60d8-4a80-8f70-93b8252b50f9"
+                                    type="bw.generalactivities.callprocess" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
+                                    <bpws:targets>
+                                    <bpws:target linkName="TCPCloseConnectionToCopy_1_PortBasedMoveTo"/>
+                                    </bpws:targets>
+                                    <bpws:sources>
+                                    <bpws:source linkName="Copy_1_PortBasedMoveToToGetTargetInfoByServerType"/>
+                                    </bpws:sources>
+                                    <tibex:inputBindings>
+                                    <tibex:inputBinding
+                                    coercion=""
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns13=&quot;http://www.example.com/namespaces/tns/1653980060660&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;_error&quot;/>&lt;xsl:template name=&quot;closeErrLog-input&quot; match=&quot;/&quot;>&lt;tns13:Element>&lt;tns13:pname>&lt;xsl:value-of select=&quot;&amp;quot;ConnectToTargetByPorts&amp;quot;&quot;/>&lt;/tns13:pname>&lt;tns13:level>&lt;xsl:value-of select=&quot;&amp;quot;error&amp;quot;&quot;/>&lt;/tns13:level>&lt;tns13:log>&lt;xsl:value-of select=&quot;concat($_error/MsgCode,&amp;quot; : &amp;quot;,$_error/Msg)&quot;/>&lt;/tns13:log>&lt;/tns13:Element>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                                    </tibex:inputBindings>
+                                    <tibex:CallProcess
+                                    subProcessName="ConnManager.Sub.LogProcess" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions"/>
+                                    </tibex:extActivity>
+                                </bpws:extensionActivity>
+                                <bpws:extensionActivity>
+                                    <tibex:extActivity
+                                    inputVariable="OpenErrLog-input"
+                                    name="OpenErrLog"
+                                    tibex:xpdlId="9cfd4afe-72c7-4457-a349-e0bbb16862a6"
+                                    type="bw.generalactivities.callprocess" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
+                                    <bpws:targets>
+                                    <bpws:target linkName="TCPOpenConnectionToCopy_1_closeErrLog"/>
+                                    </bpws:targets>
+                                    <bpws:sources/>
+                                    <tibex:inputBindings>
+                                    <tibex:inputBinding
+                                    coercion=""
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns13=&quot;http://www.example.com/namespaces/tns/1653980060660&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;_error&quot;/>&lt;xsl:template name=&quot;OpenErrLog-input&quot; match=&quot;/&quot;>&lt;tns13:Element>&lt;tns13:pname>&lt;xsl:value-of select=&quot;&amp;quot;ConnectToTargetByPorts&amp;quot;&quot;/>&lt;/tns13:pname>&lt;tns13:level>&lt;xsl:value-of select=&quot;&amp;quot;error&amp;quot;&quot;/>&lt;/tns13:level>&lt;tns13:log>&lt;xsl:value-of select=&quot;concat(&amp;quot;ConnectToTargetByPorts:&amp;quot;,$_error/MsgCode,&amp;quot; : &amp;quot;,$_error/Msg)&quot;/>&lt;/tns13:log>&lt;/tns13:Element>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                                    </tibex:inputBindings>
+                                    <tibex:CallProcess
+                                    subProcessName="ConnManager.Sub.LogProcess" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions"/>
+                                    </tibex:extActivity>
                                 </bpws:extensionActivity>
                             </bpws:flow>
                         </bpws:scope>

@@ -14,6 +14,7 @@
     xmlns:ns14="www.tibco.com/plugin/java/JavaInvokeActivityInput+e6da933c-aeaa-4684-aaa8-f943ae7d199c+JavaInvokeActivityInput"
     xmlns:ns15="www.tibco.com/plugin/java/JavaInvokeActivityOutput+e6da933c-aeaa-4684-aaa8-f943ae7d199c+JavaInvokeActivityOutput"
     xmlns:ns16="http://tns.tibco.com/bw/palette/internal/activityerror+e6da933c-aeaa-4684-aaa8-f943ae7d199c"
+    xmlns:ns17="http://www.example.com/namespaces/tns/1653980060660"
     xmlns:ns2="http://tns.tibco.com/bw/palette/internal/activityerror+bw.tcp.tcpopenconnection"
     xmlns:ns3="www.tibco.com/plugin/java/JavaInvokeActivityInput+7a2df39d-d37a-4c27-8286-0437f8943af9+JavaInvokeActivityInput"
     xmlns:ns4="www.tibco.com/plugin/java/JavaInvokeActivityOutput+7a2df39d-d37a-4c27-8286-0437f8943af9+JavaInvokeActivityOutput"
@@ -333,23 +334,6 @@
                 </choice>
             </complexType>
         </schema>
-        <xs:schema attributeFormDefault="unqualified"
-            elementFormDefault="qualified"
-            targetNamespace="http://www.tibco.com/pe/WriteToLogActivitySchema"
-            xmlns:tns="http://www.tibco.com/pe/WriteToLogActivitySchema" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-            <xs:complexType name="LogParametersType">
-                <xs:sequence>
-                    <xs:element form="unqualified" minOccurs="0"
-                        name="msgCode" type="xs:string"/>
-                    <xs:element form="unqualified" minOccurs="0"
-                        name="loggerName" type="xs:string"/>
-                    <xs:element form="unqualified" minOccurs="0"
-                        name="logLevel" type="xs:string"/>
-                    <xs:element form="unqualified" name="message" type="xs:string"/>
-                </xs:sequence>
-            </xs:complexType>
-            <xs:element name="ActivityInput" type="tns:LogParametersType"/>
-        </xs:schema>
         <schema attributeFormDefault="unqualified"
             elementFormDefault="qualified"
             targetNamespace="www.tibco.com/plugin/java/JavaInvokeActivityInput+50bb7784-cc54-4b41-a097-03b15c71d978+JavaInvokeActivityInput"
@@ -571,57 +555,20 @@
                                     <layoutConstraint x="975"
                                     xsi:type="notation:Bounds" y="60"/>
                                     </children>
-                                    <children type="4002 bw.generalactivities.log">
-                                    <children type="4017">
-                                    <styles fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.2"/>
-                                    <layoutConstraint xsi:type="notation:Bounds"/>
-                                    </children>
-                                    <children type="4017">
-                                    <styles fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.2"/>
-                                    <layoutConstraint xsi:type="notation:Bounds"/>
-                                    </children>
-                                    <children type="4017">
-                                    <styles fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.2"/>
-                                    <layoutConstraint xsi:type="notation:Bounds"/>
-                                    </children>
-                                    <children type="4017">
-                                    <styles fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.2"/>
-                                    <layoutConstraint xsi:type="notation:Bounds"/>
-                                    </children>
-                                    <styles fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <styles
-                                    backgroundColor="16777215"
-                                    gradientEndColor="50431"
-                                    gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.2"/>
-                                    <layoutConstraint
-                                    height="40" width="40"
-                                    x="27"
-                                    xsi:type="notation:Bounds" y="44"/>
-                                    </children>
                                     <children type="4018">
                                     <children type="3018">
                                     <children type="4019">
                                     <children type="3019">
                                     <styles xsi:type="notation:SortingStyle"/>
                                     <styles xsi:type="notation:FilteringStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.3/@variables"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2/@variables"/>
                                     </children>
                                     <styles
                                     fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
                                     <styles xsi:type="bwnotation:BackgroundStyle"/>
                                     <styles xsi:type="bwnotation:ResizingStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.3/@variables"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2/@variables"/>
                                     <layoutConstraint
                                     height="20"
                                     width="794"
@@ -640,7 +587,7 @@
                                     fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
 
-                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity/@activities.2"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activity/@activity/@activities.2"/>
 
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
@@ -651,7 +598,7 @@
                                     fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
 
-                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity/@activities.2"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activity/@activity/@activities.2"/>
 
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
@@ -662,7 +609,7 @@
                                     fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
 
-                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity/@activities.2"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activity/@activity/@activities.2"/>
 
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
@@ -673,7 +620,7 @@
                                     fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
 
-                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity/@activities.2"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activity/@activity/@activities.2"/>
 
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
@@ -687,7 +634,7 @@
                                     gradientEndColor="50431"
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
 
-                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity/@activities.2"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activity/@activity/@activities.2"/>
 
                                     <layoutConstraint
                                     x="430"
@@ -702,7 +649,7 @@
                                     fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
 
-                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity/@activities.3"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activity/@activity/@activities.3"/>
 
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
@@ -713,7 +660,7 @@
                                     fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
 
-                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity/@activities.3"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activity/@activity/@activities.3"/>
 
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
@@ -724,7 +671,7 @@
                                     fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
 
-                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity/@activities.3"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activity/@activity/@activities.3"/>
 
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
@@ -735,7 +682,7 @@
                                     fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
 
-                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity/@activities.3"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activity/@activity/@activities.3"/>
 
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
@@ -749,76 +696,12 @@
                                     gradientEndColor="50431"
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
 
-                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity/@activities.3"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activity/@activity/@activities.3"/>
 
                                     <layoutConstraint
                                     height="40"
                                     width="40"
                                     x="161"
-                                    xsi:type="notation:Bounds" y="45"/>
-                                    </children>
-
-                                    <children type="4002 bw.generalactivities.log">
-
-                                    <children type="4017">
-
-                                    <styles
-                                    fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-
-                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity/@activities.4"/>
-
-                                    <layoutConstraint xsi:type="notation:Bounds"/>
-                                    </children>
-
-                                    <children type="4017">
-
-                                    <styles
-                                    fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-
-                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity/@activities.4"/>
-
-                                    <layoutConstraint xsi:type="notation:Bounds"/>
-                                    </children>
-
-                                    <children type="4017">
-
-                                    <styles
-                                    fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-
-                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity/@activities.4"/>
-
-                                    <layoutConstraint xsi:type="notation:Bounds"/>
-                                    </children>
-
-                                    <children type="4017">
-
-                                    <styles
-                                    fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-
-                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity/@activities.4"/>
-
-                                    <layoutConstraint xsi:type="notation:Bounds"/>
-                                    </children>
-
-                                    <styles
-                                    fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-
-                                    <styles
-                                    backgroundColor="16777215"
-                                    gradientEndColor="50431"
-                                    gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
-
-                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity/@activities.4"/>
-
-                                    <layoutConstraint
-                                    height="40"
-                                    width="40"
-                                    x="283"
                                     xsi:type="notation:Bounds" y="45"/>
                                     </children>
 
@@ -830,7 +713,7 @@
                                     fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
 
-                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity/@activities.5"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activity/@activity/@activities.4"/>
 
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
@@ -841,7 +724,7 @@
                                     fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
 
-                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity/@activities.5"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activity/@activity/@activities.4"/>
 
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
@@ -852,7 +735,7 @@
                                     fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
 
-                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity/@activities.5"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activity/@activity/@activities.4"/>
 
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
@@ -863,7 +746,7 @@
                                     fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
 
-                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity/@activities.5"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activity/@activity/@activities.4"/>
 
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
@@ -877,7 +760,7 @@
                                     gradientEndColor="50431"
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
 
-                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity/@activities.5"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activity/@activity/@activities.4"/>
 
                                     <layoutConstraint
                                     height="40"
@@ -885,10 +768,66 @@
                                     x="29"
                                     xsi:type="notation:Bounds" y="45"/>
                                     </children>
+
+                                    <children type="4002 bw.generalactivities.callprocess">
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="맑은 고딕"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="맑은 고딕"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="맑은 고딕"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="맑은 고딕"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <styles
+                                    fontName="맑은 고딕"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <styles
+                                    backgroundColor="16777215"
+                                    gradientEndColor="50431"
+                                    gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
+
+                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activity/@activity/@activities.5"/>
+
+                                    <layoutConstraint
+                                    height="40"
+                                    width="40"
+                                    x="294"
+                                    xsi:type="notation:Bounds" y="-10"/>
+                                    </children>
                                     <styles xsi:type="notation:DrawerStyle"/>
                                     <styles xsi:type="notation:SortingStyle"/>
                                     <styles xsi:type="notation:FilteringStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activity/@activity"/>
                                     </children>
                                     <styles
                                     fontName="맑은 고딕"
@@ -898,24 +837,24 @@
                                     gradientEndColor="50431"
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
                                     <styles xsi:type="bwnotation:ResizingStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activity/@activity"/>
 
                                     <layoutConstraint
-                                    height="148"
+                                    height="170"
                                     width="628" xsi:type="notation:Bounds"/>
                                     </children>
                                     <styles xsi:type="notation:SortingStyle"/>
                                     <styles xsi:type="notation:FilteringStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.3"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2"/>
                                     </children>
                                     <styles
                                     fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
                                     <styles xsi:type="bwnotation:BackgroundStyle"/>
                                     <styles xsi:type="bwnotation:ResizingStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.3"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2"/>
                                     <layoutConstraint
-                                    height="148"
+                                    height="170"
                                     width="631"
                                     x="15"
                                     xsi:type="notation:Bounds" y="20"/>
@@ -925,7 +864,7 @@
                                     <styles
                                     fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity/@activities.0"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activity/@activity/@activities.0"/>
 
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
@@ -933,7 +872,7 @@
                                     <styles
                                     fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity/@activities.0"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activity/@activity/@activities.0"/>
 
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
@@ -941,7 +880,7 @@
                                     <styles
                                     fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity/@activities.0"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activity/@activity/@activities.0"/>
 
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
@@ -949,7 +888,7 @@
                                     <styles
                                     fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity/@activities.0"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activity/@activity/@activities.0"/>
 
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
@@ -960,7 +899,7 @@
                                     backgroundColor="16777215"
                                     gradientEndColor="50431"
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity/@activities.0"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activity/@activity/@activities.0"/>
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
                                     <children type="4002">
@@ -968,7 +907,7 @@
                                     <styles
                                     fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity/@activities.1"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activity/@activity/@activities.1"/>
 
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
@@ -976,7 +915,7 @@
                                     <styles
                                     fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity/@activities.1"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activity/@activity/@activities.1"/>
 
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
@@ -984,7 +923,7 @@
                                     <styles
                                     fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity/@activities.1"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activity/@activity/@activities.1"/>
 
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
@@ -992,7 +931,7 @@
                                     <styles
                                     fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity/@activities.1"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activity/@activity/@activities.1"/>
 
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
@@ -1003,83 +942,46 @@
                                     backgroundColor="16777215"
                                     gradientEndColor="50431"
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity/@activities.1"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activity/@activity/@activities.1"/>
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
                                     <styles xsi:type="notation:SortingStyle"/>
                                     <styles xsi:type="notation:FilteringStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.3"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2"/>
                                     </children>
                                     <styles fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
                                     <styles xsi:type="bwnotation:BackgroundStyle"/>
                                     <styles xsi:type="bwnotation:ResizingStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.3"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2"/>
                                     <layoutConstraint
-                                    height="192" width="671"
+                                    height="214" width="671"
                                     x="154"
                                     xsi:type="notation:Bounds" y="-20"/>
                                     </children>
-                                    <children type="4002 bw.generalactivities.log">
-                                    <children type="4017">
-                                    <styles fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.4"/>
-                                    <layoutConstraint xsi:type="notation:Bounds"/>
-                                    </children>
-                                    <children type="4017">
-                                    <styles fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.4"/>
-                                    <layoutConstraint xsi:type="notation:Bounds"/>
-                                    </children>
-                                    <children type="4017">
-                                    <styles fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.4"/>
-                                    <layoutConstraint xsi:type="notation:Bounds"/>
-                                    </children>
-                                    <children type="4017">
-                                    <styles fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.4"/>
-                                    <layoutConstraint xsi:type="notation:Bounds"/>
-                                    </children>
-                                    <styles fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <styles
-                                    backgroundColor="16777215"
-                                    gradientEndColor="50431"
-                                    gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.4"/>
-                                    <layoutConstraint
-                                    height="40" width="40"
-                                    x="401"
-                                    xsi:type="notation:Bounds" y="181"/>
-                                    </children>
                                     <children type="4002 bw.java.javamethod">
                                     <children type="4017">
                                     <styles fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.5"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.3"/>
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
                                     <children type="4017">
                                     <styles fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.5"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.3"/>
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
                                     <children type="4017">
                                     <styles fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.5"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.3"/>
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
                                     <children type="4017">
                                     <styles fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.5"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.3"/>
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
                                     <styles fontName="맑은 고딕"
@@ -1088,35 +990,35 @@
                                     backgroundColor="16777215"
                                     gradientEndColor="50431"
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.5"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.3"/>
                                     <layoutConstraint
                                     height="40" width="40"
                                     x="536"
-                                    xsi:type="notation:Bounds" y="181"/>
+                                    xsi:type="notation:Bounds" y="199"/>
                                     </children>
                                     <children type="4002 bw.java.javamethod">
                                     <children type="4017">
                                     <styles fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.6"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.4"/>
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
                                     <children type="4017">
                                     <styles fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.6"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.4"/>
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
                                     <children type="4017">
                                     <styles fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.6"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.4"/>
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
                                     <children type="4017">
                                     <styles fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.6"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.4"/>
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
                                     <styles fontName="맑은 고딕"
@@ -1125,7 +1027,7 @@
                                     backgroundColor="16777215"
                                     gradientEndColor="50431"
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.6"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.4"/>
                                     <layoutConstraint
                                     height="96" width="108"
                                     x="855"
@@ -1239,9 +1141,75 @@
                                     backgroundColor="16777215"
                                     gradientEndColor="50431"
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.7"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.5"/>
                                     <layoutConstraint x="678"
-                                    xsi:type="notation:Bounds" y="181"/>
+                                    xsi:type="notation:Bounds" y="199"/>
+                                    </children>
+                                    <children type="4002 bw.generalactivities.callprocess">
+                                    <children type="4017">
+                                    <styles fontName="맑은 고딕"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+                                    <children type="4017">
+                                    <styles fontName="맑은 고딕"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+                                    <children type="4017">
+                                    <styles fontName="맑은 고딕"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+                                    <children type="4017">
+                                    <styles fontName="맑은 고딕"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+                                    <styles fontName="맑은 고딕"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <styles
+                                    backgroundColor="16777215"
+                                    gradientEndColor="50431"
+                                    gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.6"/>
+                                    <layoutConstraint
+                                    height="40" width="40"
+                                    x="-6"
+                                    xsi:type="notation:Bounds" y="115"/>
+                                    </children>
+                                    <children type="4002 bw.generalactivities.callprocess">
+                                    <children type="4017">
+                                    <styles fontName="맑은 고딕"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+                                    <children type="4017">
+                                    <styles fontName="맑은 고딕"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+                                    <children type="4017">
+                                    <styles fontName="맑은 고딕"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+                                    <children type="4017">
+                                    <styles fontName="맑은 고딕"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+                                    <styles fontName="맑은 고딕"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <styles
+                                    backgroundColor="16777215"
+                                    gradientEndColor="50431"
+                                    gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.7"/>
+                                    <layoutConstraint
+                                    height="40" width="40"
+                                    x="290"
+                                    xsi:type="notation:Bounds" y="266"/>
                                     </children>
                                     <styles xsi:type="notation:DrawerStyle"/>
                                     <styles xsi:type="notation:SortingStyle"/>
@@ -1291,7 +1259,7 @@
         <element href="//0"/>
         <edges
             source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2" type="4006">
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.10" type="4006">
             <children type="6002">
                 <layoutConstraint xsi:type="notation:Location" y="40"/>
             </children>
@@ -1299,9 +1267,10 @@
             <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
             <element href="//0/@process/@activity/@activity/@links/@children.0"/>
             <bendpoints points="[25, 24, -142, 24]$[143, 24, -24, 24]" xsi:type="notation:RelativeBendpoints"/>
+            <targetAnchor id="(0.10204081632653061,0.42857142857142855)" xsi:type="notation:IdentityAnchor"/>
         </edges>
         <edges
-            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.6"
+            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.4"
             target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.1" type="4006">
             <children type="6002">
                 <layoutConstraint xsi:type="notation:Location" y="40"/>
@@ -1313,117 +1282,120 @@
             <sourceAnchor id="(1.0,0.27956989247311825)" xsi:type="notation:IdentityAnchor"/>
         </edges>
         <edges
-            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3/@children.0/@children.1/@children.0/@children.0/@children.0/@children.1"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3/@children.0/@children.1/@children.0/@children.0/@children.0/@children.2" type="4006">
+            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.1/@children.0/@children.0/@children.0/@children.1"
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.1/@children.0/@children.0/@children.0/@children.3" type="4006">
             <children type="6002">
                 <layoutConstraint xsi:type="notation:Location" y="40"/>
             </children>
             <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
             <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
-            <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity/@links/@children.0"/>
+            <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activity/@activity/@links/@children.0"/>
             <bendpoints points="[25, 0, -61, 0]$[62, 0, -24, 0]" xsi:type="notation:RelativeBendpoints"/>
+            <targetAnchor id="(0.12244897959183673,0.7346938775510204)" xsi:type="notation:IdentityAnchor"/>
         </edges>
         <edges
-            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.4"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.5" type="4006">
-            <children type="6002">
-                <layoutConstraint xsi:type="notation:Location" y="40"/>
-            </children>
-            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
-            <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
-            <element href="//0/@process/@activity/@activity/@links/@children.3"/>
-            <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
-        </edges>
-        <edges
-            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3" type="4006">
+            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.10"
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2" type="4006">
             <children type="6002">
                 <layoutConstraint xsi:type="notation:Location" y="40"/>
             </children>
             <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
             <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
             <element href="//0/@process/@activity/@activity/@links/@children.2"/>
-            <bendpoints points="[25, 2, -98, -10]$[99, 10, -24, -2]" xsi:type="notation:RelativeBendpoints"/>
+            <bendpoints
+                points="[12, -3, -403, 96]$[54, -3, -361, 96]$[54, -60, -361, 39]$[97, -60, -318, 39]" xsi:type="notation:RelativeBendpoints"/>
+            <sourceAnchor id="(0.7551020408163265,0.42857142857142855)" xsi:type="notation:IdentityAnchor"/>
         </edges>
         <edges
-            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3/@children.0/@children.1/@children.0/@children.0/@children.0/@children.0"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3/@children.0/@children.3" type="4006">
+            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.1/@children.0/@children.0/@children.0/@children.0"
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.3" type="4006">
             <children type="6002">
                 <layoutConstraint xsi:type="notation:Location" y="40"/>
             </children>
             <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
             <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
-            <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity/@links/@children.1"/>
+            <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activity/@activity/@links/@children.1"/>
             <bendpoints
                 points="[25, 0, -385, 26]$[215, 0, -195, 26]$[215, -13, -195, 13]$[386, -13, -24, 13]" xsi:type="notation:RelativeBendpoints"/>
         </edges>
         <edges
-            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.4" type="4006">
+            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2"
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.11" type="4006">
             <children type="6002">
                 <layoutConstraint xsi:type="notation:Location" y="40"/>
             </children>
             <styles lineColor="255" xsi:type="notation:ConnectorStyle"/>
             <styles fontColor="255" fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
-            <element href="//0/@process/@activity/@activity/@links/@children.4"/>
+            <element href="//0/@process/@activity/@activity/@links/@children.3"/>
             <bendpoints
                 points="[0, 79, -11, -76]$[0, 105, -11, -50]$[11, 105, 0, -50]$[11, 131, 0, -24]" xsi:type="notation:RelativeBendpoints"/>
         </edges>
         <edges
+            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2"
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.4" type="4006">
+            <children type="6002">
+                <layoutConstraint xsi:type="notation:Location" y="40"/>
+            </children>
+            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
+            <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
+            <element href="//0/@process/@activity/@activity/@links/@children.4"/>
+            <bendpoints points="[306, -33, -110, 12]$[392, -42, -24, 3]" xsi:type="notation:RelativeBendpoints"/>
+            <targetAnchor id="(0.16326530612244897,0.3333333333333333)" xsi:type="notation:IdentityAnchor"/>
+        </edges>
+        <edges
+            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.1/@children.0/@children.0/@children.0/@children.2"
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.1/@children.0/@children.0/@children.0/@children.1" type="4006">
+            <children type="6002">
+                <layoutConstraint xsi:type="notation:Location" y="40"/>
+            </children>
+            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
+            <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
+            <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activity/@activity/@links/@children.2"/>
+            <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
+        </edges>
+        <edges
+            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.2"
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.1/@children.0/@children.0/@children.0/@children.2" type="4006">
+            <children type="6002">
+                <layoutConstraint xsi:type="notation:Location" y="40"/>
+            </children>
+            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
+            <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
+            <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activity/@activity/@links/@children.3"/>
+            <bendpoints points="[12, -2, -110, 10]$[98, -10, -24, 2]" xsi:type="notation:RelativeBendpoints"/>
+        </edges>
+        <edges
+            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.1/@children.0/@children.0/@children.0/@children.3"
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.1/@children.0/@children.0/@children.0/@children.0" type="4006">
+            <children type="6002">
+                <layoutConstraint xsi:type="notation:Location" y="40"/>
+            </children>
+            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
+            <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
+            <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activity/@activity/@links/@children.4"/>
+            <bendpoints points="[25, 0, -83, 0]$[84, 0, -24, 0]" xsi:type="notation:RelativeBendpoints"/>
+        </edges>
+        <edges
             source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.6" type="4006">
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.9" type="4006">
             <children type="6002">
                 <layoutConstraint xsi:type="notation:Location" y="40"/>
             </children>
             <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
             <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
             <element href="//0/@process/@activity/@activity/@links/@children.5"/>
-            <bendpoints points="[306, -33, -110, 12]$[392, -42, -24, 3]" xsi:type="notation:RelativeBendpoints"/>
-            <targetAnchor id="(0.16326530612244897,0.3333333333333333)" xsi:type="notation:IdentityAnchor"/>
-        </edges>
-        <edges
-            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3/@children.0/@children.1/@children.0/@children.0/@children.0/@children.3"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3/@children.0/@children.1/@children.0/@children.0/@children.0/@children.1" type="4006">
-            <children type="6002">
-                <layoutConstraint xsi:type="notation:Location" y="40"/>
-            </children>
-            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
-            <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
-            <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity/@links/@children.2"/>
             <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
         </edges>
         <edges
-            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3/@children.0/@children.2"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3/@children.0/@children.1/@children.0/@children.0/@children.0/@children.3" type="4006">
-            <children type="6002">
-                <layoutConstraint xsi:type="notation:Location" y="40"/>
-            </children>
-            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
-            <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
-            <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity/@links/@children.3"/>
-            <bendpoints points="[12, -2, -110, 10]$[98, -10, -24, 2]" xsi:type="notation:RelativeBendpoints"/>
-        </edges>
-        <edges
-            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3/@children.0/@children.1/@children.0/@children.0/@children.0/@children.2"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3/@children.0/@children.1/@children.0/@children.0/@children.0/@children.0" type="4006">
-            <children type="6002">
-                <layoutConstraint xsi:type="notation:Location" y="40"/>
-            </children>
-            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
-            <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
-            <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activity/@activity/@links/@children.4"/>
-            <bendpoints points="[25, 0, -83, 0]$[84, 0, -24, 0]" xsi:type="notation:RelativeBendpoints"/>
-        </edges>
-        <edges
-            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.5"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.11" type="4006">
+            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.11"
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3" type="4006">
             <children type="6002">
                 <layoutConstraint xsi:type="notation:Location" y="40"/>
             </children>
             <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
             <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
             <element href="//0/@process/@activity/@activity/@links/@children.6"/>
-            <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
+            <bendpoints points="[25, -5, -67, 0]$[68, 0, -24, 5]" xsi:type="notation:RelativeBendpoints"/>
         </edges>
     </notation:Diagram>
     <tibex:NamespaceRegistry enabled="true">
@@ -1445,8 +1417,11 @@
             namespace="www.tibco.com/plugin/java/JavaInvokeActivityInput+50bb7784-cc54-4b41-a097-03b15c71d978+JavaInvokeActivityInput" prefix="tns5"/>
         <tibex:namespaceItem
             namespace="www.tibco.com/plugin/java/JavaInvokeActivityInput+e6da933c-aeaa-4684-aaa8-f943ae7d199c+JavaInvokeActivityInput" prefix="tns6"/>
+        <tibex:namespaceItem
+            namespace="http://www.example.com/namespaces/tns/1653980060660" prefix="tns8"/>
     </tibex:NamespaceRegistry>
     <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.com/namespaces/tns/1638240759845"/>
+    <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.com/namespaces/tns/1653980060660"/>
     <bpws:variables>
         <bpws:variable element="ns:ProcessContext"
             name="_processContext" sca-bpel:internal="true"/>
@@ -1491,12 +1466,6 @@
         <bpws:variable element="ns13:ActivityErrorData"
             name="_error_ConnectInBackground" sca-bpel:internal="true"/>
         <bpws:variable element="ns:ErrorReport" name="_error" sca-bpel:internal="true"/>
-        <bpws:variable element="ns10:ActivityInput"
-            name="Fail_Log-input" sca-bpel:internal="true"/>
-        <bpws:variable element="ns10:ActivityInput"
-            name="SubTCPConnLog-input" sca-bpel:internal="true"/>
-        <bpws:variable element="ns10:ActivityInput"
-            name="StartConnLog-input" sca-bpel:internal="true"/>
         <bpws:variable name="repeatOnError_success_flag"
             sca-bpel:internal="true" type="xsd:boolean"/>
         <bpws:variable name="index" type="xsd:int">
@@ -1516,6 +1485,9 @@
             name="SendFailEvent" sca-bpel:internal="true"/>
         <bpws:variable element="ns16:ActivityErrorData"
             name="_error_SendFailEvent" sca-bpel:internal="true"/>
+        <bpws:variable element="ns17:Element" name="TCPConnLog-input" sca-bpel:internal="true"/>
+        <bpws:variable element="ns17:Element" name="ConnErrLog-input" sca-bpel:internal="true"/>
+        <bpws:variable element="ns17:Element" name="StartConnLog-input" sca-bpel:internal="true"/>
     </bpws:variables>
     <bpws:extensions>
         <bpws:extension mustUnderstand="no" namespace="http://www.eclipse.org/gmf/runtime/1.0.2/notation"/>
@@ -1528,13 +1500,13 @@
     <bpws:scope name="scope">
         <bpws:flow name="flow">
             <bpws:links>
-                <bpws:link name="StartToRepeatOnError" tibex:linkType="SUCCESS"/>
+                <bpws:link name="StartToSuspendConnFinish" tibex:linkType="SUCCESS"/>
                 <bpws:link name="Pool에추가ToEnd" tibex:linkType="SUCCESS"/>
-                <bpws:link name="LogToRepeatOnError" tibex:linkType="SUCCESS"/>
-                <bpws:link name="Log1ToConnectInBackground" tibex:linkType="SUCCESS"/>
-                <bpws:link name="RepeatOnErrorToFail_Log" tibex:linkType="ERROR"/>
+                <bpws:link name="SuspendConnFinishToRepeatOnError" tibex:linkType="SUCCESS"/>
+                <bpws:link name="RepeatOnErrorToCopy_1_TCPConnLog" tibex:linkType="ERROR"/>
                 <bpws:link name="RepeatOnErrorToPool에추가" tibex:linkType="SUCCESS"/>
                 <bpws:link name="ConnectInBackgroundToJavaInvoke" tibex:linkType="SUCCESS"/>
+                <bpws:link name="Copy_1_TCPConnLogToConnectInBackground" tibex:linkType="SUCCESS"/>
             </bpws:links>
             <bpws:extensionActivity>
                 <tibex:receiveEvent createInstance="yes"
@@ -1542,7 +1514,7 @@
                     tibex:xpdlId="6c777077-fe20-47e2-a01d-b48f8af5557d"
                     variable="Start" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
                     <bpws:sources>
-                        <bpws:source linkName="StartToRepeatOnError"/>
+                        <bpws:source linkName="StartToSuspendConnFinish"/>
                     </bpws:sources>
                     <tibex:eventSource>
                         <tibex:StartEvent xmlns:tibex="http://www.tibco.com/bpel/2007/extensions"/>
@@ -1571,47 +1543,13 @@
                     </tibex:config>
                 </tibex:activityExtension>
             </bpws:extensionActivity>
-            <bpws:extensionActivity>
-                <tibex:activityExtension
-                    inputVariable="SubTCPConnLog-input"
-                    name="SubTCPConnLog"
-                    tibex:xpdlId="07709c22-6690-48d3-9d9f-df4a6dbbe04c" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
-                    <bpws:targets>
-                        <bpws:target linkName="StartToRepeatOnError"/>
-                    </bpws:targets>
-                    <bpws:sources>
-                        <bpws:source linkName="LogToRepeatOnError"/>
-                    </bpws:sources>
-                    <tibex:inputBindings>
-                        <tibex:inputBinding
-                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns4=&quot;http://www.tibco.com/pe/WriteToLogActivitySchema&quot; xmlns:tns=&quot;http://www.example.com/namespaces/tns/1638240759845&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;Start&quot;/>&lt;xsl:template name=&quot;Log-input&quot; match=&quot;/&quot;>&lt;tns4:ActivityInput>&lt;message>&lt;xsl:value-of select=&quot;concat(&amp;quot;Try connection - &amp;quot;,$Start/tns:connectionId)&quot;/>&lt;/message>&lt;/tns4:ActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
-                    </tibex:inputBindings>
-                    <tibex:config>
-                        <bwext:BWActivity
-                            activityTypeID="bw.generalactivities.log"
-                            version="6.0.0.001"
-                            xmlns:activityconfig="http://tns.tibco.com/bw/model/activityconfig"
-                            xmlns:bwext="http://tns.tibco.com/bw/model/core/bwext"
-                            xmlns:generalactivities="http://ns.tibco.com/bw/palette/generalactivities" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                            <activityConfig>
-                                <properties name="config" xsi:type="activityconfig:EMFProperty">
-                                    <type href="http://ns.tibco.com/bw/palette/generalactivities#//Log"/>
-                                    <value controlBy="Application"
-                                    role="Info"
-                                    suppressJobInfo="true" xsi:type="generalactivities:Log"/>
-                                </properties>
-                            </activityConfig>
-                        </bwext:BWActivity>
-                    </tibex:config>
-                </tibex:activityExtension>
-            </bpws:extensionActivity>
-            <bpws:scope name="RepeatOnError" tibex:group="repeatOnError"
-                tibex:indexToGlobal="false" tibex:xpdlId="d6ecbd3b-ee51-4a58-ab19-b48f8a5de8aa">
+            <bpws:scope name="RepeatOnError" tibex:group="repeatOnError" tibex:xpdlId="d6ecbd3b-ee51-4a58-ab19-b48f8a5de8aa">
                 <bpws:targets>
-                    <bpws:target linkName="LogToRepeatOnError"/>
+                    <bpws:target linkName="SuspendConnFinishToRepeatOnError"/>
                 </bpws:targets>
                 <bpws:sources>
-                    <bpws:source linkName="RepeatOnErrorToFail_Log"
+                    <bpws:source
+                        linkName="RepeatOnErrorToCopy_1_TCPConnLog"
                         tibex:faultDetailsVar="_error" tibex:faultNameVar="FaultName">
                         <tibex:DesignExpression>
                             <tibex:expression expression="##error##" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"/>
@@ -1658,11 +1596,12 @@
                         <bpws:flow name="flow1">
                             <bpws:links>
                                 <bpws:link
-                                    name="Get_TargetToStartConnLog" tibex:linkType="SUCCESS"/>
+                                    name="Get_TargetToCopy_1_ConnErrLog" tibex:linkType="SUCCESS"/>
                                 <bpws:link name="연결시도ToGroupEnd" tibex:linkType="SUCCESS"/>
                                 <bpws:link name="SleepToGet_Target" tibex:linkType="SUCCESS"/>
                                 <bpws:link name="GroupStartToSleep" tibex:linkType="SUCCESS"/>
-                                <bpws:link name="StartConnLogTo연결시도" tibex:linkType="SUCCESS"/>
+                                <bpws:link
+                                    name="Copy_1_ConnErrLogToTCPOpenConnection" tibex:linkType="SUCCESS"/>
                             </bpws:links>
                             <bpws:empty name="GroupStart"
                                 tibex:group="groupStart" tibex:xpdlId="5b7ac6c4-e1be-4a2e-b97d-4b0988eb67ba">
@@ -1688,7 +1627,7 @@
                                     outputVariable="TCPOpenConnection"
                                     tibex:xpdlId="f58e358b-cd84-4ae5-864a-d53bcd4578cf" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
                                     <bpws:targets>
-                                    <bpws:target linkName="StartConnLogTo연결시도"/>
+                                    <bpws:target linkName="Copy_1_ConnErrLogToTCPOpenConnection"/>
                                     </bpws:targets>
                                     <bpws:sources>
                                     <bpws:source linkName="연결시도ToGroupEnd"/>
@@ -1726,7 +1665,7 @@
                                     <bpws:target linkName="SleepToGet_Target"/>
                                     </bpws:targets>
                                     <bpws:sources>
-                                    <bpws:source linkName="Get_TargetToStartConnLog"/>
+                                    <bpws:source linkName="Get_TargetToCopy_1_ConnErrLog"/>
                                     </bpws:sources>
                                     <tibex:inputBindings>
                                     <tibex:inputBinding
@@ -1752,42 +1691,6 @@
                                     <methodParameter
                                     paramName="connectionId" paramType="string"/>
                                     </value>
-                                    </properties>
-                                    </activityConfig>
-                                    </bwext:BWActivity>
-                                    </tibex:config>
-                                </tibex:activityExtension>
-                            </bpws:extensionActivity>
-                            <bpws:extensionActivity>
-                                <tibex:activityExtension
-                                    inputVariable="StartConnLog-input"
-                                    name="StartConnLog"
-                                    tibex:xpdlId="81f54ca4-c48c-452e-9142-3c2c57095b9e" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
-                                    <bpws:targets>
-                                    <bpws:target linkName="Get_TargetToStartConnLog"/>
-                                    </bpws:targets>
-                                    <bpws:sources>
-                                    <bpws:source linkName="StartConnLogTo연결시도"/>
-                                    </bpws:sources>
-                                    <tibex:inputBindings>
-                                    <tibex:inputBinding
-                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns4=&quot;http://www.tibco.com/pe/WriteToLogActivitySchema&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:tns=&quot;http://www.example.com/namespaces/tns/1638240759845&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;index&quot;/>&lt;xsl:param name=&quot;Start&quot;/>&lt;xsl:param name=&quot;Get_Target&quot;/>&lt;xsl:template name=&quot;StartConnLog-input&quot; match=&quot;/&quot;>&lt;tns4:ActivityInput>&lt;message>&lt;xsl:value-of select=&quot;concat(&amp;quot;connection try count=&amp;quot;,xsd:string($index), &amp;quot; [&amp;quot;,$Start/tns:connectionId,&amp;quot;][&amp;quot;,substring-before($Get_Target/MethodReturnValue, &amp;quot;;&amp;quot;),&amp;quot;|&amp;quot;,substring-after($Get_Target/MethodReturnValue, &amp;quot;;&amp;quot;),&amp;quot;]&amp;quot;)&quot;/>&lt;/message>&lt;/tns4:ActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
-                                    </tibex:inputBindings>
-                                    <tibex:config>
-                                    <bwext:BWActivity
-                                    activityTypeID="bw.generalactivities.log"
-                                    version="6.0.0.001"
-                                    xmlns:activityconfig="http://tns.tibco.com/bw/model/activityconfig"
-                                    xmlns:bwext="http://tns.tibco.com/bw/model/core/bwext"
-                                    xmlns:generalactivities="http://ns.tibco.com/bw/palette/generalactivities" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                    <activityConfig>
-                                    <properties
-                                    name="config" xsi:type="activityconfig:EMFProperty">
-                                    <type href="http://ns.tibco.com/bw/palette/generalactivities#//Log"/>
-                                    <value
-                                    controlBy="Application"
-                                    role="Info"
-                                    suppressJobInfo="true" xsi:type="generalactivities:Log"/>
                                     </properties>
                                     </activityConfig>
                                     </bwext:BWActivity>
@@ -1826,44 +1729,31 @@
                                     </tibex:config>
                                 </tibex:activityExtension>
                             </bpws:extensionActivity>
+                            <bpws:extensionActivity>
+                                <tibex:extActivity
+                                    inputVariable="StartConnLog-input"
+                                    name="StartConnLog"
+                                    tibex:xpdlId="b309fd9e-0bf7-41a5-ba76-90a7ec4842eb"
+                                    type="bw.generalactivities.callprocess" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
+                                    <bpws:targets>
+                                    <bpws:target linkName="Get_TargetToCopy_1_ConnErrLog"/>
+                                    </bpws:targets>
+                                    <bpws:sources>
+                                    <bpws:source linkName="Copy_1_ConnErrLogToTCPOpenConnection"/>
+                                    </bpws:sources>
+                                    <tibex:inputBindings>
+                                    <tibex:inputBinding coercion=""
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns8=&quot;http://www.example.com/namespaces/tns/1653980060660&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:tns=&quot;http://www.example.com/namespaces/tns/1638240759845&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;index&quot;/>&lt;xsl:param name=&quot;Start&quot;/>&lt;xsl:param name=&quot;Get_Target&quot;/>&lt;xsl:template name=&quot;Copy_1_ConnErrLog-input&quot; match=&quot;/&quot;>&lt;tns8:Element>&lt;tns8:pname>&lt;xsl:value-of select=&quot;&amp;quot;TCPConnect&amp;quot;&quot;/>&lt;/tns8:pname>&lt;tns8:level>&lt;xsl:value-of select=&quot;&amp;quot;info&amp;quot;&quot;/>&lt;/tns8:level>&lt;tns8:log>&lt;xsl:value-of select=&quot;concat(&amp;quot;connection try count=&amp;quot;,xsd:string($index), &amp;quot; [&amp;quot;,$Start/tns:connectionId,&amp;quot;][&amp;quot;,substring-before($Get_Target/MethodReturnValue, &amp;quot;;&amp;quot;),&amp;quot;|&amp;quot;,substring-after($Get_Target/MethodReturnValue, &amp;quot;;&amp;quot;),&amp;quot;]&amp;quot;)&quot;/>&lt;/tns8:log>&lt;/tns8:Element>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                                    </tibex:inputBindings>
+                                    <tibex:CallProcess
+                                    subProcessName="ConnManager.Sub.LogProcess" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions"/>
+                                </tibex:extActivity>
+                            </bpws:extensionActivity>
                         </bpws:flow>
                     </bpws:scope>
                     <bpws:condition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[boolean($repeatOnError_success_flag1)]]></bpws:condition>
                 </bpws:repeatUntil>
             </bpws:scope>
-            <bpws:extensionActivity>
-                <tibex:activityExtension inputVariable="Fail_Log-input"
-                    name="Fail_Log"
-                    tibex:xpdlId="5b668cd9-476d-4de5-b266-47a2f8752149" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
-                    <bpws:targets>
-                        <bpws:target linkName="RepeatOnErrorToFail_Log"/>
-                    </bpws:targets>
-                    <bpws:sources>
-                        <bpws:source linkName="Log1ToConnectInBackground"/>
-                    </bpws:sources>
-                    <tibex:inputBindings>
-                        <tibex:inputBinding
-                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns4=&quot;http://www.tibco.com/pe/WriteToLogActivitySchema&quot; xmlns:tns=&quot;http://www.example.com/namespaces/tns/1638240759845&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;Start&quot;/>&lt;xsl:template name=&quot;Fail_Log-input&quot; match=&quot;/&quot;>&lt;tns4:ActivityInput>&lt;message>&lt;xsl:value-of select=&quot;concat(&amp;quot;최초 연결시도 실패 connectionId=[&amp;quot;,$Start/tns:connectionId,&amp;quot;]&amp;quot;)&quot;/>&lt;/message>&lt;/tns4:ActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
-                    </tibex:inputBindings>
-                    <tibex:config>
-                        <bwext:BWActivity
-                            activityTypeID="bw.generalactivities.log"
-                            version="6.0.0.001"
-                            xmlns:activityconfig="http://tns.tibco.com/bw/model/activityconfig"
-                            xmlns:bwext="http://tns.tibco.com/bw/model/core/bwext"
-                            xmlns:generalactivities="http://ns.tibco.com/bw/palette/generalactivities" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                            <activityConfig>
-                                <properties name="config" xsi:type="activityconfig:EMFProperty">
-                                    <type href="http://ns.tibco.com/bw/palette/generalactivities#//Log"/>
-                                    <value controlBy="Application"
-                                    role="Info"
-                                    suppressJobInfo="true" xsi:type="generalactivities:Log"/>
-                                </properties>
-                            </activityConfig>
-                        </bwext:BWActivity>
-                    </tibex:config>
-                </tibex:activityExtension>
-            </bpws:extensionActivity>
             <bpws:extensionActivity>
                 <tibex:activityExtension
                     inputVariable="ConnectInBackground-input"
@@ -1871,7 +1761,7 @@
                     outputVariable="ConnectInBackground"
                     tibex:xpdlId="50bb7784-cc54-4b41-a097-03b15c71d978" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
                     <bpws:targets>
-                        <bpws:target linkName="Log1ToConnectInBackground"/>
+                        <bpws:target linkName="Copy_1_TCPConnLogToConnectInBackground"/>
                     </bpws:targets>
                     <bpws:sources>
                         <bpws:source linkName="ConnectInBackgroundToJavaInvoke"/>
@@ -1957,7 +1847,7 @@
                     </bpws:targets>
                     <tibex:inputBindings>
                         <tibex:inputBinding
-                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns6=&quot;www.tibco.com/plugin/java/JavaInvokeActivityInput+e6da933c-aeaa-4684-aaa8-f943ae7d199c+JavaInvokeActivityInput&quot; xmlns:tns=&quot;http://www.example.com/namespaces/tns/1638240759845&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;_error&quot;/>&lt;xsl:param name=&quot;Start&quot;/>&lt;xsl:template name=&quot;SendFailEvent-input&quot; match=&quot;/&quot;>&lt;tns6:JavaInvokeActivityInput>&lt;MethodParameters>&lt;connectionId>&lt;xsl:value-of select=&quot;$Start/tns:connectionId&quot;/>&lt;/connectionId>&lt;code>&lt;xsl:value-of select=&quot;$_error/MsgCode&quot;/>&lt;/code>&lt;reason>&lt;xsl:value-of select=&quot;$_error/Msg&quot;/>&lt;/reason>&lt;/MethodParameters>&lt;/tns6:JavaInvokeActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns6=&quot;www.tibco.com/plugin/java/JavaInvokeActivityInput+e6da933c-aeaa-4684-aaa8-f943ae7d199c+JavaInvokeActivityInput&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;Get_Target&quot;/>&lt;xsl:param name=&quot;_error&quot;/>&lt;xsl:template name=&quot;SendFailEvent-input&quot; match=&quot;/&quot;>&lt;tns6:JavaInvokeActivityInput>&lt;MethodParameters>&lt;connectionId>&lt;xsl:value-of select=&quot;$Get_Target/MethodReturnValue&quot;/>&lt;/connectionId>&lt;code>&lt;xsl:value-of select=&quot;$_error/MsgCode&quot;/>&lt;/code>&lt;reason>&lt;xsl:value-of select=&quot;$_error/Msg&quot;/>&lt;/reason>&lt;/MethodParameters>&lt;/tns6:JavaInvokeActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                     </tibex:inputBindings>
                     <tibex:config>
                         <bwext:BWActivity
@@ -1987,6 +1877,44 @@
                         </bwext:BWActivity>
                     </tibex:config>
                 </tibex:activityExtension>
+            </bpws:extensionActivity>
+            <bpws:extensionActivity>
+                <tibex:extActivity inputVariable="TCPConnLog-input"
+                    name="TCPConnLog"
+                    tibex:xpdlId="1c054ed6-58a6-401e-9c6f-794459ddcab9"
+                    type="bw.generalactivities.callprocess" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
+                    <bpws:targets>
+                        <bpws:target linkName="StartToSuspendConnFinish"/>
+                    </bpws:targets>
+                    <bpws:sources>
+                        <bpws:source linkName="SuspendConnFinishToRepeatOnError"/>
+                    </bpws:sources>
+                    <tibex:inputBindings>
+                        <tibex:inputBinding coercion=""
+                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns8=&quot;http://www.example.com/namespaces/tns/1653980060660&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:tns=&quot;http://www.example.com/namespaces/tns/1638240759845&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;Start&quot;/>&lt;xsl:template name=&quot;SuspendConnFinish-input&quot; match=&quot;/&quot;>&lt;tns8:Element>&lt;tns8:pname>&lt;xsl:value-of select=&quot;&amp;quot;TCPConnect&amp;quot;&quot;/>&lt;/tns8:pname>&lt;tns8:level>&lt;xsl:value-of select=&quot;&amp;quot;info&amp;quot;&quot;/>&lt;/tns8:level>&lt;tns8:log>&lt;xsl:value-of select=&quot;concat(&amp;quot;Try connection - &amp;quot;,$Start/tns:connectionId)&quot;/>&lt;/tns8:log>&lt;/tns8:Element>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                    </tibex:inputBindings>
+                    <tibex:CallProcess
+                        subProcessName="ConnManager.Sub.LogProcess" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions"/>
+                </tibex:extActivity>
+            </bpws:extensionActivity>
+            <bpws:extensionActivity>
+                <tibex:extActivity inputVariable="ConnErrLog-input"
+                    name="ConnErrLog"
+                    tibex:xpdlId="426fde54-481d-47ef-820e-ce885ca4bfcc"
+                    type="bw.generalactivities.callprocess" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
+                    <bpws:targets>
+                        <bpws:target linkName="RepeatOnErrorToCopy_1_TCPConnLog"/>
+                    </bpws:targets>
+                    <bpws:sources>
+                        <bpws:source linkName="Copy_1_TCPConnLogToConnectInBackground"/>
+                    </bpws:sources>
+                    <tibex:inputBindings>
+                        <tibex:inputBinding coercion=""
+                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns8=&quot;http://www.example.com/namespaces/tns/1653980060660&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:tns=&quot;http://www.example.com/namespaces/tns/1638240759845&quot; version=&quot;2.0&quot;>&lt;xsl:template name=&quot;Copy_1_TCPConnLog-input&quot; match=&quot;/&quot;>&lt;tns8:Element>&lt;tns8:pname>&lt;xsl:value-of select=&quot;&amp;quot;TCPConnect&amp;quot;&quot;/>&lt;/tns8:pname>&lt;tns8:level>&lt;xsl:value-of select=&quot;&amp;quot;error&amp;quot;&quot;/>&lt;/tns8:level>&lt;tns8:log>&lt;xsl:value-of select=&quot;concat(&amp;quot;최초 연결시도 실패 connectionId=[&amp;quot;,$Start/tns:connectionId,&amp;quot;]&amp;quot;)&quot;/>&lt;/tns8:log>&lt;/tns8:Element>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                    </tibex:inputBindings>
+                    <tibex:CallProcess
+                        subProcessName="ConnManager.Sub.LogProcess" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions"/>
+                </tibex:extActivity>
             </bpws:extensionActivity>
         </bpws:flow>
     </bpws:scope>

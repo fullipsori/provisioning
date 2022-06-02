@@ -418,6 +418,7 @@ public class BasePoolProxy {
     protected Connectable borrowConnectable(String connectionGroupId, long waitTimeSeconds) throws TimeoutException {
     	
 		Connectable connectable = null;
+		String errReason = "Connection 을 가져오는데 실패하였습니다.";
         
         // check connnectionGroupID가 있는지 확인한다.
         if(this.poolMap.containsKey(connectionGroupId)){
@@ -426,12 +427,19 @@ public class BasePoolProxy {
         		connectable = connObj.getConnection();
         		connObj.borrowConnection(); // borrowed = true로 설정 
             } else {
-            	logManager.warn(String.format("[%s] 그룹에서 연결 객체를 가져올수 없었습니다. 다시 시도해보세요.\n", connectionGroupId));
+            	errReason = "그룹에서 연결 객체를 가져올수 없었습니다. 다시 시도해보세요.";
+            	logManager.warn(String.format("[%s] %s", connectionGroupId, errReason));
             }        	
         } else {
-        	logManager.warn(String.format("[%s] 그룹은 연결객체 관리자 내에 존재하지 않는 그룹아이디 이므로 확인 바랍니다.\n", connectionGroupId));
+        	errReason = "그룹은 연결객체 관리자 내에 존재하지 않는 그룹아이디 이므로 확인 바랍니다.";
+			logManager.warn(String.format("[%s] %s", connectionGroupId, errReason));
         }
                 
+        if(connectable == null) {
+        	// reporting error to Monitor
+			String eventMessage = String.format("%s;NA;ERROR;%s", connectionGroupId, errReason);
+			Registry.getInstance().addEventSendRequest(eventMessage);
+        }
         // System.out.printf("//// [%s] borrowConnection-[그룹아이디 유무:%s][%s][%d msecs]\n", Thread.currentThread().getName(), this.poolMap.containsKey(connectionGroupId), connectionId, waitTimeSeconds);
         return connectable;  
     }

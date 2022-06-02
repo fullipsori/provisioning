@@ -129,7 +129,7 @@
 		</globalVariable>
 		<globalVariable>
 			<name>//NECommon//NECOMM.JMS_CONN_INFO</name>
-			<value>tcp://192.168.242.139:7222</value>
+			<value>tcp://127.0.0.1:7222</value>
 			<deploymentSettable>false</deploymentSettable>
 			<serviceSettable>false</serviceSettable>
 			<type>String</type>
@@ -146,7 +146,7 @@
 			<useLookupValue>false</useLookupValue>
 		</globalVariable>
 		<globalVariable>
-			<name>//PVSShared//BW.DEPLOYMENTUNIT.TYPE</name>
+			<name>//PVSMShared//BW.DEPLOYMENTUNIT.TYPE</name>
 			<value></value>
 			<deploymentSettable>false</deploymentSettable>
 			<serviceSettable>false</serviceSettable>
@@ -155,7 +155,7 @@
 			<useLookupValue>false</useLookupValue>
 		</globalVariable>
 		<globalVariable>
-			<name>//PVSShared//BW.APPNODE.NAME</name>
+			<name>//PVSMShared//BW.APPNODE.NAME</name>
 			<value></value>
 			<deploymentSettable>false</deploymentSettable>
 			<serviceSettable>false</serviceSettable>
@@ -164,7 +164,7 @@
 			<useLookupValue>false</useLookupValue>
 		</globalVariable>
 		<globalVariable>
-			<name>//PVSShared//BW.DEPLOYMENTUNIT.NAME</name>
+			<name>//PVSMShared//BW.DEPLOYMENTUNIT.NAME</name>
 			<value></value>
 			<deploymentSettable>false</deploymentSettable>
 			<serviceSettable>false</serviceSettable>
@@ -173,7 +173,7 @@
 			<useLookupValue>false</useLookupValue>
 		</globalVariable>
 		<globalVariable>
-			<name>//PVSShared//BW.HOST.NAME</name>
+			<name>//PVSMShared//BW.HOST.NAME</name>
 			<value>localhost</value>
 			<deploymentSettable>false</deploymentSettable>
 			<serviceSettable>false</serviceSettable>
@@ -182,7 +182,7 @@
 			<useLookupValue>false</useLookupValue>
 		</globalVariable>
 		<globalVariable>
-			<name>//PVSShared//BW.DOMAIN.NAME</name>
+			<name>//PVSMShared//BW.DOMAIN.NAME</name>
 			<value></value>
 			<deploymentSettable>false</deploymentSettable>
 			<serviceSettable>false</serviceSettable>
@@ -191,7 +191,7 @@
 			<useLookupValue>false</useLookupValue>
 		</globalVariable>
 		<globalVariable>
-			<name>//PVSShared//BW.DEPLOYMENTUNIT.VERSION</name>
+			<name>//PVSMShared//BW.DEPLOYMENTUNIT.VERSION</name>
 			<value></value>
 			<deploymentSettable>false</deploymentSettable>
 			<serviceSettable>false</serviceSettable>
@@ -200,7 +200,7 @@
 			<useLookupValue>false</useLookupValue>
 		</globalVariable>
 		<globalVariable>
-			<name>//PVSShared//BW.APPSPACE.NAME</name>
+			<name>//PVSMShared//BW.APPSPACE.NAME</name>
 			<value></value>
 			<deploymentSettable>false</deploymentSettable>
 			<serviceSettable>false</serviceSettable>
@@ -209,7 +209,7 @@
 			<useLookupValue>false</useLookupValue>
 		</globalVariable>
 		<globalVariable>
-			<name>//PVSShared//BW.MODULE.VERSION</name>
+			<name>//PVSMShared//BW.MODULE.VERSION</name>
 			<value></value>
 			<deploymentSettable>false</deploymentSettable>
 			<serviceSettable>false</serviceSettable>
@@ -218,7 +218,7 @@
 			<useLookupValue>false</useLookupValue>
 		</globalVariable>
 		<globalVariable>
-			<name>//PVSShared//BW.CLOUD.PORT</name>
+			<name>//PVSMShared//BW.CLOUD.PORT</name>
 			<value>8080</value>
 			<deploymentSettable>false</deploymentSettable>
 			<serviceSettable>false</serviceSettable>
@@ -227,8 +227,17 @@
 			<useLookupValue>false</useLookupValue>
 		</globalVariable>
 		<globalVariable>
-			<name>//PVSShared//BW.MODULE.NAME</name>
+			<name>//PVSMShared//BW.MODULE.NAME</name>
 			<value></value>
+			<deploymentSettable>false</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<isOverride>false</isOverride>
+			<useLookupValue>false</useLookupValue>
+		</globalVariable>
+		<globalVariable>
+			<name>//NECommon//NECOMM.LOG_LEVEL</name>
+			<value>warn</value>
 			<deploymentSettable>false</deploymentSettable>
 			<serviceSettable>false</serviceSettable>
 			<type>String</type>

@@ -1248,7 +1248,7 @@
             sca-bpel:privateProperty="true" sca-bpel:property="yes"
             sca-bpel:sharedResourceType="{http://xsd.tns.tibco.com/bw/models/sharedresource/jms}JMSConnectionFactory" type="xsd:string">
             <bpws:from>
-                <bpws:literal>pvsshared.JMSConnLOG</bpws:literal>
+                <bpws:literal>com.lguplus.pvs.shared.common.resource.PVMS_SYS</bpws:literal>
             </bpws:from>
         </bpws:variable>
         <bpws:variable name="GetNEA_PODNAME" sca-bpel:internal="true" type="xsd:string"/>

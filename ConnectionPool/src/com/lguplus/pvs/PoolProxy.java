@@ -7,6 +7,7 @@ import java.util.concurrent.TimeoutException;
 import com.lguplus.pvs.model.BWConnection;
 import com.lguplus.pvs.model.Connectable;
 import com.lguplus.pvs.util.LogManager;
+import com.lguplus.pvs.util.LogManager.LEVEL;
 
 // NE Agent 별도 컨네이너를 분리한다는 가정에서 Singleton 객체로 생성함
 public class PoolProxy extends BasePoolProxy {
@@ -20,13 +21,24 @@ public class PoolProxy extends BasePoolProxy {
     	super(logLevel);
     }
     
+    public boolean isPrintable(String printLevel, String level) {
+    	return (LEVEL.getLevel(level).intLevel >= LEVEL.getLevel(printLevel).intLevel);
+    }
+
+    public boolean isPrintable(String level) {
+    	return (LEVEL.getLevel(level).intLevel >= LogManager.getInstance().getLevel().intLevel);
+    }
+    
     // BW에서 연결된 Connection(byte 배열)을 Pool에 저장 처리
     public void addConnectionToPool(String connectionId, byte[] bwConnection) {
+    	if(bwConnection == null) return;
     	Connectable connectable = ConnectionRepository.getInstance().requestConnectable(bwConnection);
     	addConnectionToPool(connectionId, connectable);
     }
 
     public String removeFromConnectionPool(byte[] bwConnection) {
+    	if(bwConnection == null) return null;
+
     	Optional<Connectable> found = ConnectionConfig.getInstance().getConnections().values().stream()
     			.map(connObj -> connObj.getConnection())
     			.filter(connectable -> (connectable != null) && (connectable instanceof BWConnection))
@@ -37,6 +49,8 @@ public class PoolProxy extends BasePoolProxy {
     }
 
     public void removeFromConnectionPool(String connectionId, byte[] bwConnection) {
+    	if(bwConnection == null) return;
+
     	Optional<Connectable> found = ConnectionConfig.getInstance().getConnections().values().stream()
     			.map(connObj -> connObj.getConnection())
     			.filter(connectable -> (connectable != null) && (connectable instanceof BWConnection))
@@ -47,18 +61,20 @@ public class PoolProxy extends BasePoolProxy {
     }
 
     public void invalidateConnection(byte[] bwConnection, String code, String reason) {
-    	if(bwConnection != null) {
-    		Optional<Connectable> found = ConnectionConfig.getInstance().getConnections().values().stream()
-    				.map(connObj -> connObj.getConnection())
-    				.filter(connectable -> (connectable != null) && (connectable instanceof BWConnection))
-    				.filter(connectable -> Arrays.equals(((BWConnection)connectable).getHandle(),bwConnection))
-    				.findFirst();
-    		if(found.isEmpty()) return ;
-    		invalidateConnection(found.get(), code, reason);
-    	}
+    	if(bwConnection == null) return;
+
+		Optional<Connectable> found = ConnectionConfig.getInstance().getConnections().values().stream()
+				.map(connObj -> connObj.getConnection())
+				.filter(connectable -> (connectable != null) && (connectable instanceof BWConnection))
+				.filter(connectable -> Arrays.equals(((BWConnection)connectable).getHandle(),bwConnection))
+				.findFirst();
+		if(found.isEmpty()) return ;
+		invalidateConnection(found.get(), code, reason);
     }
 
     public void requestSendEventMessage(String reason, byte[] bwConnection) {    	
+    	if(bwConnection == null) return;
+
 		Optional<Connectable> found = ConnectionConfig.getInstance().getConnections().values().stream()
 				.map(connObj -> connObj.getConnection())
 				.filter(connectable -> (connectable != null) && (connectable instanceof BWConnection))
@@ -70,6 +86,8 @@ public class PoolProxy extends BasePoolProxy {
 
     
     public int[] getReadWriteTimeOutAndRetryCount(byte[] bwConnection) {
+    	if(bwConnection == null) return null;
+
 		Optional<Connectable> found = ConnectionConfig.getInstance().getConnections().values().stream()
 				.map(connObj -> connObj.getConnection())
 				.filter(connectable -> (connectable != null) && (connectable instanceof BWConnection))
@@ -81,6 +99,8 @@ public class PoolProxy extends BasePoolProxy {
     
     
     public void sendConnManagerEvent(byte[] bwConnection, String code, String reason) {
+    	if(bwConnection == null) return;
+
 		Optional<Connectable> found = ConnectionConfig.getInstance().getConnections().values().stream()
 				.map(connObj -> connObj.getConnection())
 				.filter(connectable -> (connectable != null) && (connectable instanceof BWConnection))
@@ -91,6 +111,8 @@ public class PoolProxy extends BasePoolProxy {
     }
 
     public void returnConnection(byte[] bwConnection) {
+    	if(bwConnection == null) return;
+
 		Optional<Connectable> found = ConnectionConfig.getInstance().getConnections().values().stream()
 				.map(connObj -> connObj.getConnection())
 				.filter(connectable -> (connectable != null) && (connectable instanceof BWConnection))
@@ -101,6 +123,8 @@ public class PoolProxy extends BasePoolProxy {
     }
 
     public void requestReconnect(byte[] bwConnection) {
+    	if(bwConnection == null) return;
+
 		Optional<Connectable> found = ConnectionConfig.getInstance().getConnections().values().stream()
 				.map(connObj -> connObj.getConnection())
 				.filter(connectable -> (connectable != null) && (connectable instanceof BWConnection))
@@ -111,6 +135,8 @@ public class PoolProxy extends BasePoolProxy {
     }
     
     public String removeFromConnectionConfig(byte[] bwConnection) {
+    	if(bwConnection == null) return null;
+
 		Optional<Connectable> found = ConnectionConfig.getInstance().getConnections().values().stream()
 				.map(connObj -> connObj.getConnection())
 				.filter(connectable -> (connectable != null) && (connectable instanceof BWConnection))
@@ -121,6 +147,8 @@ public class PoolProxy extends BasePoolProxy {
     }
 
     public void removeFromConnectionConfig(String connectionId, byte[] bwConnection) {
+    	if(bwConnection == null) return;
+
 		Optional<Connectable> found = ConnectionConfig.getInstance().getConnections().values().stream()
 				.map(connObj -> connObj.getConnection())
 				.filter(connectable -> (connectable != null) && (connectable instanceof BWConnection))
@@ -131,6 +159,8 @@ public class PoolProxy extends BasePoolProxy {
     }
 
     public String[] getConnectionId(byte[] bwConnection) {
+    	if(bwConnection == null) return null;
+
 		Optional<Connectable> found = ConnectionConfig.getInstance().getConnections().values().stream()
 				.map(connObj -> connObj.getConnection())
 				.filter(connectable -> (connectable != null) && (connectable instanceof BWConnection))
@@ -145,6 +175,20 @@ public class PoolProxy extends BasePoolProxy {
     	if(connectable != null && connectable instanceof BWConnection) {
     		return ((BWConnection)connectable).getHandle();
     	}
+
+    	// report to Monitor
+    	try {
+			String connectionGroupId = connectionId.split(";")[0];
+			String connectionKey = connectionId.split(";")[2];
+
+			// ConnectionManager 이벤트 메시지를 발송한다.
+			String eventMessage = String.format("%s;%s;ERROR;[%s]로 부터 connection을 가져올 수 없습니다.", connectionGroupId, connectionKey, connectionId);
+			Registry.getInstance().addEventSendRequest(eventMessage);
+				
+    	}catch(Exception e) {
+    		// no action
+    	}
+
 		LogManager.getInstance().error("borrowConnectionById null");
         return null;
     }
@@ -191,6 +235,8 @@ public class PoolProxy extends BasePoolProxy {
     }
 
     public void receivedHeartBeat(byte[] bwConnection) {
+    	if(bwConnection == null) return;
+
 		Optional<Connectable> found = ConnectionConfig.getInstance().getConnections().values().stream()
 				.map(connObj -> connObj.getConnection())
 				.filter(connectable -> (connectable != null) && (connectable instanceof BWConnection))

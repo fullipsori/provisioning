@@ -7,7 +7,7 @@ Bundle-ClassPath: .,
  .annoxfiles/
 Bundle-Vendor: TIBCO Software Inc.
 Export-Package: pvs
-Require-Bundle: PVSShared;bundle-version="1.0.0",
+Require-Bundle: PVSMShared;bundle-version="1.0.0",
  ConnectionPool;bundle-version="1.0.0"
 Provide-Capability: com.tibco.bw.module; name="NECommon"; version:Version="1.0.0",
  com.tibco.bw.schemas; ns="http://www.example.org/AppControl",
@@ -18,6 +18,7 @@ Provide-Capability: com.tibco.bw.module; name="NECommon"; version:Version="1.0.0
  com.tibco.bw.schemas; ns="http://www.example.com/namespaces/tns/1638240759845",
  com.tibco.bw.schemas; ns="www.tibco.com/plugin/java/xmlSchema/pvs.RequestEvents",
  com.tibco.bw.schemas; ns="http://www.example.org/PVCNEConfig",
+ com.tibco.bw.schemas; ns="http://www.example.com/namespaces/tns/1653980060660",
  com.tibco.bw.resources; name="pvscommon",
  com.tibco.bw.processes; name="PVSControl",
  com.tibco.bw.processes; name="ConnManager",
@@ -32,7 +33,7 @@ TIBCO-BW-ModuleSharedVariables: META-INF/module.msv
 TIBCO-BW-Edition: bwcf
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Capability: com.tibco.bw.model; filter:="(name=bwext)",
- com.tibco.bw.module; filter:="(&(name=PVSShared)(version=1.0.0))",
+ com.tibco.bw.module; filter:="(&(name=PVSMShared)(version=1.0.0))",
  com.tibco.bw.palette; filter:="(name=bw.generalactivities)",
  com.tibco.bw.palette; filter:="(name=bw.jdbc)",
  com.tibco.bw.palette; filter:="(name=bw.file)",

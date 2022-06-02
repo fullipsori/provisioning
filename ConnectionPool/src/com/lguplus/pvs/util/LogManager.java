@@ -5,6 +5,63 @@ import java.util.Date;
 import java.util.logging.*;
 
 public class LogManager {
+	public enum LEVEL {
+		TRACE(0, "TRACE"){
+			void apply(Logger logger) {
+				logger.setLevel(Level.FINE);
+			}
+		},
+		DEBUG(1, "DEBUG"){
+			void apply(Logger logger) {
+				logger.setLevel(Level.FINE);
+			}
+		},
+		INFO(2, "INFO"){
+			void apply(Logger logger) {
+				logger.setLevel(Level.INFO);
+			}
+		},
+		WARN(3, "WARN"){
+			void apply(Logger logger) {
+				logger.setLevel(Level.WARNING);
+			}
+		},
+		ERROR(4, "ERROR"){
+			void apply(Logger logger) {
+				logger.setLevel(Level.SEVERE);
+			}
+		};
+		
+		public final int intLevel;
+		public final String strLevel;
+
+		private LEVEL(int iLevel, String sLevel) {
+			this.intLevel = iLevel;
+			this.strLevel = sLevel;
+		}
+		
+		abstract void apply(Logger logger);
+		
+		public static LEVEL getLevel(String sLevel) {
+			String upperLevel = sLevel.toUpperCase();
+			for(LEVEL level : LEVEL.values()) {
+				if(level.strLevel.equals(upperLevel)) {
+					return level;
+				}
+			}
+			return INFO;
+		}
+		
+		public static LEVEL getLevel(int intLevel) {
+			for(LEVEL level : LEVEL.values()) {
+				if(level.intLevel == intLevel) {
+					return level;
+				}
+			}
+			return INFO;
+		}
+		
+	}
 
 	private class CustomLogFormatter extends Formatter {
 	    
@@ -37,6 +94,7 @@ public class LogManager {
 
 	private final static Logger mLogger = Logger.getGlobal();
 	private static Handler OutputHandler = new ConsoleHandler();
+	private LEVEL mLevel = LEVEL.INFO;
 
 	private static LogManager instance = new LogManager();
 	public static LogManager getInstance() { 
@@ -44,17 +102,20 @@ public class LogManager {
 	}
 
 	public LogManager( ) {
-		mLogger.setLevel(Level.INFO);
+		mLevel = LEVEL.INFO;
+		mLevel.apply(mLogger);
         OutputHandler.setFormatter(new CustomLogFormatter());
 		mLogger.addHandler(OutputHandler);
 	}
 	
+	public LEVEL getLevel() {
+		return mLevel;
+	}
+
 	public void setLevel(String level) {
 		if(level == null) return;
-		if(level.equalsIgnoreCase("error")) mLogger.setLevel(Level.SEVERE);
-		else if(level.equalsIgnoreCase("warn")) mLogger.setLevel(Level.WARNING);
-		else if(level.equalsIgnoreCase("debug")) mLogger.setLevel(Level.FINE);
-		else mLogger.setLevel(Level.INFO);
+		mLevel = LEVEL.getLevel(level);
+		mLevel.apply(mLogger);
 	}
 	
 	public void setOutputMode(boolean fileMode, String filename) {
@@ -93,4 +154,5 @@ public class LogManager {
 	public void debug(String msg) {
 		mLogger.log(Level.FINE, msg);
 	}
+	
 }
