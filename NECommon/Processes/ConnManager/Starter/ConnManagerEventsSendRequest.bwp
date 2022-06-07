@@ -1366,7 +1366,7 @@
                                     <type href="http://ns.tibco.com/bw/palette/jms#//JMSSenderActivityConfiguration"/>
                                     <value
                                     connectionReference="jmsConnection"
-                                    destinationName="ne.status.q"
+                                    destinationName="T.S.AGENT.MON.NeAgentStatus"
                                     messagingStyle="Topic"
                                     priority="4" xsi:type="jms:JMSSenderActivityConfiguration"/>
                                 </properties>
