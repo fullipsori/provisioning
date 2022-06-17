@@ -660,40 +660,6 @@
                 </choice>
             </complexType>
         </schema>
-        <schema attributeFormDefault="unqualified"
-            elementFormDefault="qualified"
-            targetNamespace="www.tibco.com/plugin/java/JavaInvokeActivityInput+b90d6fec-cf64-4be9-884a-fc28efaa2158+JavaInvokeActivityInput"
-            xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="www.tibco.com/plugin/java/JavaInvokeActivityInput+b90d6fec-cf64-4be9-884a-fc28efaa2158+JavaInvokeActivityInput">
-            <complexType name="MutTypeMethodParameters">
-                <sequence>
-                    <element form="unqualified" maxOccurs="1"
-                        minOccurs="1" name="connectionId" type="string"/>
-                    <element form="unqualified" maxOccurs="1"
-                        minOccurs="1" name="maxLength" type="int"/>
-                    <element form="unqualified" maxOccurs="1"
-                        minOccurs="1" name="timeout" type="int"/>
-                </sequence>
-            </complexType>
-            <element name="JavaInvokeActivityInput" type="tns:MutTypeMethodInputRoot"/>
-            <complexType name="MutTypeMethodInputRoot">
-                <sequence>
-                    <element form="unqualified" maxOccurs="1"
-                        minOccurs="1" name="MethodParameters" type="tns:MutTypeMethodParameters"/>
-                </sequence>
-            </complexType>
-        </schema>
-        <schema attributeFormDefault="unqualified"
-            elementFormDefault="qualified"
-            targetNamespace="www.tibco.com/plugin/java/JavaInvokeActivityOutput+b90d6fec-cf64-4be9-884a-fc28efaa2158+JavaInvokeActivityOutput"
-            xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="www.tibco.com/plugin/java/JavaInvokeActivityOutput+b90d6fec-cf64-4be9-884a-fc28efaa2158+JavaInvokeActivityOutput">
-            <element name="JavaInvokeActivityOutput" type="tns:MutTypeMethodOutputRoot"/>
-            <complexType name="MutTypeMethodOutputRoot">
-                <sequence>
-                    <element form="unqualified" maxOccurs="1"
-                        minOccurs="0" name="MethodReturnValue" type="string"/>
-                </sequence>
-            </complexType>
-        </schema>
         <schema elementFormDefault="unqualified"
             targetNamespace="http://tns.tibco.com/bw/palette/internal/activityerror+b90d6fec-cf64-4be9-884a-fc28efaa2158"
             xmlns="http://www.w3.org/2001/XMLSchema"
@@ -876,7 +842,7 @@
                                     <layoutConstraint
                                     height="40"
                                     width="40"
-                                    x="42"
+                                    x="85"
                                     xsi:type="notation:Bounds" y="18"/>
                                     </children>
 
@@ -932,63 +898,7 @@
                                     <layoutConstraint
                                     height="40"
                                     width="40"
-                                    x="176"
-                                    xsi:type="notation:Bounds" y="18"/>
-                                    </children>
-
-                                    <children type="4002 bw.java.javamethod">
-
-                                    <children type="4017">
-
-                                    <styles
-                                    fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-
-                                    <layoutConstraint xsi:type="notation:Bounds"/>
-                                    </children>
-
-                                    <children type="4017">
-
-                                    <styles
-                                    fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-
-                                    <layoutConstraint xsi:type="notation:Bounds"/>
-                                    </children>
-
-                                    <children type="4017">
-
-                                    <styles
-                                    fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-
-                                    <layoutConstraint xsi:type="notation:Bounds"/>
-                                    </children>
-
-                                    <children type="4017">
-
-                                    <styles
-                                    fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-
-                                    <layoutConstraint xsi:type="notation:Bounds"/>
-                                    </children>
-
-                                    <styles
-                                    fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-
-                                    <styles
-                                    backgroundColor="16777215"
-                                    gradientEndColor="50431"
-                                    gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
-
-                                    <element href="//0/@process/@activity/@activity/@activities.2/@activity/@activities.4"/>
-
-                                    <layoutConstraint
-                                    height="40"
-                                    width="40"
-                                    x="270"
+                                    x="218"
                                     xsi:type="notation:Bounds" y="18"/>
                                     </children>
                                     <styles xsi:type="notation:DrawerStyle"/>
@@ -1680,7 +1590,7 @@
         </edges>
         <edges
             source="//@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.1"
-            target="//@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2" type="4006">
+            target="//@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.2" type="4006">
             <children type="6002">
                 <layoutConstraint xsi:type="notation:Location" y="40"/>
             </children>
@@ -1688,17 +1598,6 @@
             <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
             <element href="//0/@process/@activity/@activity/@activities.2/@activity/@links/@children.2"/>
             <bendpoints points="[25, 7, -126, -36]$[139, 39, -12, -4]" xsi:type="notation:RelativeBendpoints"/>
-        </edges>
-        <edges
-            source="//@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2"
-            target="//@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.2" type="4006">
-            <children type="6002">
-                <layoutConstraint xsi:type="notation:Location" y="40"/>
-            </children>
-            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
-            <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
-            <element href="//0/@process/@activity/@activity/@activities.2/@activity/@links/@children.3"/>
-            <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
         </edges>
     </notation:Diagram>
     <tibex:NamespaceRegistry enabled="true">
@@ -1785,10 +1684,6 @@
             name="ReadSocket" sca-bpel:internal="true"/>
         <bpws:variable element="ns28:ActivityErrorData"
             name="_error_ReadSocketR" sca-bpel:internal="true"/>
-        <bpws:variable element="ns29:JavaInvokeActivityInput"
-            name="ReadRemain-input" sca-bpel:internal="true"/>
-        <bpws:variable element="ns30:JavaInvokeActivityOutput"
-            name="ReadRemain" sca-bpel:internal="true"/>
         <bpws:variable element="ns31:ActivityErrorData"
             name="_error_ReadSocke" sca-bpel:internal="true"/>
     </bpws:variables>
@@ -1992,7 +1887,6 @@
                         <bpws:link name="GroupStartToWriteSocket" tibex:linkType="SUCCESS"/>
                         <bpws:link name="WriteSocketToJavaInvoke" tibex:linkType="SUCCESS"/>
                         <bpws:link name="ReadSocketToGroupEnd" tibex:linkType="SUCCESS"/>
-                        <bpws:link name="JavaInvokeToGroupEnd" tibex:linkType="SUCCESS"/>
                     </bpws:links>
                     <bpws:empty name="GroupStart"
                         tibex:group="groupStart" tibex:xpdlId="bb3c827f-ceaf-4bf8-a13a-9336d0738384">
@@ -2002,7 +1896,7 @@
                     </bpws:empty>
                     <bpws:empty name="GroupEnd" tibex:group="groupEnd" tibex:xpdlId="e7c7a929-36ea-41ca-a7ca-012d5a603937">
                         <bpws:targets>
-                            <bpws:target linkName="JavaInvokeToGroupEnd"/>
+                            <bpws:target linkName="ReadSocketToGroupEnd"/>
                         </bpws:targets>
                     </bpws:empty>
                     <bpws:extensionActivity>
@@ -2068,52 +1962,6 @@
                             <tibex:inputBindings>
                                 <tibex:inputBinding
                                     expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns10=&quot;www.tibco.com/plugin/java/JavaInvokeActivityInput+24a635d4-0704-4da9-aa67-e55c0d879965+JavaInvokeActivityInput&quot; xmlns:tns7=&quot;http://www.example.org/PVCNEConfig&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;GetNEConfig&quot;/>&lt;xsl:param name=&quot;Borrow_SocketCon&quot;/>&lt;xsl:template name=&quot;ReadSocket-input&quot; match=&quot;/&quot;>&lt;tns10:JavaInvokeActivityInput>&lt;MethodParameters>&lt;connectionId>&lt;xsl:value-of select=&quot;$Borrow_SocketCon/MethodReturnValue&quot;/>&lt;/connectionId>&lt;maxLength>&lt;xsl:value-of select=&quot;4096&quot;/>&lt;/maxLength>&lt;timeout>&lt;xsl:value-of select=&quot;$GetNEConfig/tns7:ReadTimeOut&quot;/>&lt;/timeout>&lt;/MethodParameters>&lt;/tns10:JavaInvokeActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
-                            </tibex:inputBindings>
-                            <tibex:config>
-                                <bwext:BWActivity
-                                    activityTypeID="bw.java.javamethod"
-                                    xmlns:activityconfig="http://tns.tibco.com/bw/model/activityconfig"
-                                    xmlns:bwext="http://tns.tibco.com/bw/model/core/bwext"
-                                    xmlns:java="http://ns.tibco.com/bw/palette/java" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                    <activityConfig>
-                                    <properties name="config" xsi:type="activityconfig:EMFProperty">
-                                    <type href="http://ns.tibco.com/bw/palette/java#//JavaMethod"/>
-                                    <value
-                                    className="com.lguplus.pvs.PoolProxy"
-                                    isNew="true"
-                                    isNewActivity="true"
-                                    javaGlobalInstance="JavaGlobalInstanceProperty"
-                                    methodName="ReadSocket"
-                                    methodReturn="string" xsi:type="java:JavaMethod">
-                                    <exceptionTypes>java.lang.Exception</exceptionTypes>
-                                    <methodParameter
-                                    paramName="connectionId" paramType="string"/>
-                                    <methodParameter
-                                    paramName="maxLength" paramType="int"/>
-                                    <methodParameter
-                                    paramName="timeout" paramType="int"/>
-                                    </value>
-                                    </properties>
-                                    </activityConfig>
-                                </bwext:BWActivity>
-                            </tibex:config>
-                        </tibex:activityExtension>
-                    </bpws:extensionActivity>
-                    <bpws:extensionActivity>
-                        <tibex:activityExtension
-                            inputVariable="ReadRemain-input"
-                            name="ReadRemain"
-                            outputVariable="ReadRemain"
-                            tibex:xpdlId="b90d6fec-cf64-4be9-884a-fc28efaa2158" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
-                            <bpws:targets>
-                                <bpws:target linkName="ReadSocketToGroupEnd"/>
-                            </bpws:targets>
-                            <bpws:sources>
-                                <bpws:source linkName="JavaInvokeToGroupEnd"/>
-                            </bpws:sources>
-                            <tibex:inputBindings>
-                                <tibex:inputBinding
-                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns11=&quot;www.tibco.com/plugin/java/JavaInvokeActivityInput+b90d6fec-cf64-4be9-884a-fc28efaa2158+JavaInvokeActivityInput&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;Borrow_SocketCon&quot;/>&lt;xsl:template name=&quot;ReadRemain-input&quot; match=&quot;/&quot;>&lt;tns11:JavaInvokeActivityInput>&lt;MethodParameters>&lt;connectionId>&lt;xsl:value-of select=&quot;$Borrow_SocketCon/MethodReturnValue&quot;/>&lt;/connectionId>&lt;maxLength>&lt;xsl:value-of select=&quot;4096&quot;/>&lt;/maxLength>&lt;timeout>&lt;xsl:value-of select=&quot;3000&quot;/>&lt;/timeout>&lt;/MethodParameters>&lt;/tns11:JavaInvokeActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                             </tibex:inputBindings>
                             <tibex:config>
                                 <bwext:BWActivity
