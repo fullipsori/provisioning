@@ -9,21 +9,13 @@ Bundle-Vendor: TIBCO Software Inc.
 Require-Bundle: NECommon;bundle-version="1.0.0",
  PVSMShared;bundle-version="1.0.0",
  ConnectionPool;bundle-version="1.0.0"
+Require-Capability: com.tibco.bw.model; filter:="(name=bwext)",com.tibco.bw.module; filter:="(&(name=NECommon)(version=1.0.0))",com.tibco.bw.module; filter:="(&(name=PVSMShared)(version=1.0.0))",com.tibco.bw.palette; filter:="(name=bw.generalactivities)",com.tibco.bw.palette; filter:="(name=bw.restjson)",com.tibco.bw.palette; filter:="(name=bw.tcp)",com.tibco.bw.palette; filter:="(name=bw.java)",com.tibco.bw.palette; filter:="(name=bw.jms)",com.tibco.bw.sharedresource.model; filter:="(name=bw.jdbc)"
 TIBCO-BW-Version: 2.7.0 V55 2021-11-10
 Import-Package: com.tibco.bw.palette.shared.java;version="[6.0.0,7.0.0)",
  com.tibco.bw.runtime;version="[6.0.0,7.0.0)"
-TIBCO-BW-JobSharedVariables: META-INF/module.jsv
+TIBCO-BW-Edition: bwcf
+TIBCO-BW-ApplicationModule: META-INF/module.bwm
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 TIBCO-BW-ConfigProfile: META-INF/default.substvar
 TIBCO-BW-ModuleSharedVariables: META-INF/module.msv
-TIBCO-BW-Edition: bwcf
-Require-Capability: com.tibco.bw.model; filter:="(name=bwext)",
- com.tibco.bw.module; filter:="(&(name=NECommon)(version=1.0.0))",
- com.tibco.bw.module; filter:="(&(name=PVSMShared)(version=1.0.0))",
- com.tibco.bw.palette; filter:="(name=bw.generalactivities)",
- com.tibco.bw.palette; filter:="(name=bw.restjson)",
- com.tibco.bw.palette; filter:="(name=bw.tcp)",
- com.tibco.bw.palette; filter:="(name=bw.java)",
- com.tibco.bw.palette; filter:="(name=bw.jms)",
- com.tibco.bw.sharedresource.model; filter:="(name=bw.jdbc)"
-TIBCO-BW-ApplicationModule: META-INF/module.bwm
+TIBCO-BW-JobSharedVariables: META-INF/module.jsv

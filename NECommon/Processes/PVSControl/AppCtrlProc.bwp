@@ -1193,7 +1193,7 @@
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
                                     <element href="//0/@process/@activity/@activity/@activities.14"/>
                                     <layoutConstraint
-                                    height="40" width="211"
+                                    height="40" width="162"
                                     x="375"
                                     xsi:type="notation:Bounds" y="1071"/>
                                     </children>
@@ -1591,7 +1591,7 @@
             <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
             <element href="//0/@process/@activity/@activity/@links/@children.17"/>
             <bendpoints
-                points="[0, 25, -298, -951]$[0, 972, -298, -4]$[230, 972, -68, -4]" xsi:type="notation:RelativeBendpoints"/>
+                points="[8, 0, -282, -982]$[8, 975, -282, -7]$[246, 975, -44, -7]" xsi:type="notation:RelativeBendpoints"/>
             <sourceAnchor id="(0.5714285714285714,1.0)" xsi:type="notation:IdentityAnchor"/>
         </edges>
     </notation:Diagram>
@@ -1642,14 +1642,6 @@
         </bpws:variable>
         <bpws:variable element="ns:ErrorReport" name="_error" sca-bpel:internal="true"/>
         <bpws:variable name="JavaGlobalInstanceProperty"
-            sca-bpel:hotUpdate="false" sca-bpel:privateProperty="true"
-            sca-bpel:property="yes"
-            sca-bpel:sharedResourceType="{http://ns.tibco.com/bw/palette/javasharedresource}JavaGlobalInstanceResource" type="xsd:string">
-            <bpws:from>
-                <bpws:literal>pvscommon.JavaGlobalInstanceResource</bpws:literal>
-            </bpws:from>
-        </bpws:variable>
-        <bpws:variable name="JavaGlobalInstanceProperty1"
             sca-bpel:hotUpdate="false" sca-bpel:privateProperty="true"
             sca-bpel:property="yes"
             sca-bpel:sharedResourceType="{http://ns.tibco.com/bw/palette/javasharedresource}JavaGlobalInstanceResource" type="xsd:string">
@@ -1814,7 +1806,7 @@
                                     <type href="http://ns.tibco.com/bw/palette/restjson#//JsonParser"/>
                                     <value jsonInputStyle="None"
                                     schemaType="Xsd" xsi:type="restjson:JsonParser">
-                                    <outputEditorElement href="platform:/resource/PVSCommon/Schemas/AppControl.xsd#//command;XSDElementDeclaration"/>
+                                    <outputEditorElement href="platform:/resource/NECommon/Schemas/AppControl.xsd#//command;XSDElementDeclaration"/>
                                     </value>
                                 </properties>
                             </activityConfig>
@@ -1920,7 +1912,7 @@
                     </bpws:targets>
                     <tibex:inputBindings>
                         <tibex:inputBinding coercion=""
-                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns8=&quot;http://www.example.org/AppControl&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;ParseJSON&quot;/>&lt;xsl:template name=&quot;UpdateAndReconnect-input&quot; match=&quot;/&quot;>&lt;tns8:command>&lt;tns8:pod-name>&lt;xsl:value-of select=&quot;$ParseJSON/tns8:pod-name&quot;/>&lt;/tns8:pod-name>&lt;tns8:command-type>&lt;xsl:value-of select=&quot;$ParseJSON/tns8:command-type&quot;/>&lt;/tns8:command-type>&lt;tns8:command>&lt;xsl:value-of select=&quot;$ParseJSON/tns8:command&quot;/>&lt;/tns8:command>&lt;tns8:parameter1>&lt;xsl:value-of select=&quot;$ParseJSON/tns8:parameter1&quot;/>&lt;/tns8:parameter1>&lt;tns8:parameter2>&lt;xsl:value-of select=&quot;$ParseJSON/tns8:parameter2&quot;/>&lt;/tns8:parameter2>&lt;/tns8:command>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns8=&quot;http://www.example.org/AppControl&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;ParseJSON&quot;/>&lt;xsl:template name=&quot;UpdateConfig-input&quot; match=&quot;/&quot;>&lt;tns8:command>&lt;tns8:pod-name>&lt;xsl:value-of select=&quot;$ParseJSON/tns8:pod-name&quot;/>&lt;/tns8:pod-name>&lt;tns8:command-type>&lt;xsl:value-of select=&quot;$ParseJSON/tns8:command-type&quot;/>&lt;/tns8:command-type>&lt;tns8:command>&lt;xsl:value-of select=&quot;$ParseJSON/tns8:command&quot;/>&lt;/tns8:command>&lt;tns8:parameter1>&lt;xsl:value-of select=&quot;$ParseJSON/tns8:parameter1&quot;/>&lt;/tns8:parameter1>&lt;tns8:parameter2>&lt;xsl:value-of select=&quot;$ParseJSON/tns8:parameter2&quot;/>&lt;/tns8:parameter2>&lt;/tns8:command>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                     </tibex:inputBindings>
                     <tibex:CallProcess
                         subProcessName="ConnManager.Sub.UpdateConfig" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions"/>
@@ -1936,7 +1928,7 @@
                     </bpws:targets>
                     <tibex:inputBindings>
                         <tibex:inputBinding coercion=""
-                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns8=&quot;http://www.example.org/AppControl&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;ParseJSON&quot;/>&lt;xsl:template name=&quot;CONNECTTOTARGET-input&quot; match=&quot;/&quot;>&lt;tns8:command>&lt;tns8:pod-name>&lt;xsl:value-of select=&quot;$ParseJSON/tns8:pod-name&quot;/>&lt;/tns8:pod-name>&lt;tns8:command-type>&lt;xsl:value-of select=&quot;$ParseJSON/tns8:command-type&quot;/>&lt;/tns8:command-type>&lt;tns8:command>&lt;xsl:value-of select=&quot;$ParseJSON/tns8:command&quot;/>&lt;/tns8:command>&lt;tns8:parameter1>&lt;xsl:value-of select=&quot;$ParseJSON/tns8:parameter1&quot;/>&lt;/tns8:parameter1>&lt;tns8:parameter2>&lt;xsl:value-of select=&quot;$ParseJSON/tns8:parameter2&quot;/>&lt;/tns8:parameter2>&lt;/tns8:command>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns8=&quot;http://www.example.org/AppControl&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;ParseJSON&quot;/>&lt;xsl:template name=&quot;ConnectToTarget-input&quot; match=&quot;/&quot;>&lt;tns8:command>&lt;tns8:pod-name>&lt;xsl:value-of select=&quot;$ParseJSON/tns8:pod-name&quot;/>&lt;/tns8:pod-name>&lt;tns8:command-type>&lt;xsl:value-of select=&quot;$ParseJSON/tns8:command-type&quot;/>&lt;/tns8:command-type>&lt;tns8:command>&lt;xsl:value-of select=&quot;$ParseJSON/tns8:command&quot;/>&lt;/tns8:command>&lt;tns8:parameter1>&lt;xsl:value-of select=&quot;$ParseJSON/tns8:parameter1&quot;/>&lt;/tns8:parameter1>&lt;tns8:parameter2>&lt;xsl:value-of select=&quot;$ParseJSON/tns8:parameter2&quot;/>&lt;/tns8:parameter2>&lt;/tns8:command>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                     </tibex:inputBindings>
                     <tibex:CallProcess
                         subProcessName="ConnManager.Sub.ConnectToTarget" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions"/>

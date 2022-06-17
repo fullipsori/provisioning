@@ -1,10 +1,11 @@
 package com.lguplus.pvs;
 
 import com.lguplus.pvs.model.Connectable;
+import com.lguplus.pvs.model.ConnectionMode;
 import com.lguplus.pvs.util.LogManager;
 
 public class ConnectionObject {
-    // ConnectionID 포맷 = ConctionGroup + delimeter(";;") + ConnectionId
+    // ConnectionID 포맷 = ConctionGroup + delimeter(";;") + ConnectionKey
     public static String CID_FORMAT = "%s;;%s";
     public static String CID_DELIMETER = ";;";
     
@@ -100,8 +101,25 @@ public class ConnectionObject {
     private int heartbeatTryCount = 6;		// 최대 재시도 횟수 6회
     private int heartbeatFailSeconds = 30000 * 6; // 180초 => 기본 3분     
     private int failoverMaxTryCountToSendEvent = 12; // 12회까지 반복 후 오류 이벤트를 보내준다.
-
+    private ConnectionMode connectionMode;
+    
     private final LogManager logManager;
+    
+    public static String getConnectionIdFromGroupInfo(String groupId, String key) {
+    	return String.format(CID_FORMAT, groupId, key);
+    }
+    public static String getGroupIdFromConnectionId(String connectionId) {
+    	if(connectionId == null) return "";
+    	String[] tokens = connectionId.split(CID_DELIMETER);
+    	return tokens[0];
+    }
+    public static String getKeyFromConnectionId(String connectionId) {
+    	if(connectionId == null) return "";
+    	String[] tokens = connectionId.split(CID_DELIMETER);
+    	if(tokens.length < 2) return "";
+    	return tokens[1];
+    }
+
     public ConnectionObject(String connectionGroupId, String connectionKey) {
     	this.logManager = LogManager.getInstance();
         this.connectionId = String.format(CID_FORMAT, connectionGroupId, connectionKey);
@@ -295,6 +313,7 @@ public class ConnectionObject {
     		// 필요시 특정 Action을 취한다.- 지정된 횟수 이상 접속 시도를 수행햇으나 실패했을 경우
     		String eventMessage = String.format("%s;%s;ERROR;|%s| 연결 시도 횟수가 %d회에 도달하였습니다. NE에 문제가 있는지 확인바랍니다.", connectionGroupId, connectionKey, this.description, failoverTryCount);    		
     		Registry.getInstance().addEventSendRequest(eventMessage);
+    		Registry.getInstance().addSMSSendRequest(this.connectionId, String.format("연결 시도(%d회)가 실패하였습니다. NE에 문제가 있는지 확인바랍니다.", failoverTryCount));
     		logManager.warn(eventMessage);
     	}
     	
@@ -461,8 +480,10 @@ public class ConnectionObject {
 
     public Connectable getConnection() { return connectableSession; }
     public void closeSession() {
-		ConnectionRepository.getInstance().closeConnectable(this.connectableSession);
-		this.connectableSession = null;
+    	if(this.connectableSession != null) {
+			ConnectionRepository.getInstance().closeConnectable(this.connectableSession);
+			this.connectableSession = null;
+    	}
     }
 
     public ConnectionObject setConnection(Connectable connectable) {
@@ -511,6 +532,14 @@ public class ConnectionObject {
     public long getFailoverTryCount() { return failoverTryCount; }
     public void increaseFailoverTryCount() { this.failoverTryCount++; }
     
+    public ConnectionMode getConnectionMode() {
+    	return connectionMode;
+    }
+    
+    public void setConnectionMode(ConnectionMode connMode) {
+    	this.connectionMode = connMode;
+    }
+
     private void initialize() {
     	this.connectionStatus = true; // 연결되었음을 알려준다.
     	this.lastUsedTime = System.currentTimeMillis();

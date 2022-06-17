@@ -69,7 +69,8 @@ public enum NECONN {
 	 HERATBEAT_TRY_COUNT(28),
 	 HERATBEAT_MESSAGE(29),
 	 NE_MANAGEMENT(30),
-	 DESCRIPTION(31);
+	 DESCRIPTION(31),
+	 CONN_MODE(32);
 	
 	 public final int idx;
 	 

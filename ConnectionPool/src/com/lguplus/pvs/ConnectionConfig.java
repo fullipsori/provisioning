@@ -9,6 +9,7 @@ import org.xml.sax.SAXException;
 
 import com.lguplus.pool.Pool;
 import com.lguplus.pvs.model.Connectable;
+import com.lguplus.pvs.model.ConnectionMode;
 import com.lguplus.pvs.util.LogManager;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -78,7 +79,7 @@ public class ConnectionConfig {
 	    		return -1;
 	    	}
     	}catch(Exception ex) {
-    		logManager.error(String.format("Unexpected value - please check the DB Value [%s]\n", value));
+    		logManager.info(String.format("Unexpected value - please check the DB Value [%s]\n", value));
     		return -1;
     	}
     }
@@ -91,7 +92,7 @@ public class ConnectionConfig {
 	    		return -1;
 	    	}
     	}catch(Exception ex) {
-    		logManager.error(String.format("Unexpected value - please check the DB Value [%s]\n", value));
+    		logManager.info(String.format("Unexpected value - please check the DB Value [%s]\n", value));
     		return -1;
     	}
     }
@@ -370,11 +371,13 @@ public class ConnectionConfig {
     	if(this.connections.containsKey(connectionId)) {
     		logManager.info("["+connectionId+"]의 정보를 초기화 하겠습니다.");
     		ConnectionObject connObj = this.connections.get(connectionId);
-    		connObj.setConnectionFirstTime(true);
-    		connObj.setConnectionReset(true);
-    		connObj.setConnectionStatus(false);
-    		connObj.setFailOverTryCount(0);
-    		connObj.closeSession();
+    		if(connObj != null) {
+				connObj.setConnectionFirstTime(true);
+				connObj.setConnectionReset(true);
+				connObj.setConnectionStatus(false);
+				connObj.setFailOverTryCount(0);
+				connObj.closeSession();
+    		}
     	} else {
     		logManager.warn(String.format("[%s] 는 존재하지 않는 연결객체 입니다. 다시 한번 확인이 필요합니다.\n", connectionId));
     	}
@@ -673,14 +676,16 @@ public class ConnectionConfig {
     	for(String elem : NEConfigInfo) {
     		cols = elem.split(";");
     		int connCount = stringToInteger(cols[NECONN.CONN_COUNT.idx]);
-    		logManager.info(String.format("[%d][neconn_id: %d][연결객체 생성 개수: %d개][%s;;%s][%s][%d]-[%s]\n", idx++,
+    		logManager.info(String.format("[%d][neconn_id: %d][연결객체 생성 개수: %d개][%s;;%s][%s][%d]-[%s][%s]\n", 
+    																		idx++,
     																		stringToLong(cols[NECONN.NECONN_ID.idx]),
     																		connCount,
 																			cols[NECONN.CONN_GROUPNAME.idx], 
 																			cols[NECONN.CONN_KEY.idx], 
 																			cols[NECONN.CONN_IP_A.idx], 
 																			stringToInteger(cols[NECONN.CONN_PORT_A.idx]), 
-																			cols[NECONN.FAILOVER_POLICY.idx]));
+																			cols[NECONN.FAILOVER_POLICY.idx],
+																			cols[NECONN.CONN_MODE.idx]));
     		
     		
     		String connectionGroupId = cols[NECONN.CONN_GROUPNAME.idx]; // 컨넥션 풀의 그룹명 가져오기
@@ -738,6 +743,12 @@ public class ConnectionConfig {
 	    	    connObj.setHeartBeatMessage(cols[NECONN.HERATBEAT_MESSAGE.idx]); // HeartBeat Message 
 	    		connObj.setNEManager(cols[NECONN.NE_MANAGEMENT.idx]); // NE 관리 담당자
 	    		connObj.setDescription(cols[NECONN.DESCRIPTION.idx]);
+	    		
+	    		if(cols[NECONN.CONN_MODE.idx].equalsIgnoreCase(ConnectionMode.BW.name())) {
+	    			connObj.setConnectionMode(ConnectionMode.BW);
+	    		}else {
+	    			connObj.setConnectionMode(ConnectionMode.SOCKET);
+	    		}
 		    	    
 		    	if(connObj.getConnectionType().equalsIgnoreCase("INFO")) {
 		    		connObj.setConnectionObjectStatus("IC");
@@ -1017,10 +1028,9 @@ public class ConnectionConfig {
      * @param connectionKey
      * @return
      */
-    public Connectable removeConnection(String connectionGroupId, String connectionKey) {
+    public Connectable removeConnection(String connectionId) {
     	Connectable connectable = null;    	
-    	logManager.info(String.format("ConnectionConfig.disconnectConnection [%s;;%s] 연결 객체를 connection pool에서 삭제하도록 하겠습니다.\n", connectionGroupId, connectionKey));
-    	String connectionId = String.format(ConnectionObject.CID_FORMAT, connectionGroupId, connectionKey);
+    	logManager.info(String.format("ConnectionConfig.disconnectConnection [%s] 연결 객체를 connection pool에서 삭제하도록 하겠습니다.\n", connectionId));
     	
     	if(this.connections.containsKey(connectionId)) {
     		ConnectionObject connObj = this.connections.remove(connectionId); // connection Object 객체 정보를 삭제를 해준다.

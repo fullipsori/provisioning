@@ -3,6 +3,7 @@ package com.lguplus.pvs;
 import com.lguplus.pool.BoundedBlockingPool;
 import com.lguplus.pool.Pool;
 import com.lguplus.pvs.model.Connectable;
+import com.lguplus.pvs.model.ConnectionMode;
 import com.lguplus.pvs.util.LogManager;
 
 import java.util.ArrayList;
@@ -173,9 +174,9 @@ public class BasePoolProxy {
     /*
      * 지정한 connection을 ConnectionManager에서 삭제한다. 
      */
-    protected Connectable removeConnection(String groupId, String connectionKey) {
-    	logManager.info(String.format("PoolProxy.disconnectConnection [%s;;%s] 연결 객체를 connection pool에서 삭제하도록 하겠습니다.\n", groupId, connectionKey));
-    	return connectionConfig.removeConnection(groupId,  connectionKey);
+    protected Connectable removeConnection(String connectionId) {
+    	logManager.info(String.format("PoolProxy.disconnectConnection [%s] 연결 객체를 connection pool에서 삭제하도록 하겠습니다.\n", connectionId));
+    	return connectionConfig.removeConnection(connectionId);
     }
     
     /*
@@ -223,7 +224,7 @@ public class BasePoolProxy {
         poolMap = new HashMap<>(connectionConfig.getConnectionGroupList().size());
         for(String connectionGroupId : connectionConfig.getConnectionGroupList()) {
             // Pool size는 설정된 개수 *3배 만큼 여유있게 함, 나중에 추가될 수 있으므로
-            Pool<ConnectionObject> pool = new BoundedBlockingPool(connectionConfig.getConnectionCount()*MULTIPLY_POOL_SIZE
+            Pool<ConnectionObject> pool = new BoundedBlockingPool<>(connectionConfig.getConnectionCount()*MULTIPLY_POOL_SIZE
                     	,new ConnectionInvalidator(connectionConfig.getFailoverPolicy()));
             poolMap.put(connectionGroupId, pool);
         }
@@ -289,25 +290,9 @@ public class BasePoolProxy {
     	}
     }
 
-    public void sendConnManagerEvent(Connectable connectable, String code, String reason) {
-    	    	
-    	if(connectable != null ) {
-    			ConnectionObject connObj = connectionConfig.getConnectionObjectByConnectable(connectable);
-    			if(connObj != null) {
-		    		String connectionGroupId = connObj.getConnectionGroupId();
-		    		String connectionKey = connObj.getConnectionKey();
-		    		String eventMessage = String.format("%s;%s;%s;%s", connectionGroupId, connectionKey, code, reason);
-		    		Registry.getInstance().addEventSendRequest(eventMessage);
-    			} else {
-    				logManager.warn(String.format("/// sendConnManagerEvent[bwConnection] : connObj 값이 NULL 입니다. 매칭되는 connectionId가 존재하지 않습니다.[%s][%s]\n", code, reason));
-    			}
-    	} else {
-    		logManager.warn(String.format("/// sendConnManagerEvent[bwConnection] : bwConnection 값이 NULL 입니다. [%s][%s]\n", code, reason));
-    	}
-    }
-    
     public void sendConnManagerEvent(String connectionId, String code, String reason) {
     
+    	logManager.warn("sendConnManagerEvent:" + connectionId + ":" + code + ":" + reason);
     	if(connectionId != null ) {
 	    	String[] arr = connectionId.split(";");
 	    	if(arr.length == 3) {
@@ -384,7 +369,9 @@ public class BasePoolProxy {
 
     public void addConnectionToPool(String connectionId, Connectable connectable) {
         // 설정에 있는 connection-id 인지 여부 체크
-        if(!connectionConfig.getConnections().containsKey(connectionId)) throw new RuntimeException("[addConnectionToPool] Unknown connection-id exception");
+        if(!connectionConfig.getConnections().containsKey(connectionId)) {
+        	throw new RuntimeException("[addConnectionToPool] Unknown connection-id exception");
+        }
         
         logManager.info(String.format("//// addConnectionToPool - (%s)\n",  connectionId));
         // 컨넥션연결 관리 Vector에서 제거
@@ -392,13 +379,15 @@ public class BasePoolProxy {
         logManager.info(String.format(">>>> Registry.getInstance().connectionTryVector.remove(%s) [result: %s]\n", connectionId, bRet));
 
         /** 만약 기존 세션이 있다면 종료를 시켜주고 다시 세션을 설정해주어야 한다. */
-        if(connectionConfig.getConnections().get(connectionId) != null) {
-        	connectionConfig.getConnections().get(connectionId).closeSession();
-        }
-		ConnectionObject connectionObject = connectionConfig.getConnections().get(connectionId).setConnection(connectable);
+		connectionConfig.getConnections().get(connectionId).closeSession();
 
+		ConnectionObject connectionObject = connectionConfig.getConnections().get(connectionId).setConnection(connectable);
         // 연결된 객체를 ConnectionObject에 설정해준다. 설정시 : 상태를 true, 연결 실패횟수를 0으로 설정해준다. - 오류가 발생할 때에 대한 처리가 없다.
-        this.poolMap.get(parseConnectionGroupId(connectionId)).addObject(connectionId, connectionObject);
+		
+		/* GroupId Key 있는 경우만 처리하자.  SOCKET 모드인 경우에는 GROUP ID 를 저장하지 않기 때문에 없을 수도 있다. */
+		if(this.poolMap.containsKey(ConnectionObject.getGroupIdFromConnectionId(connectionId))) {
+			this.poolMap.get(parseConnectionGroupId(connectionId)).addObject(connectionId, connectionObject);
+		}
         
         // 연결 관련 이벤트를 생성해준다.
         String connectionGroupId = connectionId.split(";")[0];
@@ -410,6 +399,41 @@ public class BasePoolProxy {
         logManager.info(String.format("//// eventSendRequestQueue에 연결 성공 이벤트 정보를 갱신해준다.! - (%s)\n",  connectionId));
         
     }
+
+    /**
+     * Session 을 종료하고, FailOver 를 시도하지 않는다.
+     * @param connectionId
+     */
+    public void removeFromConnectionPool(String connectionId) {
+    	try {
+			if(connectionId.split(";").length >= 2) {
+				String connectionGroupId = connectionId.split(";")[0];
+				String connectionKey = connectionId.split(";")[2];
+
+				// ConnectionObject의 상태 정보를 초기화 시켜준다.
+				connectionConfig.resetConnectionObjectInfoByForcedDisconnected(connectionId);	
+
+				if(connectionConfig.getConnections().containsKey(connectionId)) { 
+					logManager.info(String.format("//// [%s][%s] 객체 정보를 (PoolMap, Registry)에서 삭제한 후 SC 상태로 변경합니다.\n", Thread.currentThread().getName(), connectionId));
+					// PoolMap에서 삭제해준다.
+					if(this.poolMap.containsKey(connectionGroupId)) {
+						this.poolMap.get(connectionGroupId).invalidateObject(connectionId, connectionConfig.getConnections().get(connectionId));
+					}
+					// ConnectionManager 이벤트 메시지를 발송한다.
+					String eventMessage = String.format("%s;%s;INFO;%s", connectionGroupId, connectionKey, "정지 요청을 수행합니다.");
+					Registry.getInstance().addEventSendRequest(eventMessage);
+					
+				} else {
+					logManager.warn(String.format("//// [%s] PoolProxy:InvalidConnection: ++ bw connection 값이 NULL 입니다.\n", Thread.currentThread().getName()));
+				}
+			} else {
+				logManager.warn(String.format("[deleteFromConnectionPool][%s] 가 유효하지 않은 값을 가지고 있습니다.\n", connectionId));
+			}
+    	}catch(Exception e) {
+			logManager.error("removeFromConnectionPool Exception:" + e.getMessage());
+    	}
+    }
+    
 
     public static String parseConnectionGroupId(String connectionId) {
         return connectionId.substring(0,connectionId.indexOf(ConnectionObject.CID_DELIMETER));
@@ -512,10 +536,9 @@ public class BasePoolProxy {
     * @param code
     * @param reason
     */
-   public void invalidateConnection(Connectable connectable, String code, String reason) {
+   protected void invalidateConnection(String connectionId, String code, String reason) {
     	
-    	if( connectable != null) {
-	        String connectionId = connectionConfig.getConnectionIdByConnectable(connectable);
+    	if( connectionId != null) {
 	        ConnectionObject connObj = connectionConfig.getConnections().get(connectionId);
 	        if(connObj == null) return;
 
@@ -551,7 +574,7 @@ public class BasePoolProxy {
 	        }
 	        
     	} else {
-    		logManager.warn(String.format("//// [%s] PoolProxy:InvalidConnection: ++ bw connection 값이 NULL 입니다.\n", Thread.currentThread().getName()));
+    		logManager.warn(String.format("//// [%s] PoolProxy:InvalidConnection: ++ connection 값이 NULL 입니다.\n", Thread.currentThread().getName()));
     	}
     }
     
@@ -660,77 +683,34 @@ public class BasePoolProxy {
 		
     }
     
-    public String removeFromConnectionPool(Connectable connectable) {
-    	String connectionId = "";    	
-    	connectionId = connectionConfig.getConnectionIdByConnectable(connectable);
-    	if(connectionId != "") {
-    		this.removeFromConnectionPool(connectionId, connectable);
-    	}
-    	return connectionId;
-    }
-    
-    /**
-     * Session 을 종료하고, FailOver 를 시도하지 않는다.
-     * @param connectionId
-     * @param connectable
-     */
-    public void removeFromConnectionPool(String connectionId, Connectable connectable) {
+    public void removeFromConnectionConfig(String connectionId) {
     	
-    	if(connectionId.split(";").length >= 2) {
-    		String connectionGroupId = connectionId.split(";")[0];
-    		String connectionKey = connectionId.split(";")[2];
-	    	if( connectable != null) {
-		        logManager.info(String.format("//// [%s][%s] 객체 정보를 (PoolMap, Registry)에서 삭제한 후 SC 상태로 변경합니다.\n", Thread.currentThread().getName(), connectionId));
-		        // PoolMap에서 삭제해준다.
-		        this.poolMap.get(connectionGroupId).invalidateObject(connectionId, connectionConfig.getConnections().get(connectionId));
-		        // ConnectionObject의 상태 정보를 초기화 시켜준다.
-		        connectionConfig.resetConnectionObjectInfoByForcedDisconnected(connectionId);	
-		        
-		        // ConnectionManager 이벤트 메시지를 발송한다.
-		        String eventMessage = String.format("%s;%s;INFO;%s", connectionGroupId, connectionKey, "정지 요청을 수행합니다.");
-		        Registry.getInstance().addEventSendRequest(eventMessage);
-		        
-		        
-	    	} else {
-	    		logManager.warn(String.format("//// [%s] PoolProxy:InvalidConnection: ++ bw connection 값이 NULL 입니다.\n", Thread.currentThread().getName()));
-	    	}
-    	} else {
-    		logManager.warn(String.format("[deleteFromConnectionPool][%s] 가 유효하지 않은 값을 가지고 있습니다.\n", connectionId));
-    	}
-    }
-    
-    public String removeFromConnectionConfig(Connectable connectable) {
-    	String connectionId = "";    	
-    	connectionId = connectionConfig.getConnectionIdByConnectable(connectable);
-    	if(connectionId != null && connectionId != "") {
-    		this.removeFromConnectionConfig(connectionId, connectable);
-    	}
-    	return connectionId;
-    }
-    
-    public void removeFromConnectionConfig(String connectionId, Connectable connectable) {
-    	
-    	if(connectionId.split(";").length >= 2) {
-    		String connectionGroup = connectionId.split(";")[0];
-    		String connectionKey = connectionId.split(";")[2];			
-    	
-	    	if( connectable != null) {
-		        logManager.info(String.format("//// deleteFromConnectionConfig() ["+Thread.currentThread().getName()+"]["+connectionId+"] 객체 정보를 모든 저장공간에서 삭제합니다 (PoolMap, Registry)"));
-		        // PoolMap에서 삭제해준다.
-		        this.poolMap.get(connectionGroup).invalidateObject(connectionId, connectionConfig.getConnections().get(connectionId));
-		        // ConnectionConfig 내에서 완전히 ConnectionObject을 삭제한다.
-		        logManager.info(String.format("[%s][%s]->[%s] 연결객체를 제거합니다. ConnectioConfig로부터 완전히 삭제합니다.\n", connectionGroup, connectionKey, connectionId));
+    	try {
+			if(connectionId.split(";").length >= 2) {
+				String connectionGroup = connectionId.split(";")[0];
+				String connectionKey = connectionId.split(";")[2];			
+			
+				// ConnectionObject의 상태 정보를 초기화 시켜준다.
+				// Session 종료가 먼지 이뤄져야 하기 때문에 reset 을 해준후에 remove 한다.
+				connectionConfig.resetConnectionObjectInfoByForcedDisconnected(connectionId);	
 
-		        // ConnectionObject의 상태 정보를 초기화 시켜준다.
-		        // Session 종료가 먼지 이뤄져야 하기 때문에 reset 을 해준후에 remove 한다.
-		        connectionConfig.resetConnectionObjectInfoByForcedDisconnected(connectionId);	
-		        connectionConfig.getConnections().remove(connectionId); 
-		        
-	    	} else {
-	    		logManager.warn(String.format("//// ["+Thread.currentThread().getName()+"] PoolProxy:InvalidConnection: ++ bw connection 값이 NULL 입니다."));
-	    	}
-    	} else {
-    		logManager.warn(String.format("[deleteFromConnectionConfig]["+connectionId+"] 가 유효하지 않은 값을 가지고 있습니다."));
+				if(connectionConfig.getConnections().containsKey(connectionId)) {
+					logManager.info(String.format("//// deleteFromConnectionConfig() ["+Thread.currentThread().getName()+"]["+connectionId+"] 객체 정보를 모든 저장공간에서 삭제합니다 (PoolMap, Registry)"));
+					// PoolMap에서 삭제해준다.
+					this.poolMap.get(connectionGroup).invalidateObject(connectionId, connectionConfig.getConnections().get(connectionId));
+					// ConnectionConfig 내에서 완전히 ConnectionObject을 삭제한다.
+					logManager.info(String.format("[%s][%s]->[%s] 연결객체를 제거합니다. ConnectioConfig로부터 완전히 삭제합니다.\n", connectionGroup, connectionKey, connectionId));
+
+					connectionConfig.getConnections().remove(connectionId); 
+					
+				} else {
+					logManager.warn(String.format("//// ["+Thread.currentThread().getName()+"] PoolProxy:InvalidConnection: ++ bw connection 값이 NULL 입니다."));
+				}
+			} else {
+				logManager.warn(String.format("[deleteFromConnectionConfig]["+connectionId+"] 가 유효하지 않은 값을 가지고 있습니다."));
+			}
+    	}catch(Exception e) {
+			logManager.error("removeFromConnectionConfig Exception:" + e.getMessage());
     	}
     }
     

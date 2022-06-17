@@ -6,25 +6,11 @@ import java.util.Optional;
 
 import com.lguplus.pvs.model.BWConnection;
 import com.lguplus.pvs.model.Connectable;
+import com.lguplus.pvs.model.ConnectionMode;
 import com.lguplus.pvs.model.SocketConnection;
 import com.lguplus.pvs.util.LogManager;
 
 public class ConnectionRepository {
-    private enum ConnectionMode { 
-        BW {
-            Connectable createInstance() {
-                return new BWConnection();
-            }
-        },
-        SOCKET {
-            Connectable createInstance() {
-                return new SocketConnection();
-            }
-        }; 
-
-        abstract Connectable createInstance();
-    }
-
     private ConnectionRepository() {}
 
     private static ConnectionRepository instance = new ConnectionRepository();
@@ -64,7 +50,7 @@ public class ConnectionRepository {
         try{
             if(connectable != null) connectable.Close();
         }catch(Exception e) {
-            LogManager.getInstance().error("Exception:" + e.getMessage());
+            LogManager.getInstance().error("Ignored : Exception:" + e.getMessage());
             return;
         }
     }

@@ -1,15 +1,48 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/AppControl" xmlns:tns="http://www.example.org/AppControl" elementFormDefault="qualified">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.example.org/AppControl" elementFormDefault="qualified" targetNamespace="http://www.example.org/AppControl">
+          
+  
+  
+  <complexType name="commandType">
+                	
+    
+    
+    <sequence>
+                      		
+      
+      
+      <element name="pod-name" type="string"/>
+                      		
+      
+      
+      <element name="command-type" type="string"/>
+                      		
+      
+      
+      <element name="command" type="string"/>
+                      		
+      
+      
+      <element name="parameter1" type="string"/>
+                              
+      
+      
+      <element name="parameter2" type="string"/>
+                              
+      
+                    
+    
+    
+    </sequence>
+                
+  
+  
+  </complexType>
+          
+  
+  
+  <element name="command" type="tns:commandType"/>
+      
 
-    <complexType name="commandType">
-    	<sequence>
-    		<element name="pod-name" type="string"></element>
-    		<element name="command-type" type="string"></element>
-    		<element name="command" type="string"></element>
-    		<element name="parameter1" type="string"></element>
-            <element name="parameter2" type="string"></element>
-        </sequence>
-    </complexType>
 
-    <element name="command" type="tns:commandType"></element>
 </schema>

@@ -9,4 +9,5 @@ public interface Connectable {
 	public boolean equals(Object o);
 	public int hashCode();
 	public String toString();
+	public abstract String getMode();
 }

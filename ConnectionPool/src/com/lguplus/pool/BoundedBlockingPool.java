@@ -106,8 +106,10 @@ public class BoundedBlockingPool<T> implements Pool<T> {
     //all object에서도 삭제할 것.
     public void invalidateObject(String id, T t) {
         this.allObjects.remove(id);
-        this.idleObjects.remove(t);
-        this.validator.invalidate(t,this);
+        if(t != null) {
+			this.idleObjects.remove(t);
+			this.validator.invalidate(t,this);
+        }
         // System.out.println("[deleteObject 연결을 종료시키고 deque & 가용 객체 관리맵에서 모두 삭제합니다 ["+id+"][모든 객체 개수: "+this.allObjects.size()+"개][유휴 객체 개수: "+this.idleObjects.size()+"개]");
     }
 

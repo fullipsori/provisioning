@@ -27,6 +27,9 @@ public class Registry {
     
     // Queue for send ConnectionManager's events to the system monitoring  
     private BlockingQueue<String> eventSendRequestQueue = null;
+    
+    // Queue for send SMS-Message 
+    private BlockingQueue<String> smsSendRequestQueue = null;
 
     // 모든 연결 요청 온것들의 컨넥션 ID를 관리, 연결 성공시 까지 계속 시도하는 것을 보장하기 위함.
     // 별도 Thread가 주기적으로 이 Vector를 모니터링 하여,
@@ -45,6 +48,7 @@ public class Registry {
         this.disconnAndConnectionRequestQueue = new ArrayBlockingQueue<>(size);
         this.eventSendRequestQueue  = new ArrayBlockingQueue<>(size);
         this.heartbeatQueue = new ArrayBlockingQueue<>(size);
+        this.smsSendRequestQueue = new ArrayBlockingQueue<>(size);
     }
 
     public boolean needHeartBeat(String connectionId) {
@@ -172,6 +176,33 @@ public class Registry {
     	}
     }
     
+    public String takeSMSSendRequest() throws Exception {
+    	return smsSendRequestQueue.take();
+    }
+
+    public boolean putSMSSendRequest(String connectionId, String message) {
+    	try {
+    		if(connectionId == null) return false;
+    		String smsMessage = String.format("[%s][%s]", ConnectionObject.getGroupIdFromConnectionId(connectionId), message);
+			smsSendRequestQueue.put(smsMessage);
+			return true;
+    	}catch(Exception e) {
+    		logManager.error("smsSendRequestQueue error" + e.getMessage());
+    		return false;
+    	}
+    }
+    
+    public boolean addSMSSendRequest(String connectionId, String message) {
+    	try {
+    		if(connectionId == null) return false;
+    		String smsMessage = String.format("[%s][%s]", connectionId, message);
+			smsSendRequestQueue.add(smsMessage);
+			return true;
+    	}catch(Exception e) {
+    		logManager.error("Message:" + connectionId +  ":" + message + " dont add because smsSendRequestQueue is full " + " error:" + e.getMessage());
+    		return false;
+    	}
+    }
     public void addConnectionTry(String connectionId) {
     	if(!connectionTryVector.contains(connectionId)) {
     		connectionTryVector.add(connectionId);

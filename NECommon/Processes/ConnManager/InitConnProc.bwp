@@ -1506,7 +1506,8 @@
                     <tibex:GetSharedVariable variableName="NEA_PODNAME" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions"/>
                 </tibex:extActivity>
             </bpws:extensionActivity>
-            <bpws:scope name="Iterate" tibex:group="iterate" tibex:xpdlId="d6e34833-2d05-44fd-a974-d8c8f97799e1">
+            <bpws:scope name="Iterate" tibex:group="iterate"
+                tibex:indexToGlobal="false" tibex:xpdlId="d6e34833-2d05-44fd-a974-d8c8f97799e1">
                 <bpws:targets>
                     <bpws:target linkName="InitPoolToIterate"/>
                 </bpws:targets>

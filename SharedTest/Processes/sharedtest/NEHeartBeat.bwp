@@ -943,8 +943,8 @@
                                     <element href="//0/@process/@activity/@activity/@activities.2"/>
                                     <layoutConstraint
                                     height="40" width="40"
-                                    x="435"
-                                    xsi:type="notation:Bounds" y="109"/>
+                                    x="535"
+                                    xsi:type="notation:Bounds" y="103"/>
                                     </children>
                                     <children type="4002 bw.generalactivities.log">
                                     <children type="4017">
@@ -1228,7 +1228,7 @@
                 <bpws:link name="JavaProcessStarterToJavaToXML" tibex:linkType="SUCCESS"/>
                 <bpws:link name="JavaToXMLToHBLog" tibex:linkType="SUCCESS"/>
                 <bpws:link name="HBLogToJMSSendMessage" tibex:linkType="SUCCESS"/>
-                <bpws:link name="JavaInvokeToJMSSendMessage" tibex:linkType="SUCCESS"/>
+                <bpws:link name="getHeartBeatMessageToSendHeartBeatMsg" tibex:linkType="SUCCESS"/>
             </bpws:links>
             <bpws:extensionActivity>
                 <tibex:receiveEvent createInstance="yes"
@@ -1295,7 +1295,7 @@
                     outputVariable="SendHeartBeatMsg"
                     tibex:xpdlId="3a16a095-78bc-4c7a-9950-d276b6f42c26" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
                     <bpws:targets>
-                        <bpws:target linkName="JavaInvokeToJMSSendMessage"/>
+                        <bpws:target linkName="getHeartBeatMessageToSendHeartBeatMsg"/>
                     </bpws:targets>
                     <tibex:inputBindings>
                         <tibex:inputBinding
@@ -1363,7 +1363,7 @@
                         <bpws:target linkName="HBLogToJMSSendMessage"/>
                     </bpws:targets>
                     <bpws:sources>
-                        <bpws:source linkName="JavaInvokeToJMSSendMessage"/>
+                        <bpws:source linkName="getHeartBeatMessageToSendHeartBeatMsg"/>
                     </bpws:sources>
                     <tibex:inputBindings>
                         <tibex:inputBinding

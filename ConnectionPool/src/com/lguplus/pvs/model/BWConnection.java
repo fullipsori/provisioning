@@ -78,4 +78,9 @@ public class BWConnection implements Connectable{
     		return String.format("BWSocket:%s", Base64.getEncoder().encodeToString(connHandle));
     	}
     }
+
+	@Override
+	public String getMode() {
+		return ConnectionMode.BW.getMode();
+	}
 }

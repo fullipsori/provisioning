@@ -2,7 +2,7 @@
 <jndi:namedResource xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:javasharedresource="http://ns.tibco.com/bw/palette/javasharedresource" xmlns:jndi="http://xsd.tns.tibco.com/amf/models/sharedresource/jndi" xmi:id="_b-ViAWUiEeywf8kEgPIgmg" name="pvscommon.JavaGlobalInstanceResource" type="javasharedresource:JavaGlobalInstanceResource">
   <jndi:configuration xsi:type="javasharedresource:JavaGlobalInstance" xmi:id="_b-ViAmUiEeywf8kEgPIgmg" className="com.lguplus.pvs.PoolProxy" methodName="PoolProxy" isNewShared="true">
     <javaConstructorParameter xmi:id="_owPeMeCoEeyTmLrhZVxUeA" paramName="logLevel" paramType="string">
-      <substitutionBindings xmi:id="_p-INoOCoEeyTmLrhZVxUeA" template="paramValue" propName="NECOMM.LOG_LEVEL"/>
+      <substitutionBindings xmi:id="_Zvr8oOx7EeyUdLfCjxBgrQ" template="paramValue" propName="NECOMM.LOG_LEVEL"/>
     </javaConstructorParameter>
     <methodParameters xmi:id="_owPeMOCoEeyTmLrhZVxUeA" paramType="string"/>
   </jndi:configuration>

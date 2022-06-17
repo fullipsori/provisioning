@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpws:process exitOnStandardFault="no" name="ConnManager.Sub.LogProcess"
-    suppressJoinFailure="yes"
-    targetNamespace="http://xmlns.example.com/20220531155038"
+<bpws:process exitOnStandardFault="no"
+    name="ConnManager.Starter.SMSSendRequest" suppressJoinFailure="yes"
+    targetNamespace="http://xmlns.example.com/20220616111043"
     xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
     xmlns:info="http://www.tibco.com/bw/process/info"
     xmlns:ns="http://www.tibco.com/pe/EngineTypes"
-    xmlns:ns0="http://www.example.com/namespaces/tns/1653980060660"
-    xmlns:ns1="www.tibco.com/plugin/java/JavaInvokeActivityInput+10fdee55-bf16-4bdc-9558-7627080399e2+JavaInvokeActivityInput"
-    xmlns:ns2="www.tibco.com/plugin/java/JavaInvokeActivityOutput+10fdee55-bf16-4bdc-9558-7627080399e2+JavaInvokeActivityOutput"
-    xmlns:ns3="http://tns.tibco.com/bw/palette/internal/activityerror+10fdee55-bf16-4bdc-9558-7627080399e2"
+    xmlns:ns0="www.tibco.com/bw/plugin/java/JavaProcessStarter+a082298f-726c-4f9f-a4bc-5d71e061568f+JavaProcessStarterOutput"
+    xmlns:ns1="www.tibco.com/plugin/java/JavaToXmlActivityInput+bc129a18-c9f4-4621-82a8-a3f762ac6c29+JavaToXmlActivityInput"
+    xmlns:ns2="www.tibco.com/plugin/java/JavaToXmlActivityOutput+bc129a18-c9f4-4621-82a8-a3f762ac6c29+JavaToXmlActivityOutput"
+    xmlns:ns3="http://tns.tibco.com/bw/palette/internal/activityerror+bw.java.javatoxml"
     xmlns:ns4="http://www.tibco.com/pe/WriteToLogActivitySchema"
+    xmlns:ns5="http://www.example.com/namespaces/tns/1653980060660"
     xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912"
     xmlns:sca-bpel="http://docs.oasis-open.org/ns/opencsa/sca-bpel/200801"
     xmlns:tibex="http://www.tibco.com/bpel/2007/extensions"
@@ -175,33 +176,38 @@
             </complexType>
             <element name="DuplicateKeyException" type="tns:DuplicateKeyExceptionType"/>
         </schema>
+        <schema elementFormDefault="qualified"
+            targetNamespace="http://www.tibco.com/tnt/utilitySchema"
+            xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.tibco.com/tnt/utilitySchema">
+            <simpleType name="nativeJavaObjectKey">
+                <restriction base="string"/>
+            </simpleType>
+        </schema>
         <schema attributeFormDefault="unqualified"
             elementFormDefault="qualified"
-            targetNamespace="www.tibco.com/plugin/java/JavaInvokeActivityInput+10fdee55-bf16-4bdc-9558-7627080399e2+JavaInvokeActivityInput"
-            xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="www.tibco.com/plugin/java/JavaInvokeActivityInput+10fdee55-bf16-4bdc-9558-7627080399e2+JavaInvokeActivityInput">
-            <complexType name="MutTypeMethodParameters">
+            targetNamespace="www.tibco.com/bw/plugin/java/JavaProcessStarter+a082298f-726c-4f9f-a4bc-5d71e061568f+JavaProcessStarterOutput"
+            xmlns="http://www.w3.org/2001/XMLSchema"
+            xmlns:Q1="http://www.tibco.com/tnt/utilitySchema" xmlns:tns="www.tibco.com/bw/plugin/java/JavaProcessStarter+a082298f-726c-4f9f-a4bc-5d71e061568f+JavaProcessStarterOutput">
+            <import namespace="http://www.tibco.com/tnt/utilitySchema"/>
+            <element name="JavaProcessStarterOutput" type="tns:JavaProcessStarterOutput"/>
+            <complexType name="JavaProcessStarterOutput">
                 <sequence>
                     <element form="unqualified" maxOccurs="1"
-                        minOccurs="1" name="level" type="string"/>
-                </sequence>
-            </complexType>
-            <element name="JavaInvokeActivityInput" type="tns:MutTypeMethodInputRoot"/>
-            <complexType name="MutTypeMethodInputRoot">
-                <sequence>
-                    <element form="unqualified" maxOccurs="1"
-                        minOccurs="1" name="MethodParameters" type="tns:MutTypeMethodParameters"/>
+                        minOccurs="1" name="javaObject" type="Q1:nativeJavaObjectKey"/>
                 </sequence>
             </complexType>
         </schema>
         <schema attributeFormDefault="unqualified"
             elementFormDefault="qualified"
-            targetNamespace="www.tibco.com/plugin/java/JavaInvokeActivityOutput+10fdee55-bf16-4bdc-9558-7627080399e2+JavaInvokeActivityOutput"
-            xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="www.tibco.com/plugin/java/JavaInvokeActivityOutput+10fdee55-bf16-4bdc-9558-7627080399e2+JavaInvokeActivityOutput">
-            <element name="JavaInvokeActivityOutput" type="tns:MutTypeMethodOutputRoot"/>
-            <complexType name="MutTypeMethodOutputRoot">
+            targetNamespace="www.tibco.com/plugin/java/JavaToXmlActivityInput+bc129a18-c9f4-4621-82a8-a3f762ac6c29+JavaToXmlActivityInput"
+            xmlns="http://www.w3.org/2001/XMLSchema"
+            xmlns:Q1="http://www.tibco.com/tnt/utilitySchema" xmlns:tns="www.tibco.com/plugin/java/JavaToXmlActivityInput+bc129a18-c9f4-4621-82a8-a3f762ac6c29+JavaToXmlActivityInput">
+            <import namespace="http://www.tibco.com/tnt/utilitySchema"/>
+            <element name="JavaToXmlActivityInput" type="tns:MutTypeJavaToXmlInputRoot"/>
+            <complexType name="MutTypeJavaToXmlInputRoot">
                 <sequence>
-                    <element form="unqualified" maxOccurs="1"
-                        minOccurs="0" name="MethodReturnValue" type="boolean"/>
+                    <element form="qualified" maxOccurs="1"
+                        minOccurs="1" name="pvs.RequestEvents" type="Q1:nativeJavaObjectKey"/>
                 </sequence>
             </complexType>
         </schema>
@@ -242,49 +248,59 @@
             <element name="JavaEventSourceException" type="tns:JavaExceptionType"/>
             <element name="JavaEventSourceIllegalOperationException" type="tns:JavaExceptionType"/>
         </schema>
-        <schema elementFormDefault="unqualified"
-            targetNamespace="http://tns.tibco.com/bw/palette/internal/activityerror+10fdee55-bf16-4bdc-9558-7627080399e2"
+        <xs:schema elementFormDefault="qualified"
+            targetNamespace="www.tibco.com/plugin/java/xmlSchema/pvs.RequestEvents"
+            version="1.0"
+            xmlns:tns="www.tibco.com/plugin/java/xmlSchema/pvs.RequestEvents" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+            <xs:element name="RequestEvents" type="tns:RequestEventsType"/>
+            <xs:complexType name="RequestEventsType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="EventMessage" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
+        <schema
+            targetNamespace="www.tibco.com/plugin/java/JavaToXmlActivityOutput+bc129a18-c9f4-4621-82a8-a3f762ac6c29+JavaToXmlActivityOutput"
             xmlns="http://www.w3.org/2001/XMLSchema"
-            xmlns:Q1="http://www.example.org/JavaExceptions" xmlns:tns="http://tns.tibco.com/bw/palette/internal/activityerror+10fdee55-bf16-4bdc-9558-7627080399e2">
+            xmlns:Q1="www.tibco.com/plugin/java/xmlSchema/pvs.RequestEvents" xmlns:tns="www.tibco.com/plugin/java/JavaToXmlActivityOutput+bc129a18-c9f4-4621-82a8-a3f762ac6c29+JavaToXmlActivityOutput">
+            <import namespace="www.tibco.com/plugin/java/xmlSchema/pvs.RequestEvents"/>
+            <complexType name="MutTypeJavaToXmlOutputRoot">
+                <sequence>
+                    <element maxOccurs="1" minOccurs="1" ref="Q1:RequestEvents"/>
+                </sequence>
+            </complexType>
+            <element name="JavaToXmlActivityOutput" type="tns:MutTypeJavaToXmlOutputRoot"/>
+        </schema>
+        <schema elementFormDefault="unqualified"
+            targetNamespace="http://tns.tibco.com/bw/palette/internal/activityerror+bw.java.javatoxml"
+            xmlns="http://www.w3.org/2001/XMLSchema"
+            xmlns:Q1="http://www.example.org/JavaExceptions" xmlns:tns="http://tns.tibco.com/bw/palette/internal/activityerror+bw.java.javatoxml">
             <import namespace="http://www.example.org/JavaExceptions"/>
             <element name="ActivityErrorData" type="tns:ActivityErrorDataType"/>
             <complexType name="ActivityErrorDataType">
                 <choice>
-                    <element maxOccurs="1" minOccurs="0" ref="Q1:InvocationException"/>
+                    <element maxOccurs="1" minOccurs="0" ref="Q1:JavaToXMLConversionException"/>
                 </choice>
             </complexType>
         </schema>
-        <xs:schema attributeFormDefault="unqualified"
-            elementFormDefault="qualified"
-            targetNamespace="http://www.tibco.com/pe/WriteToLogActivitySchema"
-            xmlns:tns="http://www.tibco.com/pe/WriteToLogActivitySchema" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-            <xs:complexType name="LogParametersType">
-                <xs:sequence>
-                    <xs:element form="unqualified" minOccurs="0"
-                        name="msgCode" type="xs:string"/>
-                    <xs:element form="unqualified" minOccurs="0"
-                        name="loggerName" type="xs:string"/>
-                    <xs:element form="unqualified" minOccurs="0"
-                        name="logLevel" type="xs:string"/>
-                    <xs:element form="unqualified" name="message" type="xs:string"/>
-                </xs:sequence>
-            </xs:complexType>
-            <xs:element name="ActivityInput" type="tns:LogParametersType"/>
-        </xs:schema>
     </tibex:Types>
-    <tibex:ProcessInfo callable="true" createdBy="shkim"
-        createdOn="Tue May 31 15:50:38 KST 2022" description=""
+    <tibex:ProcessInfo callable="false" createdBy="shkim"
+        createdOn="Thu Jun 16 11:10:43 KST 2022" description=""
         extraErrorVars="true" modifiers="public"
-        productVersion="6.8.0 V55 2021-11-10" scalable="true"
+        productVersion="6.8.1 V21 2022-05-12" scalable="true"
         singleton="true" stateless="true" type="IT"/>
-    <tibex:ProcessInterface context=""
-        input="{http://www.example.com/namespaces/tns/1653980060660}Element" output=""/>
+    <tibex:ProcessInterface context="" input="" output=""/>
     <tibex:ProcessTemplateConfigurations/>
     <notation:Diagram measurementUnit="Pixel" type="BWProcess"
         xmlns:bwnotation="http://tns.tibco.com/bw/runtime/BWNotation"
         xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <children type="2001">
             <children type="5001"/>
+            <children type="3001">
+                <styles xsi:type="notation:SortingStyle"/>
+                <styles xsi:type="notation:FilteringStyle"/>
+                <element href="//0/@process"/>
+            </children>
             <children type="3002">
                 <styles xsi:type="notation:SortingStyle"/>
                 <styles xsi:type="notation:FilteringStyle"/>
@@ -300,7 +316,7 @@
                             <children type="3020">
                                 <children type="4005">
                                     <children type="3007">
-                                    <children type="4002">
+                                    <children type="4002 bw.java.javaeventsource">
                                     <children type="4017">
                                     <styles fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
@@ -328,10 +344,12 @@
                                     gradientEndColor="50431"
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
                                     <element href="//0/@process/@activity/@activity/@activities.0"/>
-                                    <layoutConstraint x="2"
-                                    xsi:type="notation:Bounds" y="2"/>
+                                    <layoutConstraint
+                                    height="40" width="40"
+                                    x="-5"
+                                    xsi:type="notation:Bounds" y="71"/>
                                     </children>
-                                    <children type="4002">
+                                    <children type="4002 bw.java.javatoxml">
                                     <children type="4017">
                                     <styles fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
@@ -359,10 +377,12 @@
                                     gradientEndColor="50431"
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
                                     <element href="//0/@process/@activity/@activity/@activities.1"/>
-                                    <layoutConstraint x="569"
-                                    xsi:type="notation:Bounds" y="2"/>
+                                    <layoutConstraint
+                                    height="40" width="40"
+                                    x="166"
+                                    xsi:type="notation:Bounds" y="72"/>
                                     </children>
-                                    <children type="4002 bw.java.javamethod">
+                                    <children type="4002 bw.generalactivities.callprocess">
                                     <children type="4017">
                                     <styles fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
@@ -392,41 +412,8 @@
                                     <element href="//0/@process/@activity/@activity/@activities.2"/>
                                     <layoutConstraint
                                     height="40" width="40"
-                                    x="146"
-                                    xsi:type="notation:Bounds" y="2"/>
-                                    </children>
-                                    <children type="4002 bw.generalactivities.log">
-                                    <children type="4017">
-                                    <styles fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <layoutConstraint xsi:type="notation:Bounds"/>
-                                    </children>
-                                    <children type="4017">
-                                    <styles fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <layoutConstraint xsi:type="notation:Bounds"/>
-                                    </children>
-                                    <children type="4017">
-                                    <styles fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <layoutConstraint xsi:type="notation:Bounds"/>
-                                    </children>
-                                    <children type="4017">
-                                    <styles fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <layoutConstraint xsi:type="notation:Bounds"/>
-                                    </children>
-                                    <styles fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <styles
-                                    backgroundColor="16777215"
-                                    gradientEndColor="50431"
-                                    gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.3"/>
-                                    <layoutConstraint
-                                    height="40" width="40"
-                                    x="147"
-                                    xsi:type="notation:Bounds" y="146"/>
+                                    x="350"
+                                    xsi:type="notation:Bounds" y="71"/>
                                     </children>
                                     <styles xsi:type="notation:DrawerStyle"/>
                                     <styles xsi:type="notation:SortingStyle"/>
@@ -440,8 +427,8 @@
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
                                     <styles xsi:type="bwnotation:ResizingStyle"/>
                                     <element href="//0/@process/@activity/@activity"/>
-                                    <layoutConstraint height="384"
-                                    width="882" xsi:type="notation:Bounds"/>
+                                    <layoutConstraint height="591"
+                                    width="1139" xsi:type="notation:Bounds"/>
                                 </children>
                                 <styles xsi:type="notation:SortingStyle"/>
                                 <styles xsi:type="notation:FilteringStyle"/>
@@ -469,87 +456,55 @@
             </children>
             <styles fontName="맑은 고딕" lineColor="0" xsi:type="notation:ShapeStyle"/>
             <element href="//0/@process"/>
-            <layoutConstraint height="460" width="1227" xsi:type="notation:Bounds"/>
+            <layoutConstraint height="667" width="1484" xsi:type="notation:Bounds"/>
         </children>
         <styles xsi:type="notation:DiagramStyle"/>
         <element href="//0"/>
         <edges
-            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2" type="4006">
+            source="//@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0"
+            target="//@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.1" type="4006">
             <children type="6002">
                 <layoutConstraint xsi:type="notation:Location" y="40"/>
             </children>
             <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
             <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
             <element href="//0/@process/@activity/@activity/@links/@children.0"/>
-            <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
+            <bendpoints points="[25, 1, -146, 0]$[147, 0, -24, -1]" xsi:type="notation:RelativeBendpoints"/>
         </edges>
         <edges
-            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.1" type="4006">
-            <children type="6002">
-                <layoutConstraint x="-70" xsi:type="notation:Location" y="-14"/>
-            </children>
-            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
-            <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
-            <element href="//0/@process/@activity/@activity/@links/@children.1"/>
-            <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
-        </edges>
-        <edges
-            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3" type="4006">
-            <children type="6002">
-                <layoutConstraint x="-28" xsi:type="notation:Location" y="24"/>
-            </children>
-            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
-            <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
-            <element href="//0/@process/@activity/@activity/@links/@children.2"/>
-            <bendpoints points="[1, 25, 0, -119]$[0, 120, -1, -24]" xsi:type="notation:RelativeBendpoints"/>
-        </edges>
-        <edges
-            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.1" type="4006">
+            source="//@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.1"
+            target="//@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2" type="4006">
             <children type="6002">
                 <layoutConstraint xsi:type="notation:Location" y="40"/>
             </children>
             <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
             <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
-            <element href="//0/@process/@activity/@activity/@links/@children.3"/>
-            <bendpoints points="[25, -8, -397, 136]$[398, -136, -24, 8]" xsi:type="notation:RelativeBendpoints"/>
+            <element href="//0/@process/@activity/@activity/@links/@children.1"/>
+            <bendpoints points="[25, -1, -159, 0]$[160, 0, -24, 1]" xsi:type="notation:RelativeBendpoints"/>
         </edges>
     </notation:Diagram>
     <tibex:NamespaceRegistry enabled="true">
         <tibex:namespaceItem
-            namespace="www.tibco.com/plugin/java/JavaInvokeActivityInput+10fdee55-bf16-4bdc-9558-7627080399e2+JavaInvokeActivityInput" prefix="tns"/>
+            namespace="http://www.example.com/namespaces/tns/1653980060660" prefix="tns"/>
         <tibex:namespaceItem
-            namespace="http://www.tibco.com/bw/xpath/bw-custom-functions" prefix="bw"/>
+            namespace="www.tibco.com/plugin/java/xmlSchema/pvs.RequestEvents" prefix="tns1"/>
         <tibex:namespaceItem
-            namespace="http://www.example.com/namespaces/tns/1653980060660" prefix="tns1"/>
-        <tibex:namespaceItem
-            namespace="http://www.tibco.com/pe/WriteToLogActivitySchema" prefix="tns2"/>
+            namespace="www.tibco.com/plugin/java/JavaToXmlActivityInput+bc129a18-c9f4-4621-82a8-a3f762ac6c29+JavaToXmlActivityInput" prefix="tns2"/>
     </tibex:NamespaceRegistry>
     <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.com/namespaces/tns/1653980060660"/>
     <bpws:variables>
         <bpws:variable element="ns:ProcessContext"
             name="_processContext" sca-bpel:internal="true"/>
-        <bpws:variable element="ns0:Element" name="Start"
-            sca-bpel:internal="true" tibex:parameter="in"/>
-        <bpws:variable element="ns1:JavaInvokeActivityInput"
-            name="CheckLogLevel-input" sca-bpel:internal="true"/>
-        <bpws:variable element="ns2:JavaInvokeActivityOutput"
-            name="CheckLogLevel" sca-bpel:internal="true"/>
+        <bpws:variable element="ns0:JavaProcessStarterOutput"
+            name="JavaProcessStarter" sca-bpel:internal="true"/>
+        <bpws:variable element="ns1:JavaToXmlActivityInput"
+            name="JavaToXML-input" sca-bpel:internal="true"/>
+        <bpws:variable element="ns2:JavaToXmlActivityOutput"
+            name="JavaToXML" sca-bpel:internal="true"/>
         <bpws:variable element="ns3:ActivityErrorData"
-            name="_error_CheckLogLevel" sca-bpel:internal="true"/>
+            name="_error_JavaToXML" sca-bpel:internal="true"/>
         <bpws:variable element="ns:ErrorReport" name="_error" sca-bpel:internal="true"/>
-        <bpws:variable name="JavaGlobalInstanceProperty"
-            sca-bpel:hotUpdate="false" sca-bpel:privateProperty="true"
-            sca-bpel:property="yes"
-            sca-bpel:sharedResourceType="{http://ns.tibco.com/bw/palette/javasharedresource}JavaGlobalInstanceResource" type="xsd:string">
-            <bpws:from>
-                <bpws:literal>pvscommon.JavaGlobalInstanceResource</bpws:literal>
-            </bpws:from>
-        </bpws:variable>
-        <bpws:variable element="ns4:ActivityInput" name="PrintLog-input" sca-bpel:internal="true"/>
+        <bpws:variable element="ns5:Element" name="SMSLog-input" sca-bpel:internal="true"/>
     </bpws:variables>
     <bpws:extensions>
         <bpws:extension mustUnderstand="no" namespace="http://www.eclipse.org/gmf/runtime/1.0.2/notation"/>
@@ -562,96 +517,60 @@
     <bpws:scope name="scope">
         <bpws:flow name="flow">
             <bpws:links>
-                <bpws:link name="StartToCheckLogLevel" tibex:linkType="SUCCESS"/>
-                <bpws:link name="JavaInvokeToEnd_NOPRINT"
-                    tibex:label="[NO PRINT]" tibex:linkType="SUCCESSWITHNOCONDITION"/>
-                <bpws:link name="CheckLogLevelToLog_TRUE"
-                    tibex:label="[TRUE]" tibex:linkType="SUCCESSWITHCONDITION"/>
-                <bpws:link name="LogToEnd" tibex:linkType="SUCCESS"/>
+                <bpws:link name="JavaProcessStarterToJavaToXML" tibex:linkType="SUCCESS"/>
+                <bpws:link name="JavaToXMLToCallProcess" tibex:linkType="SUCCESS"/>
             </bpws:links>
             <bpws:extensionActivity>
                 <tibex:receiveEvent createInstance="yes"
-                    eventTimeout="0" name="Start"
-                    tibex:xpdlId="fbe26963-e996-4318-9087-d97ce014f26e"
-                    variable="Start" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
+                    eventTimeout="60" name="JavaProcessStarter"
+                    tibex:xpdlId="a082298f-726c-4f9f-a4bc-5d71e061568f"
+                    variable="JavaProcessStarter" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
                     <bpws:sources>
-                        <bpws:source linkName="StartToCheckLogLevel"/>
+                        <bpws:source linkName="JavaProcessStarterToJavaToXML"/>
                     </bpws:sources>
                     <tibex:eventSource>
-                        <tibex:StartEvent xmlns:tibex="http://www.tibco.com/bpel/2007/extensions"/>
-                    </tibex:eventSource>
-                </tibex:receiveEvent>
-            </bpws:extensionActivity>
-            <bpws:extensionActivity>
-                <tibex:activityExtension name="End"
-                    tibex:xpdlId="d7df7300-ff81-432d-989e-0be1e6299880" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
-                    <bpws:targets>
-                        <bpws:target linkName="JavaInvokeToEnd_NOPRINT"/>
-                        <bpws:target linkName="LogToEnd"/>
-                    </bpws:targets>
-                    <tibex:config>
                         <bwext:BWActivity
-                            activityTypeID="bw.internal.end"
-                            xmlns:activityconfig="http://tns.tibco.com/bw/model/activityconfig"
-                            xmlns:bwext="http://tns.tibco.com/bw/model/core/bwext"
-                            xmlns:internalactivities="http://ns.tibco.com/bw/core/internalactivity" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                            <activityConfig>
-                                <properties name="config" xsi:type="activityconfig:EMFProperty">
-                                    <type href="http://ns.tibco.com/bw/core/internalactivity#//End"/>
-                                    <value xsi:type="internalactivities:End"/>
-                                </properties>
-                            </activityConfig>
-                        </bwext:BWActivity>
-                    </tibex:config>
-                </tibex:activityExtension>
-            </bpws:extensionActivity>
-            <bpws:extensionActivity>
-                <tibex:activityExtension
-                    inputVariable="CheckLogLevel-input"
-                    name="CheckLogLevel" outputVariable="CheckLogLevel"
-                    tibex:xpdlId="10fdee55-bf16-4bdc-9558-7627080399e2" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
-                    <bpws:targets>
-                        <bpws:target linkName="StartToCheckLogLevel"/>
-                    </bpws:targets>
-                    <bpws:sources>
-                        <bpws:source linkName="JavaInvokeToEnd_NOPRINT">
-                            <tibex:DesignExpression>
-                                <tibex:expression
-                                    expression="##otherwise##" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"/>
-                            </tibex:DesignExpression>
-                            <bpws:transitionCondition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[##otherwise##]]></bpws:transitionCondition>
-                        </bpws:source>
-                        <bpws:source linkName="CheckLogLevelToLog_TRUE">
-                            <tibex:DesignExpression>
-                                <tibex:expression
-                                    expression="$CheckLogLevel/MethodReturnValue=true()" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"/>
-                            </tibex:DesignExpression>
-                            <bpws:transitionCondition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[$CheckLogLevel/MethodReturnValue=true()]]></bpws:transitionCondition>
-                        </bpws:source>
-                    </bpws:sources>
-                    <tibex:inputBindings>
-                        <tibex:inputBinding
-                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns=&quot;www.tibco.com/plugin/java/JavaInvokeActivityInput+10fdee55-bf16-4bdc-9558-7627080399e2+JavaInvokeActivityInput&quot; xmlns:tns1=&quot;http://www.example.com/namespaces/tns/1653980060660&quot; xmlns:bw=&quot;http://www.tibco.com/bw/xpath/bw-custom-functions&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;Start&quot;/>&lt;xsl:template name=&quot;CheckLogLevel-input&quot; match=&quot;/&quot;>&lt;tns:JavaInvokeActivityInput>&lt;MethodParameters>&lt;level>&lt;xsl:value-of select=&quot;$Start/tns1:level&quot;/>&lt;/level>&lt;/MethodParameters>&lt;/tns:JavaInvokeActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
-                    </tibex:inputBindings>
-                    <tibex:config>
-                        <bwext:BWActivity
-                            activityTypeID="bw.java.javamethod"
+                            activityTypeID="bw.java.javaeventsource"
                             xmlns:activityconfig="http://tns.tibco.com/bw/model/activityconfig"
                             xmlns:bwext="http://tns.tibco.com/bw/model/core/bwext"
                             xmlns:java="http://ns.tibco.com/bw/palette/java" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                             <activityConfig>
                                 <properties name="config" xsi:type="activityconfig:EMFProperty">
-                                    <type href="http://ns.tibco.com/bw/palette/java#//JavaMethod"/>
+                                    <type href="http://ns.tibco.com/bw/palette/java#//JavaEventSource"/>
                                     <value
-                                    className="com.lguplus.pvs.PoolProxy"
-                                    isNew="true"
+                                    className="pvs.EventSource_SMSSendRequest"
                                     isNewActivity="true"
-                                    javaGlobalInstance="JavaGlobalInstanceProperty"
-                                    methodName="isPrintable"
-                                    methodReturn="boolean" xsi:type="java:JavaMethod">
-                                    <methodParameter
-                                    paramName="level" paramType="string"/>
-                                    </value>
+                                    isNewEventsource="true" xsi:type="java:JavaEventSource"/>
+                                </properties>
+                            </activityConfig>
+                        </bwext:BWActivity>
+                    </tibex:eventSource>
+                </tibex:receiveEvent>
+            </bpws:extensionActivity>
+            <bpws:extensionActivity>
+                <tibex:activityExtension inputVariable="JavaToXML-input"
+                    name="JavaToXML" outputVariable="JavaToXML"
+                    tibex:xpdlId="bc129a18-c9f4-4621-82a8-a3f762ac6c29" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
+                    <bpws:targets>
+                        <bpws:target linkName="JavaProcessStarterToJavaToXML"/>
+                    </bpws:targets>
+                    <bpws:sources>
+                        <bpws:source linkName="JavaToXMLToCallProcess"/>
+                    </bpws:sources>
+                    <tibex:inputBindings>
+                        <tibex:inputBinding
+                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns2=&quot;www.tibco.com/plugin/java/JavaToXmlActivityInput+bc129a18-c9f4-4621-82a8-a3f762ac6c29+JavaToXmlActivityInput&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;JavaProcessStarter&quot;/>&lt;xsl:template name=&quot;JavaToXML-input&quot; match=&quot;/&quot;>&lt;tns2:JavaToXmlActivityInput>&lt;tns2:pvs.RequestEvents>&lt;xsl:value-of select=&quot;$JavaProcessStarter/javaObject&quot;/>&lt;/tns2:pvs.RequestEvents>&lt;/tns2:JavaToXmlActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                    </tibex:inputBindings>
+                    <tibex:config>
+                        <bwext:BWActivity
+                            activityTypeID="bw.java.javatoxml"
+                            xmlns:activityconfig="http://tns.tibco.com/bw/model/activityconfig"
+                            xmlns:bwext="http://tns.tibco.com/bw/model/core/bwext"
+                            xmlns:java="http://ns.tibco.com/bw/palette/java" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                            <activityConfig>
+                                <properties name="config" xsi:type="activityconfig:EMFProperty">
+                                    <type href="http://ns.tibco.com/bw/palette/java#//JavaToXML"/>
+                                    <value className="pvs.RequestEvents" xsi:type="java:JavaToXML"/>
                                 </properties>
                             </activityConfig>
                         </bwext:BWActivity>
@@ -659,36 +578,20 @@
                 </tibex:activityExtension>
             </bpws:extensionActivity>
             <bpws:extensionActivity>
-                <tibex:activityExtension inputVariable="PrintLog-input"
-                    name="PrintLog"
-                    tibex:xpdlId="aacf5b8c-bbed-4a28-8173-196795554d2d" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
+                <tibex:extActivity inputVariable="SMSLog-input"
+                    name="SMSLog"
+                    tibex:xpdlId="22db0340-2a19-4028-bdc8-1835a4590cae"
+                    type="bw.generalactivities.callprocess" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
                     <bpws:targets>
-                        <bpws:target linkName="CheckLogLevelToLog_TRUE"/>
+                        <bpws:target linkName="JavaToXMLToCallProcess"/>
                     </bpws:targets>
-                    <bpws:sources>
-                        <bpws:source linkName="LogToEnd"/>
-                    </bpws:sources>
                     <tibex:inputBindings>
-                        <tibex:inputBinding
-                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns2=&quot;http://www.tibco.com/pe/WriteToLogActivitySchema&quot; xmlns:tns1=&quot;http://www.example.com/namespaces/tns/1653980060660&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;Start&quot;/>&lt;xsl:template name=&quot;Log-input&quot; match=&quot;/&quot;>&lt;tns2:ActivityInput>&lt;message>&lt;xsl:value-of select=&quot;concat($Start/tns1:pname, &amp;quot;:&amp;quot;, $Start/tns1:log)&quot;/>&lt;/message>&lt;/tns2:ActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                        <tibex:inputBinding coercion=""
+                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns=&quot;http://www.example.com/namespaces/tns/1653980060660&quot; xmlns:tns1=&quot;www.tibco.com/plugin/java/xmlSchema/pvs.RequestEvents&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;JavaToXML&quot;/>&lt;xsl:template name=&quot;SMSLog-input&quot; match=&quot;/&quot;>&lt;tns:Element>&lt;tns:pname>&lt;xsl:value-of select=&quot;&amp;quot;SMSSendRequest&amp;quot;&quot;/>&lt;/tns:pname>&lt;tns:level>&lt;xsl:value-of select=&quot;&amp;quot;warn&amp;quot;&quot;/>&lt;/tns:level>&lt;tns:log>&lt;xsl:value-of select=&quot;$JavaToXML/tns1:RequestEvents/tns1:EventMessage&quot;/>&lt;/tns:log>&lt;/tns:Element>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                     </tibex:inputBindings>
-                    <tibex:config>
-                        <bwext:BWActivity
-                            activityTypeID="bw.generalactivities.log"
-                            version="6.0.0.001"
-                            xmlns:activityconfig="http://tns.tibco.com/bw/model/activityconfig"
-                            xmlns:bwext="http://tns.tibco.com/bw/model/core/bwext"
-                            xmlns:generalactivities="http://ns.tibco.com/bw/palette/generalactivities" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                            <activityConfig>
-                                <properties name="config" xsi:type="activityconfig:EMFProperty">
-                                    <type href="http://ns.tibco.com/bw/palette/generalactivities#//Log"/>
-                                    <value role="Info"
-                                    suppressJobInfo="true" xsi:type="generalactivities:Log"/>
-                                </properties>
-                            </activityConfig>
-                        </bwext:BWActivity>
-                    </tibex:config>
-                </tibex:activityExtension>
+                    <tibex:CallProcess
+                        subProcessName="ConnManager.Sub.LogProcess" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions"/>
+                </tibex:extActivity>
             </bpws:extensionActivity>
         </bpws:flow>
     </bpws:scope>

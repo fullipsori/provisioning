@@ -25,4 +25,7 @@
   <sca:component xmi:id="_dt1AAG3xEeypwKz2VtItRw" name="ComponentStarterCMEventsSendRequest" compositeext:version="1.0.0.qualifier">
     <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_dt1AAW3xEeypwKz2VtItRw" processName="ConnManager.Starter.ConnManagerEventsSendRequest"/>
   </sca:component>
+  <sca:component xmi:id="_hrGwQO0ZEeyKG96ZAyMIYw" name="ComponentSMSSendRequest" compositeext:version="1.0.0.qualifier">
+    <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_hrGwQe0ZEeyKG96ZAyMIYw" processName="ConnManager.Starter.SMSSendRequest"/>
+  </sca:component>
 </sca:composite>
