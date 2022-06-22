@@ -3,7 +3,6 @@ package com.lguplus.pvs;
 import com.lguplus.pool.BoundedBlockingPool;
 import com.lguplus.pool.Pool;
 import com.lguplus.pvs.model.Connectable;
-import com.lguplus.pvs.model.ConnectionMode;
 import com.lguplus.pvs.util.LogManager;
 
 import java.util.ArrayList;
@@ -134,7 +133,7 @@ public class BasePoolProxy {
 	    								connectionConfig.displayServerType(serverType));
 	    	}    	 
     	} else {
-    		retMsg = String.format("[ERROR] 지정하신 서버 유형 %s는 현재 접속된 서버유형과 동일합니다. 서버간 전환 요인이 없습니다.", connectionConfig.displayServerType(serverType));;
+    		retMsg = String.format("[ERROR] 지정하신 서버 유형 %s는 현재 접속된 서버유형과 동일합니다. 서버간 전환 요인이 없습니다.", connectionConfig.displayServerType(serverType));
     	}
     	return retMsg;
     }
@@ -158,9 +157,9 @@ public class BasePoolProxy {
      */
     public String addNewConnection(String groupIdAndConnectionKey, String serverIPsAndServerPorts) {
     	
-    	if(groupIdAndConnectionKey.split(";").length == 2) {
-    		String connectionGroupId = groupIdAndConnectionKey.split(";")[0];
-    		String connectionKey = groupIdAndConnectionKey.split(";")[1];    	
+    	if(groupIdAndConnectionKey.split(ConnectionObject.CID_DELIMETER).length >= 2) {
+    		String connectionGroupId = ConnectionObject.getGroupIdFromConnectionId(groupIdAndConnectionKey);
+    		String connectionKey = ConnectionObject.getKeyFromConnectionId(groupIdAndConnectionKey);    	
     	
     		logManager.info(String.format("PoolProxy-addNewConnection 파라미터 [%s][%s][%s]\n", connectionGroupId, connectionKey, serverIPsAndServerPorts));    	
     		return connectionConfig.addNewConnection(connectionGroupId, connectionKey, serverIPsAndServerPorts);
@@ -370,7 +369,7 @@ public class BasePoolProxy {
     public void addConnectionToPool(String connectionId, Connectable connectable) {
         // 설정에 있는 connection-id 인지 여부 체크
         if(!connectionConfig.getConnections().containsKey(connectionId)) {
-        	throw new RuntimeException("[addConnectionToPool] Unknown connection-id exception");
+        	throw new RuntimeException("[addConnectionToPool] Unknown connection-id:" + connectionId);
         }
         
         logManager.info(String.format("//// addConnectionToPool - (%s)\n",  connectionId));
@@ -390,8 +389,8 @@ public class BasePoolProxy {
 		}
         
         // 연결 관련 이벤트를 생성해준다.
-        String connectionGroupId = connectionId.split(";")[0];
-        String connectionKey = connectionId.split(";")[2];
+        String connectionGroupId = ConnectionObject.getGroupIdFromConnectionId(connectionId);
+        String connectionKey = ConnectionObject.getKeyFromConnectionId(connectionId);
         String code = "INFO";
         String reason = "접속 요청이 성공적으로 수행되었습니다.";
         String eventMessage = String.format("%s;%s;%s;%s", connectionGroupId, connectionKey, code, reason);
@@ -406,9 +405,9 @@ public class BasePoolProxy {
      */
     public void removeFromConnectionPool(String connectionId) {
     	try {
-			if(connectionId.split(";").length >= 2) {
-				String connectionGroupId = connectionId.split(";")[0];
-				String connectionKey = connectionId.split(";")[2];
+			if(connectionId.split(ConnectionObject.CID_DELIMETER).length >= 2) {
+				String connectionGroupId = ConnectionObject.getGroupIdFromConnectionId(connectionId);
+				String connectionKey = ConnectionObject.getKeyFromConnectionId(connectionId);
 
 				// ConnectionObject의 상태 정보를 초기화 시켜준다.
 				connectionConfig.resetConnectionObjectInfoByForcedDisconnected(connectionId);	
@@ -483,7 +482,9 @@ public class BasePoolProxy {
 			connObj.increateHandledMsgCount();
 			connObj.releaseConnection(); 
 			// System.out.printf("/// [%s] returnConnection-[%s][%s]%s][%d]\n", Thread.currentThread().getName(), connectionGroupId, connObj.getConnectionId(), connObj.getCurrentServerIp(), connObj.getCurrentServerPort());
-			this.poolMap.get(connectionGroupId).returnObject(connObj.getConnectionId(), connObj);
+			if(this.poolMap.containsKey(ConnectionObject.getGroupIdFromConnectionId(connectionId))) {
+				this.poolMap.get(connectionGroupId).returnObject(connObj.getConnectionId(), connObj);
+			}
         }
     }
     
@@ -510,7 +511,9 @@ public class BasePoolProxy {
 	        
 	        if(!connObj.getConnectionObjectStatus().equalsIgnoreCase("SC")) {
 	        	// SC의 경우 이미 제거했기 때문에 이중 제거의 의미가 없다.
-	        	this.poolMap.get(connectionGroupId).invalidateObject(connectionId, connectionConfig.getConnections().get(connectionId));	        
+				if(this.poolMap.containsKey(ConnectionObject.getGroupIdFromConnectionId(connectionId))) {
+					this.poolMap.get(connectionGroupId).invalidateObject(connectionId, connectionConfig.getConnections().get(connectionId));	        
+				}
 	        	// BW ConnectionMap에서만 제거한다.
 	        	connObj.closeSession();
 	        	logManager.warn(String.format("//// [%s][%s][%s][%s][%d][연결 문제 발생][재접속 연결 시도 횟수: %s][재연결을 위한 큐에 넣습니다.]\n",
@@ -555,7 +558,9 @@ public class BasePoolProxy {
 	        logManager.warn(String.format("//// [%s][%s][%s][%s][%d][연결 문제 발생][재접속 연결 시도 횟수: %s][재연결을 위한 큐에 넣습니다.]\n",
 	        				Thread.currentThread().getName(), connectionGroupId, connectionId, currentServerIp, currentServerPort, failoverTryCount));
 	
-	        this.poolMap.get(connectionGroupId).invalidateObject(connectionId, connObj);
+			if(this.poolMap.containsKey(connectionGroupId)) {
+				this.poolMap.get(connectionGroupId).invalidateObject(connectionId, connObj);
+			}
 	        
 	        try {
 	        	logManager.warn(String.format("//// [%s][%s][%s][%d] 재연결을 위하여 ConnectionTryVector에 값을 넣습니다.\n", 
@@ -566,6 +571,9 @@ public class BasePoolProxy {
 	        	// 오류 이벤트가 발생했을 알려주고 메시지를 전달합니다 ---
 	        	String eventMessage = String.format("%s;%s;%s;%s", connectionGroupId, connectionKey, code, reason);
 	        	Registry.getInstance().addEventSendRequest(eventMessage);	        	
+
+	        	//NE 연결 문제에 대해 SMS 전송한다.
+				Registry.getInstance().addSMSSendRequest(connectionId, "NE 연결에 문제가 발생하였습니다.");
 	        	
 	        } catch(Exception ex) {
 	        	 // 사용 Exception  생성 후
@@ -686,9 +694,9 @@ public class BasePoolProxy {
     public void removeFromConnectionConfig(String connectionId) {
     	
     	try {
-			if(connectionId.split(";").length >= 2) {
-				String connectionGroup = connectionId.split(";")[0];
-				String connectionKey = connectionId.split(";")[2];			
+			if(connectionId.split(ConnectionObject.CID_DELIMETER).length >= 2) {
+				String connectionGroup = ConnectionObject.getGroupIdFromConnectionId(connectionId);
+				String connectionKey = ConnectionObject.getKeyFromConnectionId(connectionId);
 			
 				// ConnectionObject의 상태 정보를 초기화 시켜준다.
 				// Session 종료가 먼지 이뤄져야 하기 때문에 reset 을 해준후에 remove 한다.
@@ -697,7 +705,9 @@ public class BasePoolProxy {
 				if(connectionConfig.getConnections().containsKey(connectionId)) {
 					logManager.info(String.format("//// deleteFromConnectionConfig() ["+Thread.currentThread().getName()+"]["+connectionId+"] 객체 정보를 모든 저장공간에서 삭제합니다 (PoolMap, Registry)"));
 					// PoolMap에서 삭제해준다.
-					this.poolMap.get(connectionGroup).invalidateObject(connectionId, connectionConfig.getConnections().get(connectionId));
+					if(this.poolMap.containsKey(connectionGroup)) {
+						this.poolMap.get(connectionGroup).invalidateObject(connectionId, connectionConfig.getConnections().get(connectionId));
+					}
 					// ConnectionConfig 내에서 완전히 ConnectionObject을 삭제한다.
 					logManager.info(String.format("[%s][%s]->[%s] 연결객체를 제거합니다. ConnectioConfig로부터 완전히 삭제합니다.\n", connectionGroup, connectionKey, connectionId));
 
@@ -768,7 +778,9 @@ public class BasePoolProxy {
     		
         	connObj.closeSession();
     		// BW ConnectionMap에서만 제거한다.
-        	this.poolMap.get(connObj.getConnectionGroupId()).invalidateObject(connectionId, connObj);
+			if(this.poolMap.containsKey(connObj.getConnectionGroupId())) {
+				this.poolMap.get(connObj.getConnectionGroupId()).invalidateObject(connectionId, connObj);
+			}
     		
     		logManager.info(String.format("/// [%s][%s][%s] \n", serverType, connectionId, connObj.getCurrentServerType()));
     		connectionTargetServerInfo = connObj.ForcedChangeConnectionServerType(serverType);
@@ -790,9 +802,9 @@ public class BasePoolProxy {
     	String[] retVal = {"",""};
     	String connectionId = connectionConfig.getConnectionIdByConnectable(connectable);
 
-    	if(connectionId.split(";;").length >= 2) {
-    		retVal[0] = connectionId.split(";")[0];
-    		retVal[1] = connectionId.split(";")[2];
+    	if(connectionId.split(ConnectionObject.CID_DELIMETER).length >= 2) {
+    		retVal[0] = ConnectionObject.getGroupIdFromConnectionId(connectionId);
+    		retVal[1] = ConnectionObject.getKeyFromConnectionId(connectionId);
     		logManager.info(String.format("bwConnection에 매칭되는 ConnecitonId는 [%s][%s] 입니다.\n", retVal[0], retVal[1]));
     	} else {
     		logManager.warn(String.format("bwConnection에 매칭되는 ConnecitonId가 없습니다. 확인이 필요합니다.\n"));
@@ -806,7 +818,9 @@ public class BasePoolProxy {
         
         for(String connectionGroupId : connectionConfig.getConnectionGroupList()) {
             // Pool size는 설정된 개수 *3배 만큼 여유있게 함, 나중에 추가될 수 있으므로        	
-        	numOfPoolObjects += poolMap.get(connectionGroupId).getPoolObjectCount();
+			if(this.poolMap.containsKey(connectionGroupId)) {
+				numOfPoolObjects += poolMap.get(connectionGroupId).getPoolObjectCount();
+			}
             // System.out.println("["+connectionGroupId+"]["+poolMap.get(connectionGroupId).getPoolObjectCount()+" 개]");
         }
         
@@ -852,7 +866,7 @@ public class BasePoolProxy {
      * @return 연결된 connection 수
      */
     public int getConnectionCount(String connectionGroup) {
-        if(this.poolMap==null) return 0; //초기화 전에 호출된 경우에 대비
+        if(this.poolMap==null || !this.poolMap.containsKey(connectionGroup)) return 0; //초기화 전에 호출된 경우에 대비
         return this.poolMap.get(connectionGroup).getPoolObjectCount();
     }
     

@@ -35,7 +35,6 @@ public class SocketConnection implements Connectable {
     @Override
     public boolean Open(String server, int port) throws Exception {
         // TODO Auto-generated method stub
-    	System.out.println("xsemiyas socket: Open:" + server + ":" + port);
     	try {
 			if(connHandle != null) connHandle.close();
     	}catch(Exception e) {}
@@ -47,7 +46,6 @@ public class SocketConnection implements Connectable {
     @Override
     public void Close() throws Exception {
         // TODO Auto-generated method stub
-    	System.out.println("xsemiyas socket: Close:");
     	try {
 			if(connHandle != null) {
 				connHandle.close();
@@ -59,10 +57,6 @@ public class SocketConnection implements Connectable {
     @Override
     public int Read(byte[] receiveBuffer, int offset, int maxLength, int timeout) throws Exception {
         // TODO Auto-generated method stub
-    	Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss-SSS");
-    	
-    	System.out.println("xsemiyas socket:" + sdf.format(timestamp) +  "read:" + " length:" + maxLength + " timeout:" + timeout);
         connHandle.setSoTimeout(timeout);
         return connHandle.getInputStream().read(receiveBuffer, offset, maxLength);
     }
@@ -89,7 +83,6 @@ public class SocketConnection implements Connectable {
         // TODO Auto-generated method stub
         connHandle.setSoTimeout(timeout);
         connHandle.getOutputStream().write(writeBuffer, offset, size);
-    	System.out.println("xsemiyas socket: write:" + " length:" + size + " timeout:" + timeout);
         return size;
     }
 
