@@ -12,6 +12,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.stream.Collectors;
 
 public class BasePoolProxy {
     private ConnectionInvalidator connectionInvalidator = null;
@@ -190,26 +191,21 @@ public class BasePoolProxy {
     
     private String[] getPoolConnectionList() {
     	
-        String connectionList = "";
-        for(String connectionId : connectionConfig.getConnections().keySet()) {        
-        	ConnectionObject connObj = connectionConfig.getConnections().get(connectionId);
-        	if(connObj.getConnectionType().equalsIgnoreCase("POOL")) {
-        		connectionList += connectionId + ",";
-        	} else {
-        		logManager.info(String.format("///// [%s][%s]는 연결정보만 유지합니다.\n", connectionId, connObj.getConnectionType()));
-        	}	
-        }        
-        
-        String[] test = connectionList.split(",");        
+    	String connectionList = connectionConfig.getConnections().entrySet().stream()
+    		.filter(entry-> entry.getValue() != null && entry.getValue().getConnectionType().equalsIgnoreCase("POOL"))
+    		.map(entry->entry.getKey())
+    		.collect(Collectors.joining(","));
+
+        String[] tokens = connectionList.split(",");        
         logManager.info(connectionList);
         
-        for(int i=0; i < test.length; i++ ) {
-        	logManager.info(String.format("//// [%s] 연결대상 정보\n", test[i]));
+        for(int i=0; i < tokens.length; i++ ) {
+        	logManager.info(String.format("//// [%s] 연결대상 정보\n", tokens[i]));
         }
         
         logManager.info("///////////////////////////////////////////////////////////");
         
-        return connectionList.split(",");
+        return tokens;
     }
 
     private void initPoolWork(String xmlString) {
@@ -289,18 +285,19 @@ public class BasePoolProxy {
     	}
     }
 
+    /** 
+     * 해당 함수는 sendFailEvent 에서 호출이 된다.  sendFailEvent 는 연결의 상태가 바뀌는게 아니기 때문에 eventMessage 에 "false" 를 넣어준다.
+     */
     public void sendConnManagerEvent(String connectionId, String code, String reason) {
     
-    	logManager.warn("sendConnManagerEvent:" + connectionId + ":" + code + ":" + reason);
     	if(connectionId != null ) {
-	    	String[] arr = connectionId.split(";");
-	    	if(arr.length == 3) {
-	    		String connectionGroupId = arr[0];
-	    		String connectionKey = arr[2];
+			if(connectionId.split(ConnectionObject.CID_DELIMETER).length >= 2) {
+				String connectionGroupId = ConnectionObject.getGroupIdFromConnectionId(connectionId);
+				String connectionKey = ConnectionObject.getKeyFromConnectionId(connectionId);
 	    		String eventMessage = String.format("%s;%s;%s;%s", connectionGroupId, connectionKey, code, reason);
-	    		Registry.getInstance().addEventSendRequest(eventMessage);
+	    		Registry.getInstance().addEventSendRequest(eventMessage, false);
 	    	} else {
-	    		logManager.warn(String.format("/// sendConnManagerEvent: ConnectionId 오류 값이 형식에 맞지 않습니다. [%s][%s][%s][%d]\n", connectionId, code, reason, arr.length));
+	    		logManager.warn(String.format("/// sendConnManagerEvent: ConnectionId 오류 값이 형식에 맞지 않습니다. [%s][%s][%s]\n", connectionId, code, reason));
 	    	}
     	} else {
     		logManager.warn(String.format("/// sendConnManagerEvent: connectionId 값이 NULL 입니다. [%s][%s][%s]\n", connectionId, code, reason));
@@ -357,7 +354,6 @@ public class BasePoolProxy {
     
     // BW에서 connection정보가 변경된 경우 호출 됨
     public void updatePool(String xmlString) {
-//        proxyTaskThread.submit(new UpdatePoolTask(xmlString));  // 별도 Thread로 실행하고 즉시 리턴 처리 함
     	proxyTaskThread.submit(()->updatePoolWork(xmlString));
     }
 
@@ -384,12 +380,13 @@ public class BasePoolProxy {
         // 연결된 객체를 ConnectionObject에 설정해준다. 설정시 : 상태를 true, 연결 실패횟수를 0으로 설정해준다. - 오류가 발생할 때에 대한 처리가 없다.
 		
 		/* GroupId Key 있는 경우만 처리하자.  SOCKET 모드인 경우에는 GROUP ID 를 저장하지 않기 때문에 없을 수도 있다. */
-		if(this.poolMap.containsKey(ConnectionObject.getGroupIdFromConnectionId(connectionId))) {
-			this.poolMap.get(parseConnectionGroupId(connectionId)).addObject(connectionId, connectionObject);
+		String groupId = ConnectionObject.getGroupIdFromConnectionId(connectionId);
+		if(this.poolMap.containsKey(groupId)) {
+			this.poolMap.get(groupId).addObject(connectionId, connectionObject);
 		}
         
         // 연결 관련 이벤트를 생성해준다.
-        String connectionGroupId = ConnectionObject.getGroupIdFromConnectionId(connectionId);
+        String connectionGroupId = groupId;
         String connectionKey = ConnectionObject.getKeyFromConnectionId(connectionId);
         String code = "INFO";
         String reason = "접속 요청이 성공적으로 수행되었습니다.";
@@ -431,11 +428,6 @@ public class BasePoolProxy {
     	}catch(Exception e) {
 			logManager.error("removeFromConnectionPool Exception:" + e.getMessage());
     	}
-    }
-    
-
-    public static String parseConnectionGroupId(String connectionId) {
-        return connectionId.substring(0,connectionId.indexOf(ConnectionObject.CID_DELIMETER));
     }
     
     protected Connectable borrowConnectable(String connectionGroupId, long waitTimeSeconds) throws TimeoutException {
@@ -871,7 +863,7 @@ public class BasePoolProxy {
     }
     
     public String getConnectionInfo(String groupId, String connectionKey, String code, String reason) {    	
-    	logManager.info(String.format("/// [%s][%s]의 연결상태 정보를 가져온다.\n", groupId, connectionKey));    	
+    	logManager.info(String.format("/// [%s][%s]의 연결상태 정보를 가져온다.\n", groupId, connectionKey, code, reason));    	
     	return connectionConfig.getConnectionInfo(groupId, connectionKey, code, reason);
     }
 

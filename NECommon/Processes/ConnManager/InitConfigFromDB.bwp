@@ -8,6 +8,11 @@
     xmlns:ns0="http://www.tibco.com/namespaces/tnt/plugins/jdbc+766ad5cf-302d-40ef-b0dd-8ce4e65662f4+input"
     xmlns:ns1="http://www.tibco.com/namespaces/tnt/plugins/jdbc+766ad5cf-302d-40ef-b0dd-8ce4e65662f4+output"
     xmlns:ns10="http://www.example.com/namespaces/tns/1653980060660"
+    xmlns:ns11="http://www.tibco.com/namespaces/tnt/plugins/jdbc+a266a62f-ef77-40e2-964f-b65c0a5085fb+input"
+    xmlns:ns12="http://www.tibco.com/namespaces/tnt/plugins/jdbc+a266a62f-ef77-40e2-964f-b65c0a5085fb+output"
+    xmlns:ns13="http://www.tibco.com/namespaces/tnt/plugins/jdbc+5e90a426-5b8d-4c6b-bc26-acfc1eec7ea3+input"
+    xmlns:ns14="http://www.tibco.com/namespaces/tnt/plugins/jdbc"
+    xmlns:ns15="http://tns.tibco.com/bw/palette/internal/activityerror+bw.jdbc.update"
     xmlns:ns2="http://tns.tibco.com/bw/palette/internal/activityerror+bw.jdbc.JDBCQuery"
     xmlns:ns3="http://www.tibco.com/pe/WriteToLogActivitySchema"
     xmlns:ns4="www.tibco.com/plugin/java/JavaInvokeActivityInput+736dfd7e-f9ff-4f94-81f8-719d705ddd82+JavaInvokeActivityInput"
@@ -180,234 +185,6 @@
                 </complexContent>
             </complexType>
             <element name="DuplicateKeyException" type="tns:DuplicateKeyExceptionType"/>
-        </schema>
-        <schema
-            targetNamespace="http://www.tibco.com/namespaces/tnt/plugins/jdbc+766ad5cf-302d-40ef-b0dd-8ce4e65662f4+input"
-            xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.tibco.com/namespaces/tnt/plugins/jdbc+766ad5cf-302d-40ef-b0dd-8ce4e65662f4+input">
-            <element name="jdbcQueryActivityInput">
-                <complexType>
-                    <sequence>
-                        <element maxOccurs="1" minOccurs="1"
-                            name="nea_podname" nillable="true" type="string"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="ServerTimeZone" type="string"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="timeout" type="long"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="maxRows" type="long"/>
-                    </sequence>
-                </complexType>
-            </element>
-        </schema>
-        <schema elementFormDefault="unqualified"
-            targetNamespace="http://www.tibco.com/namespaces/tnt/plugins/jdbc+766ad5cf-302d-40ef-b0dd-8ce4e65662f4+output"
-            xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.tibco.com/namespaces/tnt/plugins/jdbc+766ad5cf-302d-40ef-b0dd-8ce4e65662f4+output">
-            <element name="resultSet">
-                <complexType>
-                    <sequence>
-                        <element maxOccurs="unbounded" minOccurs="0" name="Record">
-                            <complexType>
-                                <sequence>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="neconn_id"
-                                    nillable="false" type="integer"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="nea_appname"
-                                    nillable="false" type="string"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="nea_podname"
-                                    nillable="false" type="string"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="nea_procname"
-                                    nillable="false" type="string"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="conn_count"
-                                    nillable="false" type="integer"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="conn_key" nillable="false" type="string"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="conn_ip_a"
-                                    nillable="false" type="string"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="conn_port_a"
-                                    nillable="false" type="integer"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="conn_ip_b"
-                                    nillable="false" type="string"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="conn_port_b"
-                                    nillable="false" type="integer"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="conn_ip_d"
-                                    nillable="false" type="string"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="conn_port_d"
-                                    nillable="false" type="integer"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="conn_type"
-                                    nillable="false" type="string"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="conn_groupname"
-                                    nillable="false" type="string"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="failover_policy"
-                                    nillable="false" type="string"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="failover_retry_count"
-                                    nillable="false" type="integer"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="reconnection_try_interval_sec"
-                                    nillable="false" type="integer"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="borrow_wait_timeout"
-                                    nillable="false" type="integer"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="borrow_wait_timeout_retry_count"
-                                    nillable="false" type="integer"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="read_timeout"
-                                    nillable="false" type="integer"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="read_timeout_retry_count"
-                                    nillable="false" type="integer"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="write_timeout"
-                                    nillable="false" type="integer"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="write_timeout_retry_count"
-                                    nillable="false" type="integer"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="backup_type"
-                                    nillable="false" type="string"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="dr_exist_yn"
-                                    nillable="false" type="string"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="auto_failover_yn"
-                                    nillable="false" type="string"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="heartbeat_yn"
-                                    nillable="false" type="string"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="heartbeat_interval"
-                                    nillable="false" type="integer"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="heartbeat_try_count"
-                                    nillable="false" type="integer"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="heartbeat_message"
-                                    nillable="false" type="string"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="ne_management"
-                                    nillable="false" type="string"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="description"
-                                    nillable="false" type="string"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="neagent_id"
-                                    nillable="false" type="string"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="conn_state"
-                                    nillable="false" type="string"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="conn_ip_type"
-                                    nillable="false" type="string"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="conn_real_count"
-                                    nillable="false" type="integer"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="conn_mode"
-                                    nillable="false" type="string"/>
-                                </sequence>
-                            </complexType>
-                        </element>
-                    </sequence>
-                </complexType>
-            </element>
-            <element name="Iterate_Current_Element_Record">
-                <complexType>
-                    <sequence maxOccurs="1" minOccurs="1">
-                        <element maxOccurs="1" minOccurs="0"
-                            name="neconn_id" nillable="false" type="integer"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="nea_appname" nillable="false" type="string"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="nea_podname" nillable="false" type="string"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="nea_procname" nillable="false" type="string"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="conn_count" nillable="false" type="integer"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="conn_key" nillable="false" type="string"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="conn_ip_a" nillable="false" type="string"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="conn_port_a" nillable="false" type="integer"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="conn_ip_b" nillable="false" type="string"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="conn_port_b" nillable="false" type="integer"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="conn_ip_d" nillable="false" type="string"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="conn_port_d" nillable="false" type="integer"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="conn_type" nillable="false" type="string"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="conn_groupname" nillable="false" type="string"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="failover_policy" nillable="false" type="string"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="failover_retry_count" nillable="false" type="integer"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="reconnection_try_interval_sec"
-                            nillable="false" type="integer"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="borrow_wait_timeout" nillable="false" type="integer"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="borrow_wait_timeout_retry_count"
-                            nillable="false" type="integer"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="read_timeout" nillable="false" type="integer"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="read_timeout_retry_count"
-                            nillable="false" type="integer"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="write_timeout" nillable="false" type="integer"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="write_timeout_retry_count"
-                            nillable="false" type="integer"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="backup_type" nillable="false" type="string"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="dr_exist_yn" nillable="false" type="string"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="auto_failover_yn" nillable="false" type="string"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="heartbeat_yn" nillable="false" type="string"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="heartbeat_interval" nillable="false" type="integer"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="heartbeat_try_count" nillable="false" type="integer"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="heartbeat_message" nillable="false" type="string"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="ne_management" nillable="false" type="string"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="description" nillable="false" type="string"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="neagent_id" nillable="false" type="string"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="conn_state" nillable="false" type="string"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="conn_ip_type" nillable="false" type="string"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="conn_real_count" nillable="false" type="integer"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="conn_mode" nillable="false" type="string"/>
-                    </sequence>
-                </complexType>
-            </element>
         </schema>
         <schema elementFormDefault="unqualified"
             targetNamespace="http://schemas.tibco.com/bw/plugins/jdbc/5.0/jdbcExceptions"
@@ -618,6 +395,331 @@
                 </choice>
             </complexType>
         </schema>
+        <schema
+            targetNamespace="http://www.tibco.com/namespaces/tnt/plugins/jdbc+a266a62f-ef77-40e2-964f-b65c0a5085fb+input"
+            xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.tibco.com/namespaces/tnt/plugins/jdbc+a266a62f-ef77-40e2-964f-b65c0a5085fb+input">
+            <element name="jdbcQueryActivityInput">
+                <complexType>
+                    <sequence>
+                        <element maxOccurs="1" minOccurs="1"
+                            name="nea_podname" nillable="true" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="ServerTimeZone" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="timeout" type="long"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="maxRows" type="long"/>
+                    </sequence>
+                </complexType>
+            </element>
+        </schema>
+        <schema elementFormDefault="unqualified"
+            targetNamespace="http://www.tibco.com/namespaces/tnt/plugins/jdbc+a266a62f-ef77-40e2-964f-b65c0a5085fb+output"
+            xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.tibco.com/namespaces/tnt/plugins/jdbc+a266a62f-ef77-40e2-964f-b65c0a5085fb+output">
+            <element name="resultSet">
+                <complexType>
+                    <sequence>
+                        <element maxOccurs="unbounded" minOccurs="0" name="Record">
+                            <complexType>
+                                <sequence>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="NECONN_ID"
+                                    nillable="false" type="integer"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="NEA_APPNAME"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="NEA_PODNAME"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="NEA_PROCNAME"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="CONN_COUNT"
+                                    nillable="false" type="integer"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="CONN_KEY" nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="CONN_IP_A"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="CONN_PORT_A"
+                                    nillable="false" type="integer"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="CONN_IP_B"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="CONN_PORT_B"
+                                    nillable="false" type="integer"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="CONN_IP_D"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="CONN_PORT_D"
+                                    nillable="false" type="integer"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="CONN_TYPE"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="CONN_GROUPNAME"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="FAILOVER_POLICY"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="FAILOVER_RETRY_COUNT"
+                                    nillable="false" type="integer"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="RECONNECTION_TRY_INTERVAL_SEC"
+                                    nillable="false" type="integer"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="BORROW_WAIT_TIMEOUT"
+                                    nillable="false" type="integer"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="BORROW_WAIT_TIMEOUT_RETRY_COUNT"
+                                    nillable="false" type="integer"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="READ_TIMEOUT"
+                                    nillable="false" type="integer"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="READ_TIMEOUT_RETRY_COUNT"
+                                    nillable="false" type="integer"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="WRITE_TIMEOUT"
+                                    nillable="false" type="integer"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="WRITE_TIMEOUT_RETRY_COUNT"
+                                    nillable="false" type="integer"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="BACKUP_TYPE"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="DR_EXIST_YN"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="AUTO_FAILOVER_YN"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="HEARTBEAT_YN"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="HEARTBEAT_INTERVAL"
+                                    nillable="false" type="integer"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="HEARTBEAT_TRY_COUNT"
+                                    nillable="false" type="integer"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="HEARTBEAT_MESSAGE"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="NE_MANAGEMENT"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="DESCRIPTION"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="CONN_MODE"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="NEAGENT_ID"
+                                    nillable="false" type="string"/>
+                                </sequence>
+                            </complexType>
+                        </element>
+                    </sequence>
+                </complexType>
+            </element>
+            <element name="Iterate_Current_Element_Record">
+                <complexType>
+                    <sequence maxOccurs="1" minOccurs="1">
+                        <element maxOccurs="1" minOccurs="0"
+                            name="NECONN_ID" nillable="false" type="integer"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="NEA_APPNAME" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="NEA_PODNAME" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="NEA_PROCNAME" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="CONN_COUNT" nillable="false" type="integer"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="CONN_KEY" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="CONN_IP_A" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="CONN_PORT_A" nillable="false" type="integer"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="CONN_IP_B" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="CONN_PORT_B" nillable="false" type="integer"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="CONN_IP_D" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="CONN_PORT_D" nillable="false" type="integer"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="CONN_TYPE" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="CONN_GROUPNAME" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="FAILOVER_POLICY" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="FAILOVER_RETRY_COUNT" nillable="false" type="integer"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="RECONNECTION_TRY_INTERVAL_SEC"
+                            nillable="false" type="integer"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="BORROW_WAIT_TIMEOUT" nillable="false" type="integer"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="BORROW_WAIT_TIMEOUT_RETRY_COUNT"
+                            nillable="false" type="integer"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="READ_TIMEOUT" nillable="false" type="integer"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="READ_TIMEOUT_RETRY_COUNT"
+                            nillable="false" type="integer"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="WRITE_TIMEOUT" nillable="false" type="integer"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="WRITE_TIMEOUT_RETRY_COUNT"
+                            nillable="false" type="integer"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="BACKUP_TYPE" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="DR_EXIST_YN" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="AUTO_FAILOVER_YN" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="HEARTBEAT_YN" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="HEARTBEAT_INTERVAL" nillable="false" type="integer"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="HEARTBEAT_TRY_COUNT" nillable="false" type="integer"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="HEARTBEAT_MESSAGE" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="NE_MANAGEMENT" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="DESCRIPTION" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="CONN_MODE" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="NEAGENT_ID" nillable="false" type="string"/>
+                    </sequence>
+                </complexType>
+            </element>
+        </schema>
+        <schema
+            targetNamespace="http://www.tibco.com/namespaces/tnt/plugins/jdbc+5e90a426-5b8d-4c6b-bc26-acfc1eec7ea3+input"
+            xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.tibco.com/namespaces/tnt/plugins/jdbc+5e90a426-5b8d-4c6b-bc26-acfc1eec7ea3+input">
+            <element name="jdbcUpdateActivityInput">
+                <complexType>
+                    <sequence>
+                        <element maxOccurs="1" minOccurs="1"
+                            name="nea_podname" nillable="true" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="ServerTimeZone" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="timeout" type="long"/>
+                    </sequence>
+                </complexType>
+            </element>
+        </schema>
+        <xs:schema attributeFormDefault="unqualified"
+            elementFormDefault="qualified"
+            targetNamespace="http://www.tibco.com/namespaces/tnt/plugins/jdbc"
+            xmlns:tns="http://www.tibco.com/namespaces/tnt/plugins/jdbc" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+            <xs:complexType name="jdbcCallActivityInput">
+                <xs:sequence>
+                    <xs:element maxOccurs="1" minOccurs="0"
+                        name="inputSet" type="xs:anyType"/>
+                    <xs:element maxOccurs="1" minOccurs="0"
+                        name="ServerTimeZone" type="xs:string"/>
+                    <xs:element maxOccurs="1" minOccurs="0"
+                        name="timeout" type="xs:int"/>
+                    <xs:element maxOccurs="1" minOccurs="0"
+                        name="maxRows" type="xs:int"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="jdbcCallActivityInput" type="tns:jdbcCallActivityInput"/>
+            <xs:element name="jdbcCallActivityOutput" type="tns:jdbcCallActivityOutput"/>
+            <xs:complexType name="jdbcCallActivityOutput">
+                <xs:sequence>
+                    <xs:element maxOccurs="1" minOccurs="0"
+                        name="outputSet" type="xs:string"/>
+                    <xs:element maxOccurs="1" minOccurs="0"
+                        name="UnResolvedResultSets" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="column">
+                <xs:sequence>
+                    <xs:element form="unqualified" name="name" type="xs:string"/>
+                    <xs:element form="unqualified" name="value"
+                        nillable="true" type="xs:anyType"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="jdbcGeneralActivityInput">
+                <xs:sequence>
+                    <xs:element form="unqualified" name="statement" type="xs:string"/>
+                    <xs:element form="unqualified" minOccurs="0"
+                        name="ServerTimeZone" type="xs:string"/>
+                    <xs:element form="unqualified" minOccurs="0"
+                        name="timeout" type="xs:int"/>
+                    <xs:element form="unqualified" minOccurs="0"
+                        name="maxRows" type="xs:int"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="jdbcGeneralActivityOutput">
+                <xs:sequence>
+                    <xs:element form="unqualified" maxOccurs="unbounded"
+                        minOccurs="0" name="noOfUpdates" type="xs:int"/>
+                    <xs:element form="unqualified" maxOccurs="unbounded"
+                        minOccurs="0" name="unknownResultset" type="tns:unknownResultset"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="row">
+                <xs:sequence>
+                    <xs:element form="unqualified" maxOccurs="unbounded"
+                        minOccurs="0" name="column" type="tns:column"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="unknownResultset">
+                <xs:sequence>
+                    <xs:element form="unqualified" maxOccurs="unbounded"
+                        minOccurs="0" name="row" type="tns:row"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="jdbcGeneralActivityInput" type="tns:jdbcGeneralActivityInput"/>
+            <xs:element name="jdbcGeneralActivityOutput" type="tns:jdbcGeneralActivityOutput"/>
+            <xs:complexType name="jdbcUpdateOutput">
+                <xs:sequence>
+                    <xs:element form="unqualified" name="noOfUpdates" type="xs:int"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="jdbcUpdateActivityOutput" type="tns:jdbcUpdateOutput"/>
+        </xs:schema>
+        <schema elementFormDefault="unqualified"
+            targetNamespace="http://tns.tibco.com/bw/palette/internal/activityerror+bw.jdbc.update"
+            xmlns="http://www.w3.org/2001/XMLSchema"
+            xmlns:Q1="http://schemas.tibco.com/bw/plugins/jdbc/5.0/jdbcExceptions"
+            xmlns:Q2="http://schemas.tibco.com/bw/pe/plugin/5.0/exceptions" xmlns:tns="http://tns.tibco.com/bw/palette/internal/activityerror+bw.jdbc.update">
+            <import namespace="http://schemas.tibco.com/bw/pe/plugin/5.0/exceptions"/>
+            <import namespace="http://schemas.tibco.com/bw/plugins/jdbc/5.0/jdbcExceptions"/>
+            <import namespace="http://schemas.tibco.com/bw/plugins/jdbc/5.0/jdbcExceptions"/>
+            <import namespace="http://schemas.tibco.com/bw/plugins/jdbc/5.0/jdbcExceptions"/>
+            <import namespace="http://schemas.tibco.com/bw/plugins/jdbc/5.0/jdbcExceptions"/>
+            <import namespace="http://schemas.tibco.com/bw/plugins/jdbc/5.0/jdbcExceptions"/>
+            <element name="ActivityErrorData" type="tns:ActivityErrorDataType"/>
+            <complexType name="ActivityErrorDataType">
+                <choice>
+                    <element maxOccurs="1" minOccurs="0" ref="Q1:JDBCConnectionNotFoundException"/>
+                    <element maxOccurs="1" minOccurs="0" ref="Q1:InvalidTimeZoneException"/>
+                    <element maxOccurs="1" minOccurs="0" ref="Q1:JDBCSQLException"/>
+                    <element maxOccurs="1" minOccurs="0" ref="Q1:LoginTimedOutException"/>
+                    <element maxOccurs="1" minOccurs="0" ref="Q1:InvalidSQLTypeException"/>
+                    <element maxOccurs="1" minOccurs="0" ref="Q2:ActivityTimedOutException"/>
+                </choice>
+            </complexType>
+        </schema>
     </tibex:Types>
     <tibex:ProcessInfo callable="true" createdBy="tenye"
         createdOn="Fri Dec 31 12:01:05 KST 2021" description=""
@@ -720,66 +822,29 @@
                                     <layoutConstraint x="1015"
                                     xsi:type="notation:Bounds" y="132"/>
                                     </children>
-                                    <children type="4002 bw.jdbc.JDBCQuery">
-                                    <children type="4017">
-                                    <styles fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.2"/>
-                                    <layoutConstraint xsi:type="notation:Bounds"/>
-                                    </children>
-                                    <children type="4017">
-                                    <styles fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.2"/>
-                                    <layoutConstraint xsi:type="notation:Bounds"/>
-                                    </children>
-                                    <children type="4017">
-                                    <styles fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.2"/>
-                                    <layoutConstraint xsi:type="notation:Bounds"/>
-                                    </children>
-                                    <children type="4017">
-                                    <styles fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.2"/>
-                                    <layoutConstraint xsi:type="notation:Bounds"/>
-                                    </children>
-                                    <styles fontName="맑은 고딕"
-                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <styles
-                                    backgroundColor="16777215"
-                                    gradientEndColor="50431"
-                                    gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.2"/>
-                                    <layoutConstraint
-                                    height="40" width="40"
-                                    x="392"
-                                    xsi:type="notation:Bounds" y="132"/>
-                                    </children>
                                     <children type="4002 bw.internal.getSharedVariable">
                                     <children type="4017">
                                     <styles fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.3"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2"/>
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
                                     <children type="4017">
                                     <styles fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.3"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2"/>
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
                                     <children type="4017">
                                     <styles fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.3"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2"/>
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
                                     <children type="4017">
                                     <styles fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.3"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2"/>
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
                                     <styles fontName="맑은 고딕"
@@ -788,7 +853,7 @@
                                     backgroundColor="16777215"
                                     gradientEndColor="50431"
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.3"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.2"/>
                                     <layoutConstraint
                                     height="40" width="40"
                                     x="107"
@@ -809,7 +874,7 @@
                                     fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
 
-                                    <element href="//0/@process/@activity/@activity/@activities.4/@activity/@activities.1/@activity/@activity/@activities.2"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activities.1/@activity/@activity/@activities.2"/>
 
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
@@ -820,7 +885,7 @@
                                     fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
 
-                                    <element href="//0/@process/@activity/@activity/@activities.4/@activity/@activities.1/@activity/@activity/@activities.2"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activities.1/@activity/@activity/@activities.2"/>
 
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
@@ -831,7 +896,7 @@
                                     fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
 
-                                    <element href="//0/@process/@activity/@activity/@activities.4/@activity/@activities.1/@activity/@activity/@activities.2"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activities.1/@activity/@activity/@activities.2"/>
 
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
@@ -842,7 +907,7 @@
                                     fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
 
-                                    <element href="//0/@process/@activity/@activity/@activities.4/@activity/@activities.1/@activity/@activity/@activities.2"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activities.1/@activity/@activity/@activities.2"/>
 
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
@@ -856,7 +921,7 @@
                                     gradientEndColor="50431"
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
 
-                                    <element href="//0/@process/@activity/@activity/@activities.4/@activity/@activities.1/@activity/@activity/@activities.2"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activities.1/@activity/@activity/@activities.2"/>
 
                                     <layoutConstraint
                                     height="40"
@@ -912,7 +977,7 @@
                                     gradientEndColor="50431"
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
 
-                                    <element href="//0/@process/@activity/@activity/@activities.4/@activity/@activities.1/@activity/@activity/@activities.3"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activities.1/@activity/@activity/@activities.3"/>
 
                                     <layoutConstraint
                                     height="40"
@@ -923,7 +988,7 @@
                                     <styles xsi:type="notation:DrawerStyle"/>
                                     <styles xsi:type="notation:SortingStyle"/>
                                     <styles xsi:type="notation:FilteringStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.4/@activity/@activities.1/@activity/@activity"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activities.1/@activity/@activity"/>
                                     </children>
                                     <styles
                                     fontName="맑은 고딕"
@@ -933,7 +998,7 @@
                                     gradientEndColor="50431"
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
                                     <styles xsi:type="bwnotation:ResizingStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.4/@activity/@activities.1/@activity/@activity"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activities.1/@activity/@activity"/>
 
                                     <layoutConstraint
                                     height="121"
@@ -941,14 +1006,14 @@
                                     </children>
                                     <styles xsi:type="notation:SortingStyle"/>
                                     <styles xsi:type="notation:FilteringStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.4"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.3"/>
                                     </children>
                                     <styles
                                     fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
                                     <styles xsi:type="bwnotation:BackgroundStyle"/>
                                     <styles xsi:type="bwnotation:ResizingStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.4"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.3"/>
                                     <layoutConstraint
                                     height="269"
                                     width="290"
@@ -960,7 +1025,7 @@
                                     <styles
                                     fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.4/@activity/@activities.1/@activity/@activity/@activities.0"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activities.1/@activity/@activity/@activities.0"/>
 
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
@@ -968,7 +1033,7 @@
                                     <styles
                                     fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.4/@activity/@activities.1/@activity/@activity/@activities.0"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activities.1/@activity/@activity/@activities.0"/>
 
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
@@ -976,7 +1041,7 @@
                                     <styles
                                     fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.4/@activity/@activities.1/@activity/@activity/@activities.0"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activities.1/@activity/@activity/@activities.0"/>
 
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
@@ -984,7 +1049,7 @@
                                     <styles
                                     fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.4/@activity/@activities.1/@activity/@activity/@activities.0"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activities.1/@activity/@activity/@activities.0"/>
 
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
@@ -995,7 +1060,7 @@
                                     backgroundColor="16777215"
                                     gradientEndColor="50431"
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.4/@activity/@activities.1/@activity/@activity/@activities.0"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activities.1/@activity/@activity/@activities.0"/>
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
                                     <children type="4002">
@@ -1003,7 +1068,7 @@
                                     <styles
                                     fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.4/@activity/@activities.1/@activity/@activity/@activities.1"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activities.1/@activity/@activity/@activities.1"/>
 
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
@@ -1011,7 +1076,7 @@
                                     <styles
                                     fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.4/@activity/@activities.1/@activity/@activity/@activities.1"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activities.1/@activity/@activity/@activities.1"/>
 
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
@@ -1019,7 +1084,7 @@
                                     <styles
                                     fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.4/@activity/@activities.1/@activity/@activity/@activities.1"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activities.1/@activity/@activity/@activities.1"/>
 
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
@@ -1027,7 +1092,7 @@
                                     <styles
                                     fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.4/@activity/@activities.1/@activity/@activity/@activities.1"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activities.1/@activity/@activity/@activities.1"/>
 
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
@@ -1038,18 +1103,18 @@
                                     backgroundColor="16777215"
                                     gradientEndColor="50431"
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.4/@activity/@activities.1/@activity/@activity/@activities.1"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activities.1/@activity/@activity/@activities.1"/>
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
                                     <styles xsi:type="notation:SortingStyle"/>
                                     <styles xsi:type="notation:FilteringStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.4"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.3"/>
                                     </children>
                                     <styles fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
                                     <styles xsi:type="bwnotation:BackgroundStyle"/>
                                     <styles xsi:type="bwnotation:ResizingStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.4"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.3"/>
                                     <layoutConstraint
                                     height="313" width="330"
                                     x="521"
@@ -1059,25 +1124,25 @@
                                     <children type="4017">
                                     <styles fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.5"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.4"/>
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
                                     <children type="4017">
                                     <styles fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.5"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.4"/>
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
                                     <children type="4017">
                                     <styles fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.5"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.4"/>
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
                                     <children type="4017">
                                     <styles fontName="맑은 고딕"
                                     lineColor="0" xsi:type="notation:ShapeStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.5"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.4"/>
                                     <layoutConstraint xsi:type="notation:Bounds"/>
                                     </children>
                                     <styles fontName="맑은 고딕"
@@ -1086,7 +1151,7 @@
                                     backgroundColor="16777215"
                                     gradientEndColor="50431"
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
-                                    <element href="//0/@process/@activity/@activity/@activities.5"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.4"/>
                                     <layoutConstraint
                                     height="40" width="40"
                                     x="878"
@@ -1202,11 +1267,77 @@
                                     backgroundColor="16777215"
                                     gradientEndColor="50431"
                                     gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.5"/>
+                                    <layoutConstraint
+                                    height="40" width="40"
+                                    x="212"
+                                    xsi:type="notation:Bounds" y="105"/>
+                                    </children>
+                                    <children type="4002 bw.jdbc.JDBCQuery">
+                                    <children type="4017">
+                                    <styles fontName="맑은 고딕"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+                                    <children type="4017">
+                                    <styles fontName="맑은 고딕"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+                                    <children type="4017">
+                                    <styles fontName="맑은 고딕"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+                                    <children type="4017">
+                                    <styles fontName="맑은 고딕"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+                                    <styles fontName="맑은 고딕"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <styles
+                                    backgroundColor="16777215"
+                                    gradientEndColor="50431"
+                                    gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
                                     <element href="//0/@process/@activity/@activity/@activities.6"/>
                                     <layoutConstraint
                                     height="40" width="40"
-                                    x="218"
-                                    xsi:type="notation:Bounds" y="53"/>
+                                    x="393"
+                                    xsi:type="notation:Bounds" y="450"/>
+                                    </children>
+                                    <children type="4002 bw.jdbc.update">
+                                    <children type="4017">
+                                    <styles fontName="맑은 고딕"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+                                    <children type="4017">
+                                    <styles fontName="맑은 고딕"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+                                    <children type="4017">
+                                    <styles fontName="맑은 고딕"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+                                    <children type="4017">
+                                    <styles fontName="맑은 고딕"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+                                    <styles fontName="맑은 고딕"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <styles
+                                    backgroundColor="16777215"
+                                    gradientEndColor="50431"
+                                    gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.7"/>
+                                    <layoutConstraint
+                                    height="40" width="40"
+                                    x="212"
+                                    xsi:type="notation:Bounds" y="284"/>
                                     </children>
                                     <styles xsi:type="notation:DrawerStyle"/>
                                     <styles xsi:type="notation:SortingStyle"/>
@@ -1256,7 +1387,7 @@
         <element href="//0"/>
         <edges
             source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3" type="4006">
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2" type="4006">
             <children type="6002">
                 <layoutConstraint xsi:type="notation:Location" y="40"/>
             </children>
@@ -1266,7 +1397,7 @@
             <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
         </edges>
         <edges
-            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2"
+            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3"
             target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.4" type="4006">
             <children type="6002">
                 <layoutConstraint xsi:type="notation:Location" y="40"/>
@@ -1277,8 +1408,8 @@
             <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
         </edges>
         <edges
-            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.10"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2" type="4006">
+            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2"
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.9" type="4006">
             <children type="6002">
                 <layoutConstraint xsi:type="notation:Location" y="40"/>
             </children>
@@ -1286,11 +1417,46 @@
             <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
             <element href="//0/@process/@activity/@activity/@links/@children.2"/>
             <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
-            <sourceAnchor id="(1.0,0.5918367346938775)" xsi:type="notation:IdentityAnchor"/>
+            <targetAnchor id="(0.0,0.5714285714285714)" xsi:type="notation:IdentityAnchor"/>
+        </edges>
+        <edges
+            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3/@children.0/@children.1"
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.1" type="4006">
+            <children type="6002">
+                <layoutConstraint xsi:type="notation:Location" y="40"/>
+            </children>
+            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
+            <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
+            <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activities.1/@activity/@activity/@links/@children.0"/>
+            <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
+            <targetAnchor id="(0.16326530612244897,0.7755102040816326)" xsi:type="notation:IdentityAnchor"/>
+        </edges>
+        <edges
+            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.1"
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0" type="4006">
+            <children type="6002">
+                <layoutConstraint xsi:type="notation:Location" y="40"/>
+            </children>
+            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
+            <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
+            <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activities.1/@activity/@activity/@links/@children.1"/>
+            <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
+            <sourceAnchor id="(0.8979591836734694,0.6530612244897959)" xsi:type="notation:IdentityAnchor"/>
+        </edges>
+        <edges
+            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0"
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3/@children.0/@children.2" type="4006">
+            <children type="6002">
+                <layoutConstraint xsi:type="notation:Location" y="40"/>
+            </children>
+            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
+            <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
+            <element href="//0/@process/@activity/@activity/@activities.3/@activity/@activities.1/@activity/@activity/@links/@children.2"/>
+            <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
         </edges>
         <edges
             source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.4"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.5" type="4006">
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.1" type="4006">
             <children type="6002">
                 <layoutConstraint xsi:type="notation:Location" y="40"/>
             </children>
@@ -1299,76 +1465,9 @@
             <element href="//0/@process/@activity/@activity/@links/@children.3"/>
             <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
         </edges>
-        <edges
-            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.10" type="4006">
-            <children type="6002">
-                <layoutConstraint xsi:type="notation:Location" y="40"/>
-            </children>
-            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
-            <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
-            <element href="//0/@process/@activity/@activity/@links/@children.4"/>
-            <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
-            <targetAnchor id="(0.0,0.5714285714285714)" xsi:type="notation:IdentityAnchor"/>
-        </edges>
-        <edges
-            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.4/@children.0/@children.1"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.1" type="4006">
-            <children type="6002">
-                <layoutConstraint xsi:type="notation:Location" y="40"/>
-            </children>
-            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
-            <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
-            <element href="//0/@process/@activity/@activity/@activities.4/@activity/@activities.1/@activity/@activity/@links/@children.0"/>
-            <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
-            <targetAnchor id="(0.16326530612244897,0.7755102040816326)" xsi:type="notation:IdentityAnchor"/>
-        </edges>
-        <edges
-            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.1"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0" type="4006">
-            <children type="6002">
-                <layoutConstraint xsi:type="notation:Location" y="40"/>
-            </children>
-            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
-            <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
-            <element href="//0/@process/@activity/@activity/@activities.4/@activity/@activities.1/@activity/@activity/@links/@children.1"/>
-            <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
-            <sourceAnchor id="(0.8979591836734694,0.6530612244897959)" xsi:type="notation:IdentityAnchor"/>
-        </edges>
-        <edges
-            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.4/@children.0/@children.2" type="4006">
-            <children type="6002">
-                <layoutConstraint xsi:type="notation:Location" y="40"/>
-            </children>
-            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
-            <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
-            <element href="//0/@process/@activity/@activity/@activities.4/@activity/@activities.1/@activity/@activity/@links/@children.2"/>
-            <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
-        </edges>
-        <edges
-            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.5"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.1" type="4006">
-            <children type="6002">
-                <layoutConstraint xsi:type="notation:Location" y="40"/>
-            </children>
-            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
-            <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
-            <element href="//0/@process/@activity/@activity/@links/@children.5"/>
-            <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
-        </edges>
         <edges lineColor="0" lineWidth="1"
             source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.6"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2"
-            type="NoteAttachment" xsi:type="notation:Connector">
-            <styles xsi:type="notation:ArrowStyle"/>
-            <styles xsi:type="notation:LineTypeStyle"/>
-            <element xsi:nil="true"/>
-            <bendpoints points="[0, 0, -439, -156]$[415, 147, -24, -9]" xsi:type="notation:RelativeBendpoints"/>
-        </edges>
-        <edges lineColor="0" lineWidth="1"
-            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.7"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0"
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0"
             type="NoteAttachment" xsi:type="notation:Connector">
             <styles xsi:type="notation:ArrowStyle"/>
             <styles xsi:type="notation:LineTypeStyle"/>
@@ -1376,8 +1475,8 @@
             <bendpoints points="[0, 0, -267, -56]$[243, 51, -24, -5]" xsi:type="notation:RelativeBendpoints"/>
         </edges>
         <edges lineColor="0" lineWidth="1"
-            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.8"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3"
+            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.7"
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2"
             type="NoteAttachment" xsi:type="notation:Connector">
             <styles xsi:type="notation:ArrowStyle"/>
             <styles xsi:type="notation:LineTypeStyle"/>
@@ -1385,14 +1484,49 @@
             <bendpoints points="[0, 0, -168, -156]$[144, 133, -24, -23]" xsi:type="notation:RelativeBendpoints"/>
         </edges>
         <edges lineColor="0" lineWidth="1"
-            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.9"
-            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.5"
+            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.8"
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.4"
             type="NoteAttachment" xsi:type="notation:Connector">
             <styles xsi:type="notation:ArrowStyle"/>
             <styles xsi:type="notation:LineTypeStyle"/>
             <element xsi:nil="true"/>
             <bendpoints
                 points="[0, 0, -1075, -156]$[1051, 152, -24, -4]" xsi:type="notation:RelativeBendpoints"/>
+        </edges>
+        <edges
+            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.9"
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.11" type="4006">
+            <children type="6002">
+                <layoutConstraint xsi:type="notation:Location" y="40"/>
+            </children>
+            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
+            <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
+            <element href="//0/@process/@activity/@activity/@links/@children.4"/>
+            <bendpoints points="[-7, 25, -7, -154]$[-7, 155, -7, -24]" xsi:type="notation:RelativeBendpoints"/>
+        </edges>
+        <edges
+            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.10"
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3" type="4006">
+            <children type="6002">
+                <layoutConstraint xsi:type="notation:Location" y="40"/>
+            </children>
+            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
+            <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
+            <element href="//0/@process/@activity/@activity/@links/@children.5"/>
+            <bendpoints
+                points="[25, -20, -200, 162]$[78, -63, -147, 119]" xsi:type="notation:RelativeBendpoints"/>
+        </edges>
+        <edges
+            source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.11"
+            target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.10" type="4006">
+            <children type="6002">
+                <layoutConstraint xsi:type="notation:Location" y="40"/>
+            </children>
+            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
+            <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
+            <element href="//0/@process/@activity/@activity/@links/@children.6"/>
+            <bendpoints
+                points="[-5, 25, -186, -141]$[-5, 166, -186, 0]$[157, 166, -24, 0]" xsi:type="notation:RelativeBendpoints"/>
         </edges>
     </notation:Diagram>
     <tibex:NamespaceRegistry enabled="true">
@@ -1406,16 +1540,19 @@
             namespace="www.tibco.com/plugin/java/JavaInvokeActivityInput+736dfd7e-f9ff-4f94-81f8-719d705ddd82+JavaInvokeActivityInput" prefix="tns2"/>
         <tibex:namespaceItem
             namespace="http://www.example.com/namespaces/tns/1653980060660" prefix="tns10"/>
+        <tibex:namespaceItem
+            namespace="http://www.tibco.com/namespaces/tnt/plugins/jdbc+a266a62f-ef77-40e2-964f-b65c0a5085fb+input" prefix="tns3"/>
+        <tibex:namespaceItem
+            namespace="http://tns.tibco.com/bw/json/1656328165524" prefix="tns4"/>
+        <tibex:namespaceItem
+            namespace="http://www.w3.org/2001/XMLSchema-instance" prefix="xsi"/>
+        <tibex:namespaceItem
+            namespace="http://www.tibco.com/namespaces/tnt/plugins/jdbc+5e90a426-5b8d-4c6b-bc26-acfc1eec7ea3+input" prefix="tns13"/>
     </tibex:NamespaceRegistry>
     <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.com/namespaces/tns/1653980060660"/>
     <bpws:variables>
         <bpws:variable element="ns:ProcessContext"
             name="_processContext" sca-bpel:internal="true"/>
-        <bpws:variable element="ns0:jdbcQueryActivityInput"
-            name="JDBCQuery-input" sca-bpel:internal="true"/>
-        <bpws:variable element="ns1:resultSet" name="JDBCQuery" sca-bpel:internal="true"/>
-        <bpws:variable element="ns2:ActivityErrorData"
-            name="_error_JDBCQuery" sca-bpel:internal="true"/>
         <bpws:variable element="ns:ErrorReport" name="_error" sca-bpel:internal="true"/>
         <bpws:variable name="jdbcProperty" sca-bpel:hotUpdate="false"
             sca-bpel:privateProperty="true" sca-bpel:property="yes"
@@ -1468,6 +1605,17 @@
         </bpws:variable>
         <bpws:variable element="ns10:Element" name="NEConfigLog-input" sca-bpel:internal="true"/>
         <bpws:variable element="ns10:Element" name="NEConnInfoLog-input" sca-bpel:internal="true"/>
+        <bpws:variable element="ns11:jdbcQueryActivityInput"
+            name="GETNEINFO-input" sca-bpel:internal="true"/>
+        <bpws:variable element="ns12:resultSet" name="GETNEINFO" sca-bpel:internal="true"/>
+        <bpws:variable element="ns2:ActivityErrorData"
+            name="_error_GETNEINFO" sca-bpel:internal="true"/>
+        <bpws:variable element="ns13:jdbcUpdateActivityInput"
+            name="InitStatus-input" sca-bpel:internal="true"/>
+        <bpws:variable element="ns14:jdbcUpdateActivityOutput"
+            name="InitStatus" sca-bpel:internal="true"/>
+        <bpws:variable element="ns15:ActivityErrorData"
+            name="_error_InitStatus" sca-bpel:internal="true"/>
     </bpws:variables>
     <bpws:extensions>
         <bpws:extension mustUnderstand="no" namespace="http://www.eclipse.org/gmf/runtime/1.0.2/notation"/>
@@ -1481,11 +1629,12 @@
         <bpws:flow name="flow">
             <bpws:links>
                 <bpws:link name="StartToEnd" tibex:linkType="SUCCESS"/>
-                <bpws:link name="JDBCQueryToIterate" tibex:linkType="SUCCESS"/>
-                <bpws:link name="FileConfigLogToJDBCQuery" tibex:linkType="SUCCESS"/>
                 <bpws:link name="IterateToEnd" tibex:linkType="SUCCESS"/>
                 <bpws:link name="GetSharedVariableToFileConfigLog" tibex:linkType="SUCCESS"/>
                 <bpws:link name="JavaInvokeToEnd" tibex:linkType="SUCCESS"/>
+                <bpws:link name="NEConfigLogToUpdateStatus" tibex:linkType="SUCCESS"/>
+                <bpws:link name="JDBCQuery1ToIterate" tibex:linkType="SUCCESS"/>
+                <bpws:link name="UpdateStatusToGETNEINFO" tibex:linkType="SUCCESS"/>
             </bpws:links>
             <bpws:extensionActivity>
                 <tibex:receiveEvent createInstance="yes"
@@ -1522,191 +1671,6 @@
                 </tibex:activityExtension>
             </bpws:extensionActivity>
             <bpws:extensionActivity>
-                <tibex:activityExtension inputVariable="JDBCQuery-input"
-                    name="JDBCQuery" outputVariable="JDBCQuery"
-                    tibex:xpdlId="766ad5cf-302d-40ef-b0dd-8ce4e65662f4" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
-                    <bpws:targets>
-                        <bpws:target linkName="FileConfigLogToJDBCQuery"/>
-                    </bpws:targets>
-                    <bpws:sources>
-                        <bpws:source linkName="JDBCQueryToIterate"/>
-                    </bpws:sources>
-                    <tibex:inputBindings>
-                        <tibex:inputBinding
-                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns1=&quot;http://www.tibco.com/namespaces/tnt/plugins/jdbc+766ad5cf-302d-40ef-b0dd-8ce4e65662f4+input&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;GetSharedVariable&quot;/>&lt;xsl:template name=&quot;JDBCQuery-input&quot; match=&quot;/&quot;>&lt;tns1:jdbcQueryActivityInput>&lt;nea_podname>&lt;xsl:value-of select=&quot;$GetSharedVariable&quot;/>&lt;/nea_podname>&lt;/tns1:jdbcQueryActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
-                    </tibex:inputBindings>
-                    <tibex:config>
-                        <bwext:BWActivity
-                            activityTypeID="bw.jdbc.JDBCQuery"
-                            xmlns:activityconfig="http://tns.tibco.com/bw/model/activityconfig"
-                            xmlns:bwext="http://tns.tibco.com/bw/model/core/bwext"
-                            xmlns:jdbcPalette="http://ns.tibco.com/bw/palette/jdbc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                            <activityConfig>
-                                <properties name="config" xsi:type="activityconfig:EMFProperty">
-                                    <type href="http://ns.tibco.com/bw/palette/jdbc#//JDBCQueryActivity"/>
-                                    <value maxRows="100"
-                                    sharedResourceProperty="jdbcProperty"
-                                    sqlStatement="SELECT *&#xa;  FROM pvs.&quot;TB_PVSM_NECONN&quot;&#xa;&#x9;WHERE NEA_PODNAME=?"
-                                    timeout="10" xsi:type="jdbcPalette:JDBCQueryActivity">
-                                    <PreparedParameters
-                                    DataType="12"
-                                    DataTypeDisplayValue="VARCHAR" ParameterName="nea_podname"/>
-                                    <columnMetadata columnIndex="1"
-                                    columnName="neconn_id"
-                                    dataType="-5"
-                                    status="OptionalElement" typeName="BIGINT"/>
-                                    <columnMetadata columnIndex="2"
-                                    columnName="nea_appname"
-                                    dataType="12"
-                                    status="OptionalElement" typeName="CHARACTER VARYING"/>
-                                    <columnMetadata columnIndex="3"
-                                    columnName="nea_podname"
-                                    dataType="12"
-                                    status="OptionalElement" typeName="CHARACTER VARYING"/>
-                                    <columnMetadata columnIndex="4"
-                                    columnName="nea_procname"
-                                    dataType="12"
-                                    status="OptionalElement" typeName="CHARACTER VARYING"/>
-                                    <columnMetadata columnIndex="5"
-                                    columnName="conn_count"
-                                    dataType="-5"
-                                    status="OptionalElement" typeName="BIGINT"/>
-                                    <columnMetadata columnIndex="6"
-                                    columnName="conn_key"
-                                    dataType="12"
-                                    status="OptionalElement" typeName="CHARACTER VARYING"/>
-                                    <columnMetadata columnIndex="7"
-                                    columnName="conn_ip_a"
-                                    dataType="12"
-                                    status="OptionalElement" typeName="CHARACTER VARYING"/>
-                                    <columnMetadata columnIndex="8"
-                                    columnName="conn_port_a"
-                                    dataType="-5"
-                                    status="OptionalElement" typeName="BIGINT"/>
-                                    <columnMetadata columnIndex="9"
-                                    columnName="conn_ip_b"
-                                    dataType="12"
-                                    status="OptionalElement" typeName="CHARACTER VARYING"/>
-                                    <columnMetadata columnIndex="10"
-                                    columnName="conn_port_b"
-                                    dataType="-5"
-                                    status="OptionalElement" typeName="BIGINT"/>
-                                    <columnMetadata columnIndex="11"
-                                    columnName="conn_ip_d"
-                                    dataType="12"
-                                    status="OptionalElement" typeName="CHARACTER VARYING"/>
-                                    <columnMetadata columnIndex="12"
-                                    columnName="conn_port_d"
-                                    dataType="-5"
-                                    status="OptionalElement" typeName="BIGINT"/>
-                                    <columnMetadata columnIndex="13"
-                                    columnName="conn_type"
-                                    dataType="12"
-                                    status="OptionalElement" typeName="CHARACTER VARYING"/>
-                                    <columnMetadata columnIndex="14"
-                                    columnName="conn_groupname"
-                                    dataType="12"
-                                    status="OptionalElement" typeName="CHARACTER VARYING"/>
-                                    <columnMetadata columnIndex="15"
-                                    columnName="failover_policy"
-                                    dataType="12"
-                                    status="OptionalElement" typeName="CHARACTER VARYING"/>
-                                    <columnMetadata columnIndex="16"
-                                    columnName="failover_retry_count"
-                                    dataType="-5"
-                                    status="OptionalElement" typeName="BIGINT"/>
-                                    <columnMetadata columnIndex="17"
-                                    columnName="reconnection_try_interval_sec"
-                                    dataType="-5"
-                                    status="OptionalElement" typeName="BIGINT"/>
-                                    <columnMetadata columnIndex="18"
-                                    columnName="borrow_wait_timeout"
-                                    dataType="-5"
-                                    status="OptionalElement" typeName="BIGINT"/>
-                                    <columnMetadata columnIndex="19"
-                                    columnName="borrow_wait_timeout_retry_count"
-                                    dataType="-5"
-                                    status="OptionalElement" typeName="BIGINT"/>
-                                    <columnMetadata columnIndex="20"
-                                    columnName="read_timeout"
-                                    dataType="-5"
-                                    status="OptionalElement" typeName="BIGINT"/>
-                                    <columnMetadata columnIndex="21"
-                                    columnName="read_timeout_retry_count"
-                                    dataType="-5"
-                                    status="OptionalElement" typeName="BIGINT"/>
-                                    <columnMetadata columnIndex="22"
-                                    columnName="write_timeout"
-                                    dataType="-5"
-                                    status="OptionalElement" typeName="BIGINT"/>
-                                    <columnMetadata columnIndex="23"
-                                    columnName="write_timeout_retry_count"
-                                    dataType="-5"
-                                    status="OptionalElement" typeName="BIGINT"/>
-                                    <columnMetadata columnIndex="24"
-                                    columnName="backup_type"
-                                    dataType="12"
-                                    status="OptionalElement" typeName="CHARACTER VARYING"/>
-                                    <columnMetadata columnIndex="25"
-                                    columnName="dr_exist_yn"
-                                    dataType="1"
-                                    status="OptionalElement" typeName="CHARACTER"/>
-                                    <columnMetadata columnIndex="26"
-                                    columnName="auto_failover_yn"
-                                    dataType="1"
-                                    status="OptionalElement" typeName="CHARACTER"/>
-                                    <columnMetadata columnIndex="27"
-                                    columnName="heartbeat_yn"
-                                    dataType="1"
-                                    status="OptionalElement" typeName="CHARACTER"/>
-                                    <columnMetadata columnIndex="28"
-                                    columnName="heartbeat_interval"
-                                    dataType="-5"
-                                    status="OptionalElement" typeName="BIGINT"/>
-                                    <columnMetadata columnIndex="29"
-                                    columnName="heartbeat_try_count"
-                                    dataType="-5"
-                                    status="OptionalElement" typeName="BIGINT"/>
-                                    <columnMetadata columnIndex="30"
-                                    columnName="heartbeat_message"
-                                    dataType="12"
-                                    status="OptionalElement" typeName="CHARACTER VARYING"/>
-                                    <columnMetadata columnIndex="31"
-                                    columnName="ne_management"
-                                    dataType="12"
-                                    status="OptionalElement" typeName="CHARACTER VARYING"/>
-                                    <columnMetadata columnIndex="32"
-                                    columnName="description"
-                                    dataType="12"
-                                    status="OptionalElement" typeName="CHARACTER VARYING"/>
-                                    <columnMetadata columnIndex="33"
-                                    columnName="neagent_id"
-                                    dataType="12"
-                                    status="OptionalElement" typeName="CHARACTER VARYING"/>
-                                    <columnMetadata columnIndex="34"
-                                    columnName="conn_state"
-                                    dataType="1"
-                                    status="OptionalElement" typeName="CHARACTER"/>
-                                    <columnMetadata columnIndex="35"
-                                    columnName="conn_ip_type"
-                                    dataType="1"
-                                    status="OptionalElement" typeName="CHARACTER"/>
-                                    <columnMetadata columnIndex="36"
-                                    columnName="conn_real_count"
-                                    dataType="-5"
-                                    status="OptionalElement" typeName="BIGINT"/>
-                                    <columnMetadata columnIndex="37"
-                                    columnName="conn_mode"
-                                    dataType="12"
-                                    status="OptionalElement" typeName="CHARACTER VARYING"/>
-                                    </value>
-                                </properties>
-                            </activityConfig>
-                        </bwext:BWActivity>
-                    </tibex:config>
-                </tibex:activityExtension>
-            </bpws:extensionActivity>
-            <bpws:extensionActivity>
                 <tibex:extActivity name="GetSharedVariable"
                     outputVariable="GetSharedVariable"
                     tibex:xpdlId="1839472d-4c4e-4f6b-bc15-8e7e3ecdc0f4"
@@ -1722,7 +1686,7 @@
             </bpws:extensionActivity>
             <bpws:scope name="Iterate" tibex:group="iterate" tibex:xpdlId="4a47c5c5-2218-4c16-adf1-469164f74f9c">
                 <bpws:targets>
-                    <bpws:target linkName="JDBCQueryToIterate"/>
+                    <bpws:target linkName="JDBCQuery1ToIterate"/>
                 </bpws:targets>
                 <bpws:sources>
                     <bpws:source linkName="IterateToEnd"/>
@@ -1733,14 +1697,14 @@
                         parallel="no" tibex:group="iterate">
                         <tibex:DesignExpression name="variableList">
                             <tibex:expression
-                                expression="$JDBCQuery/Record" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"/>
+                                expression="$GETNEINFO/Record" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"/>
                         </tibex:DesignExpression>
                         <bpws:startCounterValue><![CDATA[1]]></bpws:startCounterValue>
-                        <bpws:finalCounterValue expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[count($JDBCQuery/Record)]]></bpws:finalCounterValue>
+                        <bpws:finalCounterValue expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[count($GETNEINFO/Record)]]></bpws:finalCounterValue>
                         <bpws:scope name="innerScope">
                             <bpws:variables>
                                 <bpws:variable
-                                    element="ns1:Iterate_Current_Element_Record"
+                                    element="ns12:Iterate_Current_Element_Record"
                                     name="currentElement" sca-bpel:internal="true"/>
                             </bpws:variables>
                             <bpws:flow name="flow1">
@@ -1759,7 +1723,7 @@
                                     <bpws:source linkName="GroupStartToCopy_1_NEConfigLog"/>
                                     </bpws:sources>
                                     <bpws:copy>
-                                    <bpws:from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[($JDBCQuery/Record)[number($index)]]]></bpws:from>
+                                    <bpws:from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[($GETNEINFO/Record)[number($index)]]]></bpws:from>
                                     <bpws:to variable="currentElement"/>
                                     </bpws:copy>
                                 </bpws:assign>
@@ -1783,7 +1747,7 @@
                                     </bpws:sources>
                                     <tibex:inputBindings>
                                     <tibex:inputBinding
-                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns2=&quot;www.tibco.com/plugin/java/JavaInvokeActivityInput+736dfd7e-f9ff-4f94-81f8-719d705ddd82+JavaInvokeActivityInput&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;currentElement&quot;/>&lt;xsl:template name=&quot;AddNEConfig-input&quot; match=&quot;/&quot;>&lt;tns2:JavaInvokeActivityInput>&lt;MethodParameters>&lt;neConfig>&lt;xsl:value-of select=&quot;concat(xsd:string($currentElement/neconn_id),&amp;quot;;&amp;quot;,$currentElement/nea_appname,&amp;quot;;&amp;quot;,$currentElement/nea_podname,&amp;quot;;&amp;quot;,$currentElement/nea_procname,&amp;quot;;&amp;quot;,xsd:string($currentElement/conn_count),&amp;quot;;&amp;quot;,$currentElement/conn_key,&amp;quot;;&amp;quot;,$currentElement/conn_ip_a,&amp;quot;;&amp;quot;,xsd:string($currentElement/conn_port_a),&amp;quot;;&amp;quot;,$currentElement/conn_ip_b,&amp;quot;;&amp;quot;,xsd:string($currentElement/conn_port_b),&amp;quot;;&amp;quot;,$currentElement/conn_ip_d,&amp;quot;;&amp;quot;,xsd:string($currentElement/conn_port_d),&amp;quot;;&amp;quot;,$currentElement/conn_type,&amp;quot;;&amp;quot;,$currentElement/conn_groupname,&amp;quot;;&amp;quot;,$currentElement/failover_policy,&amp;quot;;&amp;quot;,xsd:string($currentElement/failover_retry_count),&amp;quot;;&amp;quot;,xsd:string($currentElement/reconnection_try_interval_sec),&amp;quot;;&amp;quot;,xsd:string($currentElement/borrow_wait_timeout),&amp;quot;;&amp;quot;,xsd:string($currentElement/borrow_wait_timeout_retry_count),&amp;quot;;&amp;quot;,xsd:string($currentElement/read_timeout),&amp;quot;;&amp;quot;,xsd:string($currentElement/read_timeout_retry_count),&amp;quot;;&amp;quot;,xsd:string($currentElement/write_timeout),&amp;quot;;&amp;quot;,xsd:string($currentElement/write_timeout_retry_count),&amp;quot;;&amp;quot;,$currentElement/backup_type,&amp;quot;;&amp;quot;,$currentElement/dr_exist_yn,&amp;quot;;&amp;quot;,$currentElement/auto_failover_yn,&amp;quot;;&amp;quot;,$currentElement/heartbeat_yn,&amp;quot;;&amp;quot;,xsd:string($currentElement/heartbeat_interval),&amp;quot;;&amp;quot;,xsd:string($currentElement/heartbeat_try_count),&amp;quot;;&amp;quot;,$currentElement/heartbeat_message,&amp;quot;;&amp;quot;,$currentElement/ne_management,&amp;quot;;&amp;quot;,$currentElement/description,&amp;quot;;&amp;quot;,$currentElement/conn_mode)&quot;/>&lt;/neConfig>&lt;/MethodParameters>&lt;/tns2:JavaInvokeActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns2=&quot;www.tibco.com/plugin/java/JavaInvokeActivityInput+736dfd7e-f9ff-4f94-81f8-719d705ddd82+JavaInvokeActivityInput&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;currentElement&quot;/>&lt;xsl:template name=&quot;AddNEConfig-input&quot; match=&quot;/&quot;>&lt;tns2:JavaInvokeActivityInput>&lt;MethodParameters>&lt;neConfig>&lt;xsl:value-of select=&quot;concat(xsd:string($currentElement/NECONN_ID),&amp;quot;;&amp;quot;,$currentElement/NEA_APPNAME,&amp;quot;;&amp;quot;,$currentElement/NEA_PODNAME,&amp;quot;;&amp;quot;,$currentElement/NEA_PROCNAME,&amp;quot;;&amp;quot;,xsd:string($currentElement/CONN_COUNT),&amp;quot;;&amp;quot;,$currentElement/CONN_KEY,&amp;quot;;&amp;quot;,$currentElement/CONN_IP_A,&amp;quot;;&amp;quot;,xsd:string($currentElement/CONN_PORT_A),&amp;quot;;&amp;quot;,$currentElement/CONN_IP_B,&amp;quot;;&amp;quot;,xsd:string($currentElement/CONN_PORT_B),&amp;quot;;&amp;quot;,$currentElement/CONN_IP_D,&amp;quot;;&amp;quot;,xsd:string($currentElement/CONN_PORT_D),&amp;quot;;&amp;quot;,$currentElement/CONN_TYPE,&amp;quot;;&amp;quot;,$currentElement/CONN_GROUPNAME,&amp;quot;;&amp;quot;,$currentElement/FAILOVER_POLICY,&amp;quot;;&amp;quot;,xsd:string($currentElement/FAILOVER_RETRY_COUNT),&amp;quot;;&amp;quot;,xsd:string($currentElement/RECONNECTION_TRY_INTERVAL_SEC),&amp;quot;;&amp;quot;,xsd:string($currentElement/BORROW_WAIT_TIMEOUT),&amp;quot;;&amp;quot;,xsd:string($currentElement/BORROW_WAIT_TIMEOUT_RETRY_COUNT),&amp;quot;;&amp;quot;,xsd:string($currentElement/READ_TIMEOUT),&amp;quot;;&amp;quot;,xsd:string($currentElement/READ_TIMEOUT_RETRY_COUNT),&amp;quot;;&amp;quot;,xsd:string($currentElement/WRITE_TIMEOUT),&amp;quot;;&amp;quot;,xsd:string($currentElement/WRITE_TIMEOUT_RETRY_COUNT),&amp;quot;;&amp;quot;,$currentElement/BACKUP_TYPE,&amp;quot;;&amp;quot;,$currentElement/DR_EXIST_YN,&amp;quot;;&amp;quot;,$currentElement/AUTO_FAILOVER_YN,&amp;quot;;&amp;quot;,$currentElement/HEARTBEAT_YN,&amp;quot;;&amp;quot;,xsd:string($currentElement/HEARTBEAT_INTERVAL),&amp;quot;;&amp;quot;,xsd:string($currentElement/HEARTBEAT_TRY_COUNT),&amp;quot;;&amp;quot;,$currentElement/HEARTBEAT_MESSAGE,&amp;quot;;&amp;quot;,$currentElement/NE_MANAGEMENT,&amp;quot;;&amp;quot;,$currentElement/DESCRIPTION,&amp;quot;;&amp;quot;,$currentElement/CONN_MODE,&amp;quot;;&amp;quot;,$currentElement/NEAGENT_ID)&quot;/>&lt;/neConfig>&lt;/MethodParameters>&lt;/tns2:JavaInvokeActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                                     </tibex:inputBindings>
                                     <tibex:config>
                                     <bwext:BWActivity
@@ -1827,7 +1791,7 @@
                                     <tibex:inputBindings>
                                     <tibex:inputBinding
                                     coercion=""
-                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns10=&quot;http://www.example.com/namespaces/tns/1653980060660&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;currentElement&quot;/>&lt;xsl:template name=&quot;NEConnInfoLog-input&quot; match=&quot;/&quot;>&lt;tns10:Element>&lt;tns10:pname>&lt;xsl:value-of select=&quot;&amp;quot;InitConfigFromDB&amp;quot;&quot;/>&lt;/tns10:pname>&lt;tns10:level>&lt;xsl:value-of select=&quot;&amp;quot;warn&amp;quot;&quot;/>&lt;/tns10:level>&lt;tns10:log>&lt;xsl:value-of select=&quot;concat($currentElement/conn_groupname,&amp;quot;:&amp;quot;,$currentElement/conn_key,&amp;quot;:&amp;quot;,$currentElement/conn_ip_a,&amp;quot;:&amp;quot;,xsd:string($currentElement/conn_port_a),&amp;quot;:&amp;quot;,$currentElement/conn_mode)&quot;/>&lt;/tns10:log>&lt;/tns10:Element>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns10=&quot;http://www.example.com/namespaces/tns/1653980060660&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;currentElement&quot;/>&lt;xsl:template name=&quot;NEConnInfoLog-input&quot; match=&quot;/&quot;>&lt;tns10:Element>&lt;tns10:pname>&lt;xsl:value-of select=&quot;&amp;quot;InitConfigFromDB&amp;quot;&quot;/>&lt;/tns10:pname>&lt;tns10:level>&lt;xsl:value-of select=&quot;&amp;quot;warn&amp;quot;&quot;/>&lt;/tns10:level>&lt;tns10:log>&lt;xsl:value-of select=&quot;concat($currentElement/CONN_GROUPNAME,&amp;quot;:&amp;quot;,$currentElement/CONN_KEY,&amp;quot;:&amp;quot;,$currentElement/CONN_IP_A,&amp;quot;:&amp;quot;,xsd:string($currentElement/CONN_PORT_A),&amp;quot;:&amp;quot;,$currentElement/CONN_MODE)&quot;/>&lt;/tns10:log>&lt;/tns10:Element>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                                     </tibex:inputBindings>
                                     <tibex:CallProcess
                                     subProcessName="ConnManager.Sub.LogProcess" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions"/>
@@ -1851,7 +1815,7 @@
                     </bpws:sources>
                     <tibex:inputBindings>
                         <tibex:inputBinding
-                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns3=&quot;www.tibco.com/plugin/java/JavaInvokeActivityInput+261f4e8f-4bbb-46dd-9b29-fcbd288e30ef+JavaInvokeActivityInput&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:template name=&quot;JavaInvoke-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns3:JavaInvokeActivityInput/>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns5=&quot;www.tibco.com/plugin/java/JavaInvokeActivityInput+261f4e8f-4bbb-46dd-9b29-fcbd288e30ef+JavaInvokeActivityInput&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:template name=&quot;JavaInvoke-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns5:JavaInvokeActivityInput/>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                     </tibex:inputBindings>
                     <tibex:config>
                         <bwext:BWActivity
@@ -1884,7 +1848,7 @@
                         <bpws:target linkName="GetSharedVariableToFileConfigLog"/>
                     </bpws:targets>
                     <bpws:sources>
-                        <bpws:source linkName="FileConfigLogToJDBCQuery"/>
+                        <bpws:source linkName="NEConfigLogToUpdateStatus"/>
                     </bpws:sources>
                     <tibex:inputBindings>
                         <tibex:inputBinding coercion=""
@@ -1893,6 +1857,217 @@
                     <tibex:CallProcess
                         subProcessName="ConnManager.Sub.LogProcess" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions"/>
                 </tibex:extActivity>
+            </bpws:extensionActivity>
+            <bpws:extensionActivity>
+                <tibex:activityExtension inputVariable="GETNEINFO-input"
+                    name="GETNEINFO" outputVariable="GETNEINFO"
+                    tibex:xpdlId="a266a62f-ef77-40e2-964f-b65c0a5085fb" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
+                    <bpws:targets>
+                        <bpws:target linkName="UpdateStatusToGETNEINFO"/>
+                    </bpws:targets>
+                    <bpws:sources>
+                        <bpws:source linkName="JDBCQuery1ToIterate"/>
+                    </bpws:sources>
+                    <tibex:inputBindings>
+                        <tibex:inputBinding
+                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns3=&quot;http://www.tibco.com/namespaces/tnt/plugins/jdbc+a266a62f-ef77-40e2-964f-b65c0a5085fb+input&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;GetSharedVariable&quot;/>&lt;xsl:template name=&quot;GETNEINFO-input&quot; match=&quot;/&quot;>&lt;tns3:jdbcQueryActivityInput>&lt;nea_podname>&lt;xsl:value-of select=&quot;$GetSharedVariable&quot;/>&lt;/nea_podname>&lt;/tns3:jdbcQueryActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                    </tibex:inputBindings>
+                    <tibex:config>
+                        <bwext:BWActivity
+                            activityTypeID="bw.jdbc.JDBCQuery"
+                            xmlns:activityconfig="http://tns.tibco.com/bw/model/activityconfig"
+                            xmlns:bwext="http://tns.tibco.com/bw/model/core/bwext"
+                            xmlns:jdbcPalette="http://ns.tibco.com/bw/palette/jdbc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                            <activityConfig>
+                                <properties name="config" xsi:type="activityconfig:EMFProperty">
+                                    <type href="http://ns.tibco.com/bw/palette/jdbc#//JDBCQueryActivity"/>
+                                    <value maxRows="100"
+                                    sharedResourceProperty="jdbcProperty"
+                                    sqlStatement="select B.&quot;NECONN_ID&quot;, A.&quot;NEA_APPNAME&quot;, A.&quot;NEA_PODNAME&quot;, B.&quot;NEA_PROCNAME&quot;, B.&quot;CONN_COUNT&quot;, &#xa;&#x9;B.&quot;CONN_KEY&quot;, A.&quot;CONN_IP_A&quot;, B.&quot;CONN_PORT_A&quot;, A.&quot;CONN_IP_B&quot;, B.&quot;CONN_PORT_B&quot;, A.&quot;CONN_IP_D&quot;, &#xa;&#x9;B.&quot;CONN_PORT_D&quot;, B.&quot;CONN_TYPE&quot;, B.&quot;CONN_GROUPNAME&quot;, A.&quot;FAILOVER_POLICY&quot;, A.&quot;FAILOVER_RETRY_COUNT&quot;, &#xa;&#x9;A.&quot;RECONNECTION_TRY_INTERVAL_SEC&quot;, A.&quot;BORROW_WAIT_TIMEOUT&quot;, A.&quot;BORROW_WAIT_TIMEOUT_RETRY_COUNT&quot;, A.&quot;READ_TIMEOUT&quot;, &#xa;&#x9;A.&quot;READ_TIMEOUT_RETRY_COUNT&quot;, A.&quot;WRITE_TIMEOUT&quot;, A.&quot;WRITE_TIMEOUT_RETRY_COUNT&quot;, A.&quot;BACKUP_TYPE&quot;, A.&quot;DR_EXIST_YN&quot;, &#xa;&#x9;A.&quot;AUTO_FAILOVER_YN&quot;, A.&quot;HEARTBEAT_YN&quot;, A.&quot;HEARTBEAT_INTERVAL&quot;, A.&quot;HEARTBEAT_TRY_COUNT&quot;, A.&quot;HEARTBEAT_MESSAGE&quot;, &#xa;&#x9;A.&quot;NE_MANAGEMENT&quot;, A.&quot;DESCRIPTION&quot;, A.&quot;CONN_MODE&quot;, A.&quot;NEAGENT_ID&quot; &#xa;from &quot;TB_PVSM_NECONN_MST&quot; A inner join &quot;TB_PVSM_NECONN_DTL&quot; B on A.&quot;NEA_PODNAME&quot;=? and A.&quot;NEA_PODNAME&quot; = B.&quot;NEA_PODNAME&quot;;&#xa;"
+                                    timeout="10" xsi:type="jdbcPalette:JDBCQueryActivity">
+                                    <PreparedParameters
+                                    DataType="12"
+                                    DataTypeDisplayValue="VARCHAR" ParameterName="nea_podname"/>
+                                    <columnMetadata columnIndex="1"
+                                    columnName="NECONN_ID"
+                                    dataType="-5"
+                                    status="OptionalElement" typeName="BIGINT"/>
+                                    <columnMetadata columnIndex="2"
+                                    columnName="NEA_APPNAME"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="CHARACTER VARYING"/>
+                                    <columnMetadata columnIndex="3"
+                                    columnName="NEA_PODNAME"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="CHARACTER VARYING"/>
+                                    <columnMetadata columnIndex="4"
+                                    columnName="NEA_PROCNAME"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="CHARACTER VARYING"/>
+                                    <columnMetadata columnIndex="5"
+                                    columnName="CONN_COUNT"
+                                    dataType="-5"
+                                    status="OptionalElement" typeName="BIGINT"/>
+                                    <columnMetadata columnIndex="6"
+                                    columnName="CONN_KEY"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="CHARACTER VARYING"/>
+                                    <columnMetadata columnIndex="7"
+                                    columnName="CONN_IP_A"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="CHARACTER VARYING"/>
+                                    <columnMetadata columnIndex="8"
+                                    columnName="CONN_PORT_A"
+                                    dataType="-5"
+                                    status="OptionalElement" typeName="BIGINT"/>
+                                    <columnMetadata columnIndex="9"
+                                    columnName="CONN_IP_B"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="CHARACTER VARYING"/>
+                                    <columnMetadata columnIndex="10"
+                                    columnName="CONN_PORT_B"
+                                    dataType="-5"
+                                    status="OptionalElement" typeName="BIGINT"/>
+                                    <columnMetadata columnIndex="11"
+                                    columnName="CONN_IP_D"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="CHARACTER VARYING"/>
+                                    <columnMetadata columnIndex="12"
+                                    columnName="CONN_PORT_D"
+                                    dataType="-5"
+                                    status="OptionalElement" typeName="BIGINT"/>
+                                    <columnMetadata columnIndex="13"
+                                    columnName="CONN_TYPE"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="CHARACTER VARYING"/>
+                                    <columnMetadata columnIndex="14"
+                                    columnName="CONN_GROUPNAME"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="CHARACTER VARYING"/>
+                                    <columnMetadata columnIndex="15"
+                                    columnName="FAILOVER_POLICY"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="CHARACTER VARYING"/>
+                                    <columnMetadata columnIndex="16"
+                                    columnName="FAILOVER_RETRY_COUNT"
+                                    dataType="-5"
+                                    status="OptionalElement" typeName="BIGINT"/>
+                                    <columnMetadata columnIndex="17"
+                                    columnName="RECONNECTION_TRY_INTERVAL_SEC"
+                                    dataType="-5"
+                                    status="OptionalElement" typeName="BIGINT"/>
+                                    <columnMetadata columnIndex="18"
+                                    columnName="BORROW_WAIT_TIMEOUT"
+                                    dataType="-5"
+                                    status="OptionalElement" typeName="BIGINT"/>
+                                    <columnMetadata columnIndex="19"
+                                    columnName="BORROW_WAIT_TIMEOUT_RETRY_COUNT"
+                                    dataType="-5"
+                                    status="OptionalElement" typeName="BIGINT"/>
+                                    <columnMetadata columnIndex="20"
+                                    columnName="READ_TIMEOUT"
+                                    dataType="-5"
+                                    status="OptionalElement" typeName="BIGINT"/>
+                                    <columnMetadata columnIndex="21"
+                                    columnName="READ_TIMEOUT_RETRY_COUNT"
+                                    dataType="-5"
+                                    status="OptionalElement" typeName="BIGINT"/>
+                                    <columnMetadata columnIndex="22"
+                                    columnName="WRITE_TIMEOUT"
+                                    dataType="-5"
+                                    status="OptionalElement" typeName="BIGINT"/>
+                                    <columnMetadata columnIndex="23"
+                                    columnName="WRITE_TIMEOUT_RETRY_COUNT"
+                                    dataType="-5"
+                                    status="OptionalElement" typeName="BIGINT"/>
+                                    <columnMetadata columnIndex="24"
+                                    columnName="BACKUP_TYPE"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="CHARACTER VARYING"/>
+                                    <columnMetadata columnIndex="25"
+                                    columnName="DR_EXIST_YN"
+                                    dataType="1"
+                                    status="OptionalElement" typeName="CHARACTER"/>
+                                    <columnMetadata columnIndex="26"
+                                    columnName="AUTO_FAILOVER_YN"
+                                    dataType="1"
+                                    status="OptionalElement" typeName="CHARACTER"/>
+                                    <columnMetadata columnIndex="27"
+                                    columnName="HEARTBEAT_YN"
+                                    dataType="1"
+                                    status="OptionalElement" typeName="CHARACTER"/>
+                                    <columnMetadata columnIndex="28"
+                                    columnName="HEARTBEAT_INTERVAL"
+                                    dataType="-5"
+                                    status="OptionalElement" typeName="BIGINT"/>
+                                    <columnMetadata columnIndex="29"
+                                    columnName="HEARTBEAT_TRY_COUNT"
+                                    dataType="-5"
+                                    status="OptionalElement" typeName="BIGINT"/>
+                                    <columnMetadata columnIndex="30"
+                                    columnName="HEARTBEAT_MESSAGE"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="CHARACTER VARYING"/>
+                                    <columnMetadata columnIndex="31"
+                                    columnName="NE_MANAGEMENT"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="CHARACTER VARYING"/>
+                                    <columnMetadata columnIndex="32"
+                                    columnName="DESCRIPTION"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="CHARACTER VARYING"/>
+                                    <columnMetadata columnIndex="33"
+                                    columnName="CONN_MODE"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="CHARACTER VARYING"/>
+                                    <columnMetadata columnIndex="34"
+                                    columnName="NEAGENT_ID"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="CHARACTER VARYING"/>
+                                    </value>
+                                </properties>
+                            </activityConfig>
+                        </bwext:BWActivity>
+                    </tibex:config>
+                </tibex:activityExtension>
+            </bpws:extensionActivity>
+            <bpws:extensionActivity>
+                <tibex:activityExtension
+                    inputVariable="InitStatus-input" name="InitStatus"
+                    outputVariable="InitStatus"
+                    tibex:xpdlId="5e90a426-5b8d-4c6b-bc26-acfc1eec7ea3" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
+                    <bpws:targets>
+                        <bpws:target linkName="NEConfigLogToUpdateStatus"/>
+                    </bpws:targets>
+                    <bpws:sources>
+                        <bpws:source linkName="UpdateStatusToGETNEINFO"/>
+                    </bpws:sources>
+                    <tibex:inputBindings>
+                        <tibex:inputBinding
+                            expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns13=&quot;http://www.tibco.com/namespaces/tnt/plugins/jdbc+5e90a426-5b8d-4c6b-bc26-acfc1eec7ea3+input&quot; xmlns:tns4=&quot;http://tns.tibco.com/bw/json/1656328165524&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;GetSharedVariable&quot;/>&lt;xsl:template name=&quot;InitStatus-input&quot; match=&quot;/&quot;>&lt;tns13:jdbcUpdateActivityInput>&lt;nea_podname>&lt;xsl:value-of select=&quot;$GetSharedVariable&quot;/>&lt;/nea_podname>&lt;/tns13:jdbcUpdateActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                    </tibex:inputBindings>
+                    <tibex:config>
+                        <bwext:BWActivity
+                            activityTypeID="bw.jdbc.update"
+                            xmlns:activityconfig="http://tns.tibco.com/bw/model/activityconfig"
+                            xmlns:bwext="http://tns.tibco.com/bw/model/core/bwext"
+                            xmlns:jdbcPalette="http://ns.tibco.com/bw/palette/jdbc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                            <activityConfig>
+                                <properties name="config" xsi:type="activityconfig:EMFProperty">
+                                    <type href="http://ns.tibco.com/bw/palette/jdbc#//JDBCUpdateActivity"/>
+                                    <value
+                                    sharedResourceProperty="jdbcProperty"
+                                    sqlStatement="update &quot;TB_PVSM_NECONN_DTL&quot; &#xa;&#x9;set &quot;CONN_STATE&quot;='0', &quot;CONN_IP_TYPE&quot;='A', &quot;CONN_REAL_COUNT&quot;=0, &quot;UPDATE_TIME&quot;=current_timestamp  &#xa;&#x9;where &quot;NEA_PODNAME&quot;=?; &#xa;&#xa;"
+                                    timeout="10" xsi:type="jdbcPalette:JDBCUpdateActivity">
+                                    <PreparedParameters
+                                    DataType="12"
+                                    DataTypeDisplayValue="VARCHAR" ParameterName="nea_podname"/>
+                                    </value>
+                                </properties>
+                            </activityConfig>
+                        </bwext:BWActivity>
+                    </tibex:config>
+                </tibex:activityExtension>
             </bpws:extensionActivity>
         </bpws:flow>
     </bpws:scope>

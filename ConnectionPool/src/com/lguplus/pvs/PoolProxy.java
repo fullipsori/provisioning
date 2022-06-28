@@ -222,6 +222,8 @@ public class PoolProxy extends BasePoolProxy {
     }
 
     public boolean CloseSocketConnection(String connectionId) throws Exception {
+		LogManager.getInstance().info("CloseSocketConnection:" + connectionId);
+
     	if(connectionId == null || connectionId.isEmpty()) return false;
 
     	ConnectionObject connObj = ConnectionConfig.getInstance().getConnections().get(connectionId);
@@ -247,13 +249,6 @@ public class PoolProxy extends BasePoolProxy {
 			LogManager.getInstance().error("ConnectionObject Error" + connectionId);
 			return "";
     	}
-
-    	/**
-    	int mod = maxLength %1024;
-    	int div = maxLength/1024;
-    	if(mod > 0) div++;
-    	byte[] receivedBuffer = new byte[div*1024];
-    	**/
 
     	byte[] receivedBuffer = new byte[maxLength];
     	Connectable found = connObj.getConnection();
@@ -327,13 +322,6 @@ public class PoolProxy extends BasePoolProxy {
 			LogManager.getInstance().error("ConnectionObject Error" + connectionId);
 			return "";
     	}
-
-    	/**
-    	int mod = maxLength %1024;
-    	int div = maxLength/1024;
-    	if(mod > 0) div++;
-    	byte[] receivedBuffer = new byte[div*1024];
-    	**/
 
     	byte[] receivedBuffer = new byte[maxLength];
     	Connectable found = connObj.getConnection();

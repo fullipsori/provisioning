@@ -36,6 +36,8 @@ public enum NECONN {
 	 * 29. HERATBEAT_MESSAGE				하트비트 메시지
 	 * 30. NE_MANAGEMENT 					담당자 정보
 	 * 31. COMMENT							주석
+	 * 32. CONN_MODE                        SOCKET/BW
+	 * 33. NEAGENT_ID						Agent key
 	 */    	
 	
 	 NECONN_ID(0),				
@@ -70,7 +72,8 @@ public enum NECONN {
 	 HERATBEAT_MESSAGE(29),
 	 NE_MANAGEMENT(30),
 	 DESCRIPTION(31),
-	 CONN_MODE(32);
+	 CONN_MODE(32),
+	 NEAGENT_ID(33);
 	
 	 public final int idx;
 	 

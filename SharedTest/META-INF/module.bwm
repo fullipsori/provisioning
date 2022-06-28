@@ -11,7 +11,7 @@
     <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_a1XPIWUfEeywf8kEgPIgmg" processName="sharedtest.Activator"/>
   </sca:component>
   <sca:component xmi:id="_h2lAgGYOEeyg6ZpZAByMyw" name="ComponentAgentHSS" compositeext:version="1.0.0.qualifier">
-    <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_h2lAgWYOEeyg6ZpZAByMyw" processName="Agent.AgentHSS"/>
+    <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_h2lAgWYOEeyg6ZpZAByMyw" processName="Agent.AgentHSS_SOCKET"/>
   </sca:component>
   <sca:component xmi:id="_jWnP4GYOEeyg6ZpZAByMyw" name="ComponentAgentVMS" compositeext:version="1.0.0.qualifier">
     <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_jWnP4WYOEeyg6ZpZAByMyw" processName="Agent.AgentVMS_SOCKET"/>

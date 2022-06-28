@@ -30,7 +30,7 @@ public class Registry {
     
     // Queue for send SMS-Message 
     private BlockingQueue<String> smsSendRequestQueue = null;
-
+    
     // 모든 연결 요청 온것들의 컨넥션 ID를 관리, 연결 성공시 까지 계속 시도하는 것을 보장하기 위함.
     // 별도 Thread가 주기적으로 이 Vector를 모니터링 하여,
     // 즉, 향후 연결 성공하면 삭제 됨
@@ -168,7 +168,8 @@ public class Registry {
     
     public boolean addEventSendRequest(String message) {
     	try {
-			eventSendRequestQueue.add(message);
+    		String rmessage = message + ";true";
+			eventSendRequestQueue.add(rmessage);
 			return true;
     	}catch(Exception e) {
     		logManager.error("Message:" + message + " dont add because eventSendRequestQueue is full " + " error:" + e.getMessage());
@@ -176,6 +177,22 @@ public class Registry {
     	}
     }
     
+    public boolean addEventSendRequest(String message, boolean statusChanged) {
+    	try {
+    		String rmessage = message;
+    		if(statusChanged) {
+    			rmessage += ";true";
+    		}else {
+    			rmessage += ";false";
+    		}
+			eventSendRequestQueue.add(rmessage);
+			return true;
+    	}catch(Exception e) {
+    		logManager.error("Message:" + message + " dont add because eventSendRequestQueue is full " + " error:" + e.getMessage());
+    		return false;
+    	}
+    }
+
     public String takeSMSSendRequest() throws Exception {
     	return smsSendRequestQueue.take();
     }
@@ -203,6 +220,7 @@ public class Registry {
     		return false;
     	}
     }
+
     public void addConnectionTry(String connectionId) {
     	if(!connectionTryVector.contains(connectionId)) {
     		connectionTryVector.add(connectionId);

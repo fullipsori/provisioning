@@ -676,7 +676,7 @@ public class ConnectionConfig {
     	for(String elem : NEConfigInfo) {
     		cols = elem.split(";");
     		int connCount = stringToInteger(cols[NECONN.CONN_COUNT.idx]);
-    		logManager.info(String.format("[%d][neconn_id: %d][연결객체 생성 개수: %d개][%s;;%s][%s][%d]-[%s][%s]\n", 
+    		logManager.info(String.format("[%d][neconn_id: %d][연결객체 생성 개수: %d개][%s;;%s][%s][%d]-[%s][%s]-[%s]\n", 
     																		idx++,
     																		stringToLong(cols[NECONN.NECONN_ID.idx]),
     																		connCount,
@@ -685,7 +685,8 @@ public class ConnectionConfig {
 																			cols[NECONN.CONN_IP_A.idx], 
 																			stringToInteger(cols[NECONN.CONN_PORT_A.idx]), 
 																			cols[NECONN.FAILOVER_POLICY.idx],
-																			cols[NECONN.CONN_MODE.idx]));
+																			cols[NECONN.CONN_MODE.idx],
+																			cols[NECONN.NEAGENT_ID.idx]));
     		
     		
     		String connectionGroupId = cols[NECONN.CONN_GROUPNAME.idx]; // 컨넥션 풀의 그룹명 가져오기
@@ -718,6 +719,7 @@ public class ConnectionConfig {
 	    			logManager.info(String.format("[%d/%d][%s] 는 이미 등록되어 있습니다. 정보를 필요한 추가 정보를 등록하겠습니다.\n", i, connCount, connObj.getConnectionId()));
 	    		}
 	    		
+	    		connObj.setNEAgentId(cols[NECONN.NEAGENT_ID.idx]);
 	    		connObj.setNEConnId(stringToLong(cols[NECONN.NECONN_ID.idx])); // NECONN_ID 유일값
 	    		connObj.setConnectionCount(connCount);
 	            connObj.setActiveIp(cols[NECONN.CONN_IP_A.idx]);	// Active Server IP	            

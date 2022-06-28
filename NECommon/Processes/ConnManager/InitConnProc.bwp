@@ -1533,7 +1533,7 @@
                             <bpws:flow name="flow1">
                                 <bpws:links>
                                     <bpws:link
-                                    name="GroupStartToGroupEnd" tibex:linkType="SUCCESS"/>
+                                    name="GroupStartToTCPConnectSub" tibex:linkType="SUCCESS"/>
                                     <bpws:link
                                     name="CallProcessToGroupEnd" tibex:linkType="SUCCESS"/>
                                 </bpws:links>
@@ -1541,7 +1541,7 @@
                                     tibex:group="groupStart"
                                     tibex:xpdlId="7c937835-c4f5-4f92-ae55-8b010627a4ad" validate="no">
                                     <bpws:sources>
-                                    <bpws:source linkName="GroupStartToGroupEnd"/>
+                                    <bpws:source linkName="GroupStartToTCPConnectSub"/>
                                     </bpws:sources>
                                     <bpws:copy>
                                     <bpws:from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[($InitPool/MethodReturnValue)[number($index)]]]></bpws:from>
@@ -1561,7 +1561,7 @@
                                     tibex:xpdlId="bec570a0-b405-4040-a34e-3bb3b3c36072"
                                     type="bw.generalactivities.callprocess" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
                                     <bpws:targets>
-                                    <bpws:target linkName="GroupStartToGroupEnd"/>
+                                    <bpws:target linkName="GroupStartToTCPConnectSub"/>
                                     </bpws:targets>
                                     <bpws:sources>
                                     <bpws:source linkName="CallProcessToGroupEnd"/>

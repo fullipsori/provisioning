@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://tns.tibco.com/bw/json/1656328165524" elementFormDefault="qualified" targetNamespace="http://tns.tibco.com/bw/json/1656328165524">
+  <complexType name="NEConnStatusElementType">
+    <sequence>
+      <element maxOccurs="1" minOccurs="0" name="EVENTTIME" type="string"/>
+      <element maxOccurs="1" minOccurs="0" name="NUM_OF_CONNS" type="integer"/>
+      <element maxOccurs="1" minOccurs="0" name="NUM_OF_DISCONNS" type="integer"/>
+      <element maxOccurs="1" minOccurs="0" name="NEA_PODNAME" type="string"/>
+      <element maxOccurs="unbounded" minOccurs="0" name="CONNECTIONS">
+        <complexType>
+          <sequence>
+            <element maxOccurs="1" minOccurs="0" name="NECONN_ID" type="string"/>
+            <element maxOccurs="1" minOccurs="0" name="NEAGENT_ID" type="string"/>
+            <element maxOccurs="1" minOccurs="0" name="CONN_IP_TYPE" type="string"/>
+            <element maxOccurs="1" minOccurs="0" name="CONN_STATUS" type="string"/>
+            <element maxOccurs="1" minOccurs="0" name="CONN_COUNT" type="integer"/>
+            <element maxOccurs="1" minOccurs="0" name="CONN_REAL_COUNT" type="integer"/>
+          </sequence>
+        </complexType>
+      </element>
+    </sequence>
+  </complexType>
+  <element name="NEConnStatusElement" type="tns:NEConnStatusElementType"/>
+</schema>

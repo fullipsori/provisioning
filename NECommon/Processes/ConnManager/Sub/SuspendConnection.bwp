@@ -1583,8 +1583,7 @@
                     </tibex:config>
                 </tibex:activityExtension>
             </bpws:extensionActivity>
-            <bpws:scope name="Iterate" tibex:group="iterate"
-                tibex:indexToGlobal="false" tibex:xpdlId="71396b28-a04a-4e61-9699-cc8233b919df">
+            <bpws:scope name="Iterate" tibex:group="iterate" tibex:xpdlId="71396b28-a04a-4e61-9699-cc8233b919df">
                 <bpws:targets>
                     <bpws:target linkName="SuspendConnectionToIterate"/>
                 </bpws:targets>

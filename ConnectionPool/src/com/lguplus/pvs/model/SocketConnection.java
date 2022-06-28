@@ -49,6 +49,7 @@ public class SocketConnection implements Connectable {
     	try {
 			if(connHandle != null) {
 				connHandle.close();
+				connHandle = null;
 			}
     	}catch(Exception e) {}
     }

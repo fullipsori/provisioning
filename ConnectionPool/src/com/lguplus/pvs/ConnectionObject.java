@@ -47,6 +47,7 @@ public class ConnectionObject {
     }
 
     // connection을 유일한게 식별할 ID, DB 기본정보에서도 Unique Key 로 관리될 것으로 예상됨
+    private String neAgentId = ""; //Agent key
     private long neConnId = -1;		// 설정하지 않았을 경우 기본값은 -1 이며, 0이상의 양수의 값을 가진다.  TB_PVSM_NECONN의 순차적 증가 ID
     private String currentServerType = ""; 	// A(ctive), B(ackup), D(isaster Recovery)
     private String currentServerIp = "";	// 현재 접속 중 서버의 IP 주소
@@ -144,6 +145,8 @@ public class ConnectionObject {
     	
     	connInfo.append("{");
     	connInfo.append(String.format("\"NECONN_ID\":\"%d\"", neConnId));
+    	connInfo.append(",");
+    	connInfo.append(String.format("\"NEAGENT_ID\":\"%s\"", neAgentId));
     	connInfo.append(",");
     	connInfo.append(String.format("\"CONN_GROUPNAME\":\"%s\"", connectionGroupId));
     	connInfo.append(",");
@@ -312,7 +315,7 @@ public class ConnectionObject {
     	if(failoverTryCount == failoverMaxTryCountToSendEvent ) {
     		// 필요시 특정 Action을 취한다.- 지정된 횟수 이상 접속 시도를 수행햇으나 실패했을 경우
     		String eventMessage = String.format("%s;%s;ERROR;|%s| 연결 시도 횟수가 %d회에 도달하였습니다. NE에 문제가 있는지 확인바랍니다.", connectionGroupId, connectionKey, this.description, failoverTryCount);    		
-    		Registry.getInstance().addEventSendRequest(eventMessage);
+    		Registry.getInstance().addEventSendRequest(eventMessage, false);
     		Registry.getInstance().addSMSSendRequest(this.connectionId, String.format("연결 시도(%d회)가 실패하였습니다. NE에 문제가 있는지 확인바랍니다.", failoverTryCount));
     		logManager.warn(eventMessage);
     	}
@@ -385,6 +388,9 @@ public class ConnectionObject {
     	}
     }    
     
+    public String getNEAgentId() { return neAgentId; }
+    public void setNEAgentId(String neAgentId) { this.neAgentId= neAgentId; }
+
     public long getNEConnId() { return neConnId; }
     public void setNEConnId(long neConnId) { this.neConnId = neConnId; }
     
