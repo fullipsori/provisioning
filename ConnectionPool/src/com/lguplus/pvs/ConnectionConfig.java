@@ -665,7 +665,7 @@ public class ConnectionConfig {
     	
     	String connectionIds = "";
     	
-    	// 1) ConnectionConfig 기본설정
+    	// 1) ConnectionConfig 기본설정 : 첫번째 테이블 row 기준으로 값을 설정한다. 
     	String[] cols = NEConfigInfo.get(0).toString().split(";");
     	setBasicConnectionConfigInformation(cols);
 
@@ -676,7 +676,7 @@ public class ConnectionConfig {
     	for(String elem : NEConfigInfo) {
     		cols = elem.split(";");
     		int connCount = stringToInteger(cols[NECONN.CONN_COUNT.idx]);
-    		logManager.info(String.format("[%d][neconn_id: %d][연결객체 생성 개수: %d개][%s;;%s][%s][%d]-[%s][%s]-[%s]\n", 
+    		logManager.info(String.format("[%d][neconn_id: %d][연결객체 생성 개수: %d개][%s;;%s][%s][%d]-[%s][%s]\n", 
     																		idx++,
     																		stringToLong(cols[NECONN.NECONN_ID.idx]),
     																		connCount,
@@ -685,8 +685,7 @@ public class ConnectionConfig {
 																			cols[NECONN.CONN_IP_A.idx], 
 																			stringToInteger(cols[NECONN.CONN_PORT_A.idx]), 
 																			cols[NECONN.FAILOVER_POLICY.idx],
-																			cols[NECONN.CONN_MODE.idx],
-																			cols[NECONN.NEAGENT_ID.idx]));
+																			cols[NECONN.CONN_MODE.idx]));
     		
     		
     		String connectionGroupId = cols[NECONN.CONN_GROUPNAME.idx]; // 컨넥션 풀의 그룹명 가져오기
@@ -719,7 +718,6 @@ public class ConnectionConfig {
 	    			logManager.info(String.format("[%d/%d][%s] 는 이미 등록되어 있습니다. 정보를 필요한 추가 정보를 등록하겠습니다.\n", i, connCount, connObj.getConnectionId()));
 	    		}
 	    		
-	    		connObj.setNEAgentId(cols[NECONN.NEAGENT_ID.idx]);
 	    		connObj.setNEConnId(stringToLong(cols[NECONN.NECONN_ID.idx])); // NECONN_ID 유일값
 	    		connObj.setConnectionCount(connCount);
 	            connObj.setActiveIp(cols[NECONN.CONN_IP_A.idx]);	// Active Server IP	            
@@ -950,7 +948,7 @@ public class ConnectionConfig {
             this.heartbeatPolicy.setHeartbeatFailSeconds(HBTryCount*HBInterval);
             logManager.info(String.format("* 하트비트 체크를 사용 [%s] 합니다. [HB 간격: %d초][HB 실패 최대시간: %d초]\n", cols[NECONN.HEARTBEAT_YN.idx], HBInterval, HBTryCount));
     	}
-    	
+
     	// NE Agent 레벨의 설정값으로 SharedVariable을 통해서 설정이 가능하도록 한다.
     	// ConnectionObject 레벨로 변경해준다.
     	// this.heartbeatInterval = stringToInteger(cols[NECONN.HEARTBEAT_INTERVAL.idx]);

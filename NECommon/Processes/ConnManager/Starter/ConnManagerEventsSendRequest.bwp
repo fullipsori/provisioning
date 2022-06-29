@@ -885,8 +885,6 @@
                         <element maxOccurs="1" minOccurs="0"
                             name="NECONN_ID" nillable="false" type="string"/>
                         <element maxOccurs="1" minOccurs="0"
-                            name="NEAGENT_ID" nillable="false" type="string"/>
-                        <element maxOccurs="1" minOccurs="0"
                             name="CONN_IP_TYPE" nillable="false" type="string"/>
                         <element maxOccurs="1" minOccurs="0"
                             name="CONN_STATUS" nillable="false" type="string"/>
@@ -2116,7 +2114,8 @@
                     </tibex:config>
                 </tibex:activityExtension>
             </bpws:extensionActivity>
-            <bpws:scope name="Iterate" tibex:group="iterate" tibex:xpdlId="f6179c7a-997b-4778-a789-9dddf5fd28f2">
+            <bpws:scope name="Iterate" tibex:group="iterate"
+                tibex:indexToGlobal="false" tibex:xpdlId="f6179c7a-997b-4778-a789-9dddf5fd28f2">
                 <bpws:targets>
                     <bpws:target linkName="ParseJSONToIterate"/>
                 </bpws:targets>

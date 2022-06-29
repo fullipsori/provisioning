@@ -47,7 +47,6 @@ public class ConnectionObject {
     }
 
     // connection을 유일한게 식별할 ID, DB 기본정보에서도 Unique Key 로 관리될 것으로 예상됨
-    private String neAgentId = ""; //Agent key
     private long neConnId = -1;		// 설정하지 않았을 경우 기본값은 -1 이며, 0이상의 양수의 값을 가진다.  TB_PVSM_NECONN의 순차적 증가 ID
     private String currentServerType = ""; 	// A(ctive), B(ackup), D(isaster Recovery)
     private String currentServerIp = "";	// 현재 접속 중 서버의 IP 주소
@@ -145,8 +144,6 @@ public class ConnectionObject {
     	
     	connInfo.append("{");
     	connInfo.append(String.format("\"NECONN_ID\":\"%d\"", neConnId));
-    	connInfo.append(",");
-    	connInfo.append(String.format("\"NEAGENT_ID\":\"%s\"", neAgentId));
     	connInfo.append(",");
     	connInfo.append(String.format("\"CONN_GROUPNAME\":\"%s\"", connectionGroupId));
     	connInfo.append(",");
@@ -388,9 +385,6 @@ public class ConnectionObject {
     	}
     }    
     
-    public String getNEAgentId() { return neAgentId; }
-    public void setNEAgentId(String neAgentId) { this.neAgentId= neAgentId; }
-
     public long getNEConnId() { return neConnId; }
     public void setNEConnId(long neConnId) { this.neConnId = neConnId; }
     

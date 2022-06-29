@@ -520,9 +520,6 @@
                                     <element maxOccurs="1" minOccurs="0"
                                     name="CONN_MODE"
                                     nillable="false" type="string"/>
-                                    <element maxOccurs="1" minOccurs="0"
-                                    name="NEAGENT_ID"
-                                    nillable="false" type="string"/>
                                 </sequence>
                             </complexType>
                         </element>
@@ -602,8 +599,6 @@
                             name="DESCRIPTION" nillable="false" type="string"/>
                         <element maxOccurs="1" minOccurs="0"
                             name="CONN_MODE" nillable="false" type="string"/>
-                        <element maxOccurs="1" minOccurs="0"
-                            name="NEAGENT_ID" nillable="false" type="string"/>
                     </sequence>
                 </complexType>
             </element>
@@ -1684,7 +1679,8 @@
                     <tibex:GetSharedVariable variableName="NEA_PODNAME" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions"/>
                 </tibex:extActivity>
             </bpws:extensionActivity>
-            <bpws:scope name="Iterate" tibex:group="iterate" tibex:xpdlId="4a47c5c5-2218-4c16-adf1-469164f74f9c">
+            <bpws:scope name="Iterate" tibex:group="iterate"
+                tibex:indexToGlobal="false" tibex:xpdlId="4a47c5c5-2218-4c16-adf1-469164f74f9c">
                 <bpws:targets>
                     <bpws:target linkName="JDBCQuery1ToIterate"/>
                 </bpws:targets>
@@ -1747,7 +1743,7 @@
                                     </bpws:sources>
                                     <tibex:inputBindings>
                                     <tibex:inputBinding
-                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns2=&quot;www.tibco.com/plugin/java/JavaInvokeActivityInput+736dfd7e-f9ff-4f94-81f8-719d705ddd82+JavaInvokeActivityInput&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;currentElement&quot;/>&lt;xsl:template name=&quot;AddNEConfig-input&quot; match=&quot;/&quot;>&lt;tns2:JavaInvokeActivityInput>&lt;MethodParameters>&lt;neConfig>&lt;xsl:value-of select=&quot;concat(xsd:string($currentElement/NECONN_ID),&amp;quot;;&amp;quot;,$currentElement/NEA_APPNAME,&amp;quot;;&amp;quot;,$currentElement/NEA_PODNAME,&amp;quot;;&amp;quot;,$currentElement/NEA_PROCNAME,&amp;quot;;&amp;quot;,xsd:string($currentElement/CONN_COUNT),&amp;quot;;&amp;quot;,$currentElement/CONN_KEY,&amp;quot;;&amp;quot;,$currentElement/CONN_IP_A,&amp;quot;;&amp;quot;,xsd:string($currentElement/CONN_PORT_A),&amp;quot;;&amp;quot;,$currentElement/CONN_IP_B,&amp;quot;;&amp;quot;,xsd:string($currentElement/CONN_PORT_B),&amp;quot;;&amp;quot;,$currentElement/CONN_IP_D,&amp;quot;;&amp;quot;,xsd:string($currentElement/CONN_PORT_D),&amp;quot;;&amp;quot;,$currentElement/CONN_TYPE,&amp;quot;;&amp;quot;,$currentElement/CONN_GROUPNAME,&amp;quot;;&amp;quot;,$currentElement/FAILOVER_POLICY,&amp;quot;;&amp;quot;,xsd:string($currentElement/FAILOVER_RETRY_COUNT),&amp;quot;;&amp;quot;,xsd:string($currentElement/RECONNECTION_TRY_INTERVAL_SEC),&amp;quot;;&amp;quot;,xsd:string($currentElement/BORROW_WAIT_TIMEOUT),&amp;quot;;&amp;quot;,xsd:string($currentElement/BORROW_WAIT_TIMEOUT_RETRY_COUNT),&amp;quot;;&amp;quot;,xsd:string($currentElement/READ_TIMEOUT),&amp;quot;;&amp;quot;,xsd:string($currentElement/READ_TIMEOUT_RETRY_COUNT),&amp;quot;;&amp;quot;,xsd:string($currentElement/WRITE_TIMEOUT),&amp;quot;;&amp;quot;,xsd:string($currentElement/WRITE_TIMEOUT_RETRY_COUNT),&amp;quot;;&amp;quot;,$currentElement/BACKUP_TYPE,&amp;quot;;&amp;quot;,$currentElement/DR_EXIST_YN,&amp;quot;;&amp;quot;,$currentElement/AUTO_FAILOVER_YN,&amp;quot;;&amp;quot;,$currentElement/HEARTBEAT_YN,&amp;quot;;&amp;quot;,xsd:string($currentElement/HEARTBEAT_INTERVAL),&amp;quot;;&amp;quot;,xsd:string($currentElement/HEARTBEAT_TRY_COUNT),&amp;quot;;&amp;quot;,$currentElement/HEARTBEAT_MESSAGE,&amp;quot;;&amp;quot;,$currentElement/NE_MANAGEMENT,&amp;quot;;&amp;quot;,$currentElement/DESCRIPTION,&amp;quot;;&amp;quot;,$currentElement/CONN_MODE,&amp;quot;;&amp;quot;,$currentElement/NEAGENT_ID)&quot;/>&lt;/neConfig>&lt;/MethodParameters>&lt;/tns2:JavaInvokeActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns2=&quot;www.tibco.com/plugin/java/JavaInvokeActivityInput+736dfd7e-f9ff-4f94-81f8-719d705ddd82+JavaInvokeActivityInput&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;currentElement&quot;/>&lt;xsl:template name=&quot;AddNEConfig-input&quot; match=&quot;/&quot;>&lt;tns2:JavaInvokeActivityInput>&lt;MethodParameters>&lt;neConfig>&lt;xsl:value-of select=&quot;concat(xsd:string($currentElement/NECONN_ID),&amp;quot;;&amp;quot;,$currentElement/NEA_APPNAME,&amp;quot;;&amp;quot;,$currentElement/NEA_PODNAME,&amp;quot;;&amp;quot;,$currentElement/NEA_PROCNAME,&amp;quot;;&amp;quot;,xsd:string($currentElement/CONN_COUNT),&amp;quot;;&amp;quot;,$currentElement/CONN_KEY,&amp;quot;;&amp;quot;,$currentElement/CONN_IP_A,&amp;quot;;&amp;quot;,xsd:string($currentElement/CONN_PORT_A),&amp;quot;;&amp;quot;,$currentElement/CONN_IP_B,&amp;quot;;&amp;quot;,xsd:string($currentElement/CONN_PORT_B),&amp;quot;;&amp;quot;,$currentElement/CONN_IP_D,&amp;quot;;&amp;quot;,xsd:string($currentElement/CONN_PORT_D),&amp;quot;;&amp;quot;,$currentElement/CONN_TYPE,&amp;quot;;&amp;quot;,$currentElement/CONN_GROUPNAME,&amp;quot;;&amp;quot;,$currentElement/FAILOVER_POLICY,&amp;quot;;&amp;quot;,xsd:string($currentElement/FAILOVER_RETRY_COUNT),&amp;quot;;&amp;quot;,xsd:string($currentElement/RECONNECTION_TRY_INTERVAL_SEC),&amp;quot;;&amp;quot;,xsd:string($currentElement/BORROW_WAIT_TIMEOUT),&amp;quot;;&amp;quot;,xsd:string($currentElement/BORROW_WAIT_TIMEOUT_RETRY_COUNT),&amp;quot;;&amp;quot;,xsd:string($currentElement/READ_TIMEOUT),&amp;quot;;&amp;quot;,xsd:string($currentElement/READ_TIMEOUT_RETRY_COUNT),&amp;quot;;&amp;quot;,xsd:string($currentElement/WRITE_TIMEOUT),&amp;quot;;&amp;quot;,xsd:string($currentElement/WRITE_TIMEOUT_RETRY_COUNT),&amp;quot;;&amp;quot;,$currentElement/BACKUP_TYPE,&amp;quot;;&amp;quot;,$currentElement/DR_EXIST_YN,&amp;quot;;&amp;quot;,$currentElement/AUTO_FAILOVER_YN,&amp;quot;;&amp;quot;,$currentElement/HEARTBEAT_YN,&amp;quot;;&amp;quot;,xsd:string($currentElement/HEARTBEAT_INTERVAL),&amp;quot;;&amp;quot;,xsd:string($currentElement/HEARTBEAT_TRY_COUNT),&amp;quot;;&amp;quot;,$currentElement/HEARTBEAT_MESSAGE,&amp;quot;;&amp;quot;,$currentElement/NE_MANAGEMENT,&amp;quot;;&amp;quot;,$currentElement/DESCRIPTION,&amp;quot;;&amp;quot;,$currentElement/CONN_MODE)&quot;/>&lt;/neConfig>&lt;/MethodParameters>&lt;/tns2:JavaInvokeActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
                                     </tibex:inputBindings>
                                     <tibex:config>
                                     <bwext:BWActivity
@@ -1883,7 +1879,7 @@
                                     <type href="http://ns.tibco.com/bw/palette/jdbc#//JDBCQueryActivity"/>
                                     <value maxRows="100"
                                     sharedResourceProperty="jdbcProperty"
-                                    sqlStatement="select B.&quot;NECONN_ID&quot;, A.&quot;NEA_APPNAME&quot;, A.&quot;NEA_PODNAME&quot;, B.&quot;NEA_PROCNAME&quot;, B.&quot;CONN_COUNT&quot;, &#xa;&#x9;B.&quot;CONN_KEY&quot;, A.&quot;CONN_IP_A&quot;, B.&quot;CONN_PORT_A&quot;, A.&quot;CONN_IP_B&quot;, B.&quot;CONN_PORT_B&quot;, A.&quot;CONN_IP_D&quot;, &#xa;&#x9;B.&quot;CONN_PORT_D&quot;, B.&quot;CONN_TYPE&quot;, B.&quot;CONN_GROUPNAME&quot;, A.&quot;FAILOVER_POLICY&quot;, A.&quot;FAILOVER_RETRY_COUNT&quot;, &#xa;&#x9;A.&quot;RECONNECTION_TRY_INTERVAL_SEC&quot;, A.&quot;BORROW_WAIT_TIMEOUT&quot;, A.&quot;BORROW_WAIT_TIMEOUT_RETRY_COUNT&quot;, A.&quot;READ_TIMEOUT&quot;, &#xa;&#x9;A.&quot;READ_TIMEOUT_RETRY_COUNT&quot;, A.&quot;WRITE_TIMEOUT&quot;, A.&quot;WRITE_TIMEOUT_RETRY_COUNT&quot;, A.&quot;BACKUP_TYPE&quot;, A.&quot;DR_EXIST_YN&quot;, &#xa;&#x9;A.&quot;AUTO_FAILOVER_YN&quot;, A.&quot;HEARTBEAT_YN&quot;, A.&quot;HEARTBEAT_INTERVAL&quot;, A.&quot;HEARTBEAT_TRY_COUNT&quot;, A.&quot;HEARTBEAT_MESSAGE&quot;, &#xa;&#x9;A.&quot;NE_MANAGEMENT&quot;, A.&quot;DESCRIPTION&quot;, A.&quot;CONN_MODE&quot;, A.&quot;NEAGENT_ID&quot; &#xa;from &quot;TB_PVSM_NECONN_MST&quot; A inner join &quot;TB_PVSM_NECONN_DTL&quot; B on A.&quot;NEA_PODNAME&quot;=? and A.&quot;NEA_PODNAME&quot; = B.&quot;NEA_PODNAME&quot;;&#xa;"
+                                    sqlStatement="select B.&quot;NECONN_ID&quot;, A.&quot;NEA_APPNAME&quot;, A.&quot;NEA_PODNAME&quot;, B.&quot;NEA_PROCNAME&quot;, B.&quot;CONN_COUNT&quot;, &#xa;&#x9;B.&quot;CONN_KEY&quot;, A.&quot;CONN_IP_A&quot;, B.&quot;CONN_PORT_A&quot;, A.&quot;CONN_IP_B&quot;, B.&quot;CONN_PORT_B&quot;, A.&quot;CONN_IP_D&quot;, &#xa;&#x9;B.&quot;CONN_PORT_D&quot;, B.&quot;CONN_TYPE&quot;, B.&quot;CONN_GROUPNAME&quot;, A.&quot;FAILOVER_POLICY&quot;, A.&quot;FAILOVER_RETRY_COUNT&quot;, &#xa;&#x9;A.&quot;RECONNECTION_TRY_INTERVAL_SEC&quot;, A.&quot;BORROW_WAIT_TIMEOUT&quot;, A.&quot;BORROW_WAIT_TIMEOUT_RETRY_COUNT&quot;, A.&quot;READ_TIMEOUT&quot;, &#xa;&#x9;A.&quot;READ_TIMEOUT_RETRY_COUNT&quot;, A.&quot;WRITE_TIMEOUT&quot;, A.&quot;WRITE_TIMEOUT_RETRY_COUNT&quot;, A.&quot;BACKUP_TYPE&quot;, A.&quot;DR_EXIST_YN&quot;, &#xa;&#x9;A.&quot;AUTO_FAILOVER_YN&quot;, A.&quot;HEARTBEAT_YN&quot;, A.&quot;HEARTBEAT_INTERVAL&quot;, A.&quot;HEARTBEAT_TRY_COUNT&quot;, A.&quot;HEARTBEAT_MESSAGE&quot;, &#xa;&#x9;A.&quot;NE_MANAGEMENT&quot;, A.&quot;DESCRIPTION&quot;, A.&quot;CONN_MODE&quot; &#xa;from &quot;TB_PVSM_NECONN_MST&quot; A inner join &quot;TB_PVSM_NECONN_DTL&quot; B on A.&quot;NEA_PODNAME&quot; = ? and A.&quot;NEA_PODNAME&quot; = B.&quot;NEA_PODNAME&quot;;&#xa;"
                                     timeout="10" xsi:type="jdbcPalette:JDBCQueryActivity">
                                     <PreparedParameters
                                     DataType="12"
@@ -2018,10 +2014,6 @@
                                     status="OptionalElement" typeName="CHARACTER VARYING"/>
                                     <columnMetadata columnIndex="33"
                                     columnName="CONN_MODE"
-                                    dataType="12"
-                                    status="OptionalElement" typeName="CHARACTER VARYING"/>
-                                    <columnMetadata columnIndex="34"
-                                    columnName="NEAGENT_ID"
                                     dataType="12"
                                     status="OptionalElement" typeName="CHARACTER VARYING"/>
                                     </value>

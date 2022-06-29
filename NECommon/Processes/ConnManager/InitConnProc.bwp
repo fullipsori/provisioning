@@ -1053,7 +1053,7 @@
             source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3"
             target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.4" type="4006">
             <children type="6002">
-                <layoutConstraint xsi:type="notation:Location" y="40"/>
+                <layoutConstraint x="-4" xsi:type="notation:Location" y="-12"/>
             </children>
             <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
             <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
@@ -1076,10 +1076,10 @@
             source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3"
             target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.12" type="4006">
             <children type="6002">
-                <layoutConstraint xsi:type="notation:Location" y="40"/>
+                <layoutConstraint x="14" xsi:type="notation:Location" y="24"/>
             </children>
-            <styles lineColor="255" xsi:type="notation:ConnectorStyle"/>
-            <styles fontColor="255" fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
+            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
+            <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
             <element href="//0/@process/@activity/@activity/@links/@children.3"/>
             <bendpoints points="[1, 25, 0, -109]$[0, 110, -1, -24]" xsi:type="notation:RelativeBendpoints"/>
         </edges>
@@ -1304,9 +1304,11 @@
         <bpws:flow name="flow">
             <bpws:links>
                 <bpws:link name="StartToEnd" tibex:linkType="SUCCESS"/>
-                <bpws:link name="Borrow_ConnectionToActivate_Pool" tibex:linkType="SUCCESS"/>
+                <bpws:link name="Borrow_ConnectionToActivate_TRUE"
+                    tibex:label="TRUE" tibex:linkType="SUCCESSWITHCONDITION"/>
                 <bpws:link name="Activate_Pool_MonitorsToCopy_1_FailLog" tibex:linkType="SUCCESS"/>
-                <bpws:link name="IsReadyToGoToNEConfigLog" tibex:linkType="ERROR"/>
+                <bpws:link name="IsReadyToGoToNEConfigLog_ELSE"
+                    tibex:label="ELSE" tibex:linkType="SUCCESSWITHNOCONDITION"/>
                 <bpws:link name="NEConfigLogToEngineShutdown" tibex:linkType="SUCCESS"/>
                 <bpws:link name="Copy_1_FailLogToEnd" tibex:linkType="SUCCESS"/>
                 <bpws:link name="GetSharedVariableToParseXml" tibex:linkType="SUCCESS"/>
@@ -1396,13 +1398,21 @@
                         <bpws:target linkName="IterateToBorrow_Connection"/>
                     </bpws:targets>
                     <bpws:sources>
-                        <bpws:source linkName="Borrow_ConnectionToActivate_Pool"/>
-                        <bpws:source linkName="IsReadyToGoToNEConfigLog"
+                        <bpws:source linkName="Borrow_ConnectionToActivate_TRUE">
+                            <tibex:DesignExpression>
+                                <tibex:expression
+                                    expression="$IsReadyToGo/MethodReturnValue=true()" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"/>
+                            </tibex:DesignExpression>
+                            <bpws:transitionCondition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[$IsReadyToGo/MethodReturnValue=true()]]></bpws:transitionCondition>
+                        </bpws:source>
+                        <bpws:source
+                            linkName="IsReadyToGoToNEConfigLog_ELSE"
                             tibex:faultDetailsVar="IsReadyToGo" tibex:faultNameVar="FaultName">
                             <tibex:DesignExpression>
-                                <tibex:expression expression="##error##" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"/>
+                                <tibex:expression
+                                    expression="##otherwise##" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"/>
                             </tibex:DesignExpression>
-                            <bpws:transitionCondition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[##error##]]></bpws:transitionCondition>
+                            <bpws:transitionCondition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[##otherwise##]]></bpws:transitionCondition>
                         </bpws:source>
                     </bpws:sources>
                     <tibex:inputBindings>
@@ -1438,7 +1448,7 @@
                     outputVariable="Activate_Pool_Monitors"
                     tibex:xpdlId="5167fe11-e086-4458-b54a-141c09d810ed" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
                     <bpws:targets>
-                        <bpws:target linkName="Borrow_ConnectionToActivate_Pool"/>
+                        <bpws:target linkName="Borrow_ConnectionToActivate_TRUE"/>
                     </bpws:targets>
                     <bpws:sources>
                         <bpws:source linkName="Activate_Pool_MonitorsToCopy_1_FailLog"/>
@@ -1506,8 +1516,7 @@
                     <tibex:GetSharedVariable variableName="NEA_PODNAME" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions"/>
                 </tibex:extActivity>
             </bpws:extensionActivity>
-            <bpws:scope name="Iterate" tibex:group="iterate"
-                tibex:indexToGlobal="false" tibex:xpdlId="d6e34833-2d05-44fd-a974-d8c8f97799e1">
+            <bpws:scope name="Iterate" tibex:group="iterate" tibex:xpdlId="d6e34833-2d05-44fd-a974-d8c8f97799e1">
                 <bpws:targets>
                     <bpws:target linkName="InitPoolToIterate"/>
                 </bpws:targets>
@@ -1600,7 +1609,7 @@
                     tibex:xpdlId="f1038d0e-58cc-429f-9893-3ae4ae43e06e"
                     type="bw.generalactivities.callprocess" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
                     <bpws:targets>
-                        <bpws:target linkName="IsReadyToGoToNEConfigLog"/>
+                        <bpws:target linkName="IsReadyToGoToNEConfigLog_ELSE"/>
                     </bpws:targets>
                     <bpws:sources>
                         <bpws:source linkName="NEConfigLogToEngineShutdown"/>
