@@ -326,8 +326,10 @@ public class PoolProxy extends BasePoolProxy {
     	byte[] receivedBuffer = new byte[maxLength];
     	Connectable found = connObj.getConnection();
     	int count = found.Read(receivedBuffer, 0, maxLength, timeout);
+    	byte[] countBuffer = new byte[count];
+    	System.arraycopy(receivedBuffer, 0, countBuffer, 0, count);
     	if(count > 0) {
-			return Base64.getEncoder().encodeToString(receivedBuffer);
+			return Base64.getEncoder().encodeToString(countBuffer);
     	}else {
     		return "";
     	}
