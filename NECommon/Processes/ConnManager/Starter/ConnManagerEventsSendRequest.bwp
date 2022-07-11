@@ -2114,8 +2114,7 @@
                     </tibex:config>
                 </tibex:activityExtension>
             </bpws:extensionActivity>
-            <bpws:scope name="Iterate" tibex:group="iterate"
-                tibex:indexToGlobal="false" tibex:xpdlId="f6179c7a-997b-4778-a789-9dddf5fd28f2">
+            <bpws:scope name="Iterate" tibex:group="iterate" tibex:xpdlId="f6179c7a-997b-4778-a789-9dddf5fd28f2">
                 <bpws:targets>
                     <bpws:target linkName="ParseJSONToIterate"/>
                 </bpws:targets>
@@ -2187,7 +2186,7 @@
                                     <type href="http://ns.tibco.com/bw/palette/jdbc#//JDBCUpdateActivity"/>
                                     <value
                                     sharedResourceProperty="jdbcProperty"
-                                    sqlStatement="update &quot;TB_PVSM_NECONN_DTL&quot; &#xa;&#x9;set &quot;CONN_STATE&quot;=?, &quot;CONN_IP_TYPE&quot;=?, &quot;CONN_REAL_COUNT&quot;=?, &quot;UPDATE_TIME&quot;=current_timestamp  &#xa;&#x9;where &quot;NECONN_ID&quot;=?; &#xa;"
+                                    sqlStatement="UPDATE &quot;TB_PVSM_NECONN_DTL&quot;&#xa;  SET &quot;CONN_STATE&quot; = ?, &quot;CONN_IP_TYPE&quot; = ?, &quot;CONN_REAL_COUNT&quot; = ?, &quot;UPDATE_TIME&quot; = CURRENT_TIMESTAMP&#xa;  WHERE &quot;NECONN_ID&quot; = ?"
                                     timeout="10" xsi:type="jdbcPalette:JDBCUpdateActivity">
 
                                     <PreparedParameters

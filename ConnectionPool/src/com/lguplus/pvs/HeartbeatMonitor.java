@@ -43,11 +43,6 @@ public class HeartbeatMonitor {
     	logManager.info("///////////////////////////////////////////////////////////////////////");
     	logManager.info(String.format("// NE Application 정지에 따라 하트비트 모니터링 수행을 멈춥니다. [%s]\n", bStarted));
     	logManager.info("///////////////////////////////////////////////////////////////////////");
-    	
-    	if(!monitor.isShutdown()) {
-    		monitor.shutdown();
-    	}
- 
     }
     
     private void displayHeartbeatMessage(ConnectionObject connObj, long idleTime, String msg) {        

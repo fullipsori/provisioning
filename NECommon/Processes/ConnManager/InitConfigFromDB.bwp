@@ -1679,8 +1679,7 @@
                     <tibex:GetSharedVariable variableName="NEA_PODNAME" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions"/>
                 </tibex:extActivity>
             </bpws:extensionActivity>
-            <bpws:scope name="Iterate" tibex:group="iterate"
-                tibex:indexToGlobal="false" tibex:xpdlId="4a47c5c5-2218-4c16-adf1-469164f74f9c">
+            <bpws:scope name="Iterate" tibex:group="iterate" tibex:xpdlId="4a47c5c5-2218-4c16-adf1-469164f74f9c">
                 <bpws:targets>
                     <bpws:target linkName="JDBCQuery1ToIterate"/>
                 </bpws:targets>
@@ -2049,7 +2048,7 @@
                                     <type href="http://ns.tibco.com/bw/palette/jdbc#//JDBCUpdateActivity"/>
                                     <value
                                     sharedResourceProperty="jdbcProperty"
-                                    sqlStatement="update &quot;TB_PVSM_NECONN_DTL&quot; &#xa;&#x9;set &quot;CONN_STATE&quot;='0', &quot;CONN_IP_TYPE&quot;='A', &quot;CONN_REAL_COUNT&quot;=0, &quot;UPDATE_TIME&quot;=current_timestamp  &#xa;&#x9;where &quot;NEA_PODNAME&quot;=?; &#xa;&#xa;"
+                                    sqlStatement="update &quot;TB_PVSM_NECONN_DTL&quot; set &quot;CONN_STATE&quot;='0', &quot;CONN_IP_TYPE&quot;='A', &quot;CONN_REAL_COUNT&quot;=0, &quot;UPDATE_TIME&quot;=current_timestamp  where &quot;NEA_PODNAME&quot;=?; &#xa;"
                                     timeout="10" xsi:type="jdbcPalette:JDBCUpdateActivity">
                                     <PreparedParameters
                                     DataType="12"

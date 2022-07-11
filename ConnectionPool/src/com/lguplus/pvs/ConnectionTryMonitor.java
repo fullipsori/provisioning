@@ -74,16 +74,21 @@ public class ConnectionTryMonitor {
 
     public void startMonitor() {
         start_delay = ConnectionConfig.getInstance().getReconnectionTryIntervalSec();        
-        reconn_interval = ConnectionConfig.getInstance().getReconnectionTryIntervalSec();
-        logManager.info(String.format("//// 재연결 모니터링 작업 [시작 지연: %d초][재연결 인터벌: %d초][재연결 모니터링 데몬을 시작합니다.]\n", start_delay, reconn_interval));
-        
-        ((ScheduledExecutorService) monitor).scheduleAtFixedRate(
-                new ConnectionTryMonitorTask(),
-                start_delay,
-                reconn_interval,
-                TimeUnit.SECONDS
-        );
-        bStarted = true;
+        if(start_delay > 0) {
+			reconn_interval = ConnectionConfig.getInstance().getReconnectionTryIntervalSec();
+			logManager.info(String.format("//// 재연결 모니터링 작업 [시작 지연: %d초][재연결 인터벌: %d초][재연결 모니터링 데몬을 시작합니다.]\n", start_delay, reconn_interval));
+			
+			((ScheduledExecutorService) monitor).scheduleAtFixedRate(
+					new ConnectionTryMonitorTask(),
+					start_delay,
+					reconn_interval,
+					TimeUnit.SECONDS
+			);
+			bStarted = true;
+        }else {
+			logManager.info(String.format("//// 재연결 모니터링 작업을 시작할 수 없습니다. [시작 지연: %d초][재연결 인터벌: %d초]\n", start_delay, reconn_interval));
+        	bStarted = false;
+        }
     }    
     
     public boolean isStarted() {
@@ -94,7 +99,7 @@ public class ConnectionTryMonitor {
     	logManager.info("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
     	logManager.info("+ NE Application 정지에 따라 TCP 연결 요청 모니터링 수행을 멈춥니다.");
     	logManager.info("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-    	if(!monitor.isShutdown()) {
+    	if(bStarted && !monitor.isShutdown()) {
     		monitor.shutdown();
     	}
     	bStarted = false;

@@ -697,7 +697,7 @@ public class ConnectionConfig {
     		
     		if(connCount < 1) {
     			logManager.info("////////////////////////////////////////////////////////////////////////////////");
-    			logManager.info(String.format("[NECONNP_ID: %s]의 CONN_COUNT 값에 문제가 있습니다. TB_PVSM_NECONN CONN_COUNT의 값이 최소 1이어야 합니다.\n", cols[NECONN.NECONN_ID.idx]));
+    			logManager.warn(String.format("[NECONNP_ID: %s]의 CONN_COUNT 값에 문제가 있습니다. TB_PVSM_NECONN CONN_COUNT의 값이 최소 1이어야 합니다.\n", cols[NECONN.NECONN_ID.idx]));
     			logManager.info("////////////////////////////////////////////////////////////////////////////////");
     		}
     		
@@ -734,10 +734,19 @@ public class ConnectionConfig {
 	    	    connObj.setReadTimeOutRetryCount(stringToInteger(cols[NECONN.READ_TIMEOUT_RETRY_COUNT.idx]));
 	    	    connObj.setWriteTimeOut(stringToInteger(cols[NECONN.WRITE_TIMEOUT.idx])*1000);
 	    	    connObj.setWriteTimeOutRetryCount(stringToInteger(cols[NECONN.WRITE_TIMEOUT_RETRY_COUNT.idx]));
-	    	    connObj.setHeartBeatInterval(stringToInteger(cols[NECONN.HEARTBEAT_INTERVAL.idx])*1000);
-	        	connObj.setHeartBeatTryCount(stringToInteger(cols[NECONN.HERATBEAT_TRY_COUNT.idx]));
+
+	    	    int hbInterval = stringToInteger(cols[NECONN.HEARTBEAT_INTERVAL.idx]);
+	    	    hbInterval = hbInterval>0? hbInterval:1;
+	    	    int hbTryCount = stringToInteger(cols[NECONN.HERATBEAT_TRY_COUNT.idx]);
+	    	    hbTryCount = hbTryCount>0? hbTryCount:5;
+	    	    connObj.setHeartBeatInterval(hbInterval*1000);
+	        	connObj.setHeartBeatTryCount(hbTryCount);
+
 	        	connObj.setHeartBeatFailSeconds(connObj.getHeartBeatInterval() * connObj.getHeartBeatTryCount());
-	        	connObj.SetFailOverMaxTryCountToSendEvent(stringToInteger(cols[NECONN.FAILOVER_RETRY_COUNT.idx]));
+	        	
+	        	int tfailOverTryCount = stringToInteger(cols[NECONN.FAILOVER_RETRY_COUNT.idx]);
+	        	tfailOverTryCount = tfailOverTryCount>0? tfailOverTryCount:12;
+	        	connObj.SetFailOverMaxTryCountToSendEvent(tfailOverTryCount);
 	    	    connObj.setAutoFailOverYN(cols[NECONN.AUTO_FAILOVER_YN.idx]);
 	    	    
 	    	    connObj.setHeartBeatMessage(cols[NECONN.HERATBEAT_MESSAGE.idx]); // HeartBeat Message 
@@ -920,7 +929,10 @@ public class ConnectionConfig {
     void setBasicConnectionConfigInformation(String[] cols) {   
 	    
     	int HBInterval = Integer.parseInt(cols[NECONN.HEARTBEAT_INTERVAL.idx]);
+    	HBInterval = (HBInterval >0)? HBInterval : 1;
+    	
 		int HBTryCount = Integer.parseInt(cols[NECONN.HERATBEAT_TRY_COUNT.idx]);
+		HBTryCount = (HBTryCount > 0)? HBTryCount : 5;
     	
 		this.NEA_PODNAME = cols[NECONN.NEA_PODNAME.idx]; // POD명 - Key로 사용한다.
 		this.reconnectionTryIntervalSec = Integer.parseInt(cols[NECONN.RECONNECTION_TRY_INTERVAL_SEC.idx]);
@@ -954,8 +966,19 @@ public class ConnectionConfig {
     	// this.heartbeatInterval = stringToInteger(cols[NECONN.HEARTBEAT_INTERVAL.idx]);
     	// this.heartbeatTryCount = stringToInteger(cols[NECONN.HERATBEAT_TRY_COUNT.idx]);
     	
-    	this.borrowTimeOut = stringToInteger(cols[NECONN.BORROW_WAIT_TIMEOUT.idx]) * 1000;
-    	this.borrowTimeOutRetryCount = stringToInteger(cols[NECONN.BORROW_WAIT_TIMEOUT_RETRY_COUNT.idx]);
+    	int tborrowTimeOut = stringToInteger(cols[NECONN.BORROW_WAIT_TIMEOUT.idx]) * 1000;
+    	int tborrowTimeOutRetryCount = stringToInteger(cols[NECONN.BORROW_WAIT_TIMEOUT_RETRY_COUNT.idx]);
+    	
+    	if(tborrowTimeOut > 0) {
+    		this.borrowTimeOut = tborrowTimeOut;
+    	}else {
+            logManager.warn(String.format("* borrowTimeOut value(%d) is invalid. set to default(%d)\n", tborrowTimeOut, this.borrowTimeOut));
+    	}
+    	if(tborrowTimeOutRetryCount > 0) {
+    		this.borrowTimeOutRetryCount = tborrowTimeOutRetryCount;
+    	}else {
+            logManager.warn(String.format("* tborrowTimeOutRetryCount value(%d) is invalid. set to default(%d)\n", tborrowTimeOutRetryCount, this.borrowTimeOutRetryCount));
+    	}
     	
     	this.readTimeOut = stringToInteger(cols[NECONN.READ_TIMEOUT.idx]) * 1000;
     	this.readTimeOutRetryCount = stringToInteger(cols[NECONN.READ_TIMEOUT_RETRY_COUNT.idx]);
