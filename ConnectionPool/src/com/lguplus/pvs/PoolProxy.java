@@ -205,11 +205,13 @@ public class PoolProxy extends BasePoolProxy {
     // BW에서 연결된 Connection(byte 배열)을 Pool에 저장 처리
     public boolean OpenSocketConnection(String connectionId, String server, int port) throws Exception {
 		LogManager.getInstance().info("OpenSocketConnection request:" + connectionId + " server:" + server + " port:" + port);
-    	if(server==null || server.isEmpty() || port <= 0) return false;
+    	if(server==null || server.isEmpty() || port <= 0) {
+    		throw new Exception("Parameter Error");
+    	}
     	Connectable connectable = ConnectionRepository.getInstance().requestConnectable(server, port);
     	if(connectable == null) {
 			LogManager.getInstance().error("OpenConnection failed:" + connectionId);
-    		return false;
+    		throw new Exception("requestConnectable Error");
     	}
 
 		//socket 모드에서는 BW handle 이 없기 때문에 connectable 을 pool에 저장해 놓아야 한다.
@@ -386,6 +388,80 @@ public class PoolProxy extends BasePoolProxy {
     	return found.Write(writeBuffer, 0, slength, timeout);
     }
 
+	/** support charset encoding **/
+    public String ReadSocket(String connectionId, int maxLength, int timeout, String charsetName) throws Exception {
+    	if(connectionId == null || connectionId.isEmpty() || maxLength <= 0) {
+    		LogManager.getInstance().error(String.format("ReadSocket parameter error [%s] [%d] [%d]", connectionId, maxLength, timeout));
+    		return "";
+    	}
+
+    	ConnectionObject connObj = ConnectionConfig.getInstance().getConnections().get(connectionId);
+    	if(connObj == null || connObj.getConnectionMode() != ConnectionMode.SOCKET) {
+			LogManager.getInstance().error("ConnectionObject Error" + connectionId);
+			return "";
+    	}
+
+    	byte[] receivedBuffer = new byte[maxLength];
+    	Connectable found = connObj.getConnection();
+    	int count = found.Read(receivedBuffer, 0, maxLength, timeout);
+    	String charset = (charsetName == null || charsetName.isEmpty())? "UTF-8" : charsetName.toUpperCase();
+    	if(count > 0) {
+			return new String(receivedBuffer, 0, count, charset);
+    	}else {
+    		return "";
+    	}
+    }
+
+	public String ReadNSocket(String connectionId, int fixLength, int timeout, String charsetName) throws Exception {
+    	if(connectionId == null || connectionId.isEmpty() || fixLength <= 0) {
+    		LogManager.getInstance().error(String.format("ReadNSocket parameter error [%s] [%d] [%d]", connectionId, fixLength, timeout));
+    		return "";
+    	}
+
+    	ConnectionObject connObj = ConnectionConfig.getInstance().getConnections().get(connectionId);
+    	if(connObj == null || connObj.getConnectionMode() != ConnectionMode.SOCKET) {
+			LogManager.getInstance().error("ConnectionObject Error" + connectionId);
+			return "";
+    	}
+
+    	byte[] receivedBuffer = new byte[fixLength];
+    	Connectable found = connObj.getConnection();
+    	int count = found.ReadN(receivedBuffer, 0, fixLength, timeout);
+    	String charset = (charsetName == null || charsetName.isEmpty())? "UTF-8" : charsetName.toUpperCase();
+    	if(count > 0) {
+			return new String(receivedBuffer, 0, count, charset);
+    	}else {
+    		return "";
+    	}
+    }
+	
+	public int WriteSocket(String connectionId, String writeBuffer, int size, int timeout, String charsetName) throws Exception {
+		if(connectionId == null || connectionId.isEmpty() || writeBuffer == null || writeBuffer.isEmpty()) {
+    		LogManager.getInstance().error(String.format("WriteSocket parameter error [%s] [%s] [%d] [%d]", connectionId, writeBuffer, size, timeout));
+			return 0;
+		}
+
+    	ConnectionObject connObj = ConnectionConfig.getInstance().getConnections().get(connectionId);
+    	if(connObj == null || connObj.getConnectionMode() != ConnectionMode.SOCKET) {
+			LogManager.getInstance().error("ConnectionObject Error" + connectionId);
+			return 0;
+    	}
+    	int rsize = writeBuffer.length();
+    	if(rsize <= 0) {
+			LogManager.getInstance().warn("WriteSocket data is null");
+			return 0;
+    	}
+    	int slength;
+    	if(size == 0) slength = rsize;
+    	else {
+    		slength = (size <= rsize)? size : rsize;
+    	}
+
+    	Connectable found = connObj.getConnection();
+    	String charset = (charsetName == null || charsetName.isEmpty())? "UTF-8" : charsetName.toUpperCase();
+    	return found.Write(writeBuffer.getBytes(charset), 0, slength, timeout);
+    }
+	
     public String getConnectionIdByIndex(int index) throws Exception {    	
     	if(index <= 0) throw new IndexOutOfBoundsException(index);
     	Connectable connectable = super.getConnectionByIndex(index-1);

@@ -39,6 +39,9 @@ public class HeartbeatMonitor {
     }
     
     public void stopMonitor() {
+    	if(bStarted && !monitor.isShutdown()) {
+    		monitor.shutdown();
+    	}
     	bStarted = false;
     	logManager.info("///////////////////////////////////////////////////////////////////////");
     	logManager.info(String.format("// NE Application 정지에 따라 하트비트 모니터링 수행을 멈춥니다. [%s]\n", bStarted));
@@ -58,7 +61,7 @@ public class HeartbeatMonitor {
 
     public static boolean needHeartBeat(String connectionId) {
     	ConnectionObject connObj = ConnectionConfig.getInstance().getConnections().get(connectionId);
-    	if(connObj == null) return false;
+    	if(connObj == null || connObj.getConnectionStatus()==false) return false;
 
 		long idleTime = (System.currentTimeMillis() - connObj.getLastUsedTime()); 
 		return (!ConnectionConfig.getInstance().getConnectionStatus().equalsIgnoreCase("U") && ConnectionConfig.getInstance().getHeartbeatPolicy().isUseHeartbeat())
@@ -87,7 +90,7 @@ public class HeartbeatMonitor {
 	            
 	            // Idle 상태에 있는 객체만 Heartbeat 메시지 전송 대상으로 체크한다. 
 	            if(connObj.getConnectionType().equalsIgnoreCase("POOL") && !connObj.getConnectionObjectStatus().equalsIgnoreCase("SC") && !connObj.isBorrowed()) {
-	            	
+	            	/** connObj.getHeartBeatFailSeconds() 는 제외한다. 시도시 tcp fail 이 발생하면 ConnectionTry 가 동작되기 때문이다.
 	            	if(idleTime> connObj.getHeartBeatFailSeconds()) {
 		            	// 삭제 먼저 진행하고 작업해야 한다. -  설정값에 따라서 진행되진다. 종료 후 재연결을 시도한다.  POOL 타입이건, SC(Suspended Connection 상태)인 경우
 		            	// heartbeatInterval * heartbeatTryCount = 최대 시도횟수 곱하기를 시도한다.
@@ -95,6 +98,17 @@ public class HeartbeatMonitor {
 		                Registry.getInstance().addDisconnAndConnRequest(connObj.getConnectionId());
 		                
 		            } else if(idleTime > connObj.getHeartBeatInterval()) {	            	
+		                // 하트비트 인터벌을 초과했으며, 현재 접속 상태인 경우에만 보낸다.		            	
+		            	displayHeartbeatMessage(connObj, idleTime, "마지막 사용시간이 하트비트 인터벌 시간 초과하였습니다. - 하트비트 메시지 보내기");	            	
+		                Registry.getInstance().addHeartBeat(connObj.getConnectionId());
+		                
+		            } else {
+		            	// 하트비트 체크 대상이 아닌 경우  idleTime < connObj.getHeartBeatFailSeconds() 미만인 경우 
+		            	displayHeartbeatMessage(connObj, idleTime, "마지막 사용시간이 하트비트 체크간격 미만입니다. - SKIP 체크 다음");
+		            }
+		            **/
+
+		            if(idleTime > connObj.getHeartBeatInterval()) {	            	
 		                // 하트비트 인터벌을 초과했으며, 현재 접속 상태인 경우에만 보낸다.		            	
 		            	displayHeartbeatMessage(connObj, idleTime, "마지막 사용시간이 하트비트 인터벌 시간 초과하였습니다. - 하트비트 메시지 보내기");	            	
 		                Registry.getInstance().addHeartBeat(connObj.getConnectionId());

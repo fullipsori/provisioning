@@ -313,7 +313,7 @@ public class ConnectionObject {
     		// 필요시 특정 Action을 취한다.- 지정된 횟수 이상 접속 시도를 수행햇으나 실패했을 경우
     		String eventMessage = String.format("%s;%s;ERROR;|%s| 연결 시도 횟수가 %d회에 도달하였습니다. NE에 문제가 있는지 확인바랍니다.", connectionGroupId, connectionKey, this.description, failoverTryCount);    		
     		Registry.getInstance().addEventSendRequest(eventMessage, false);
-    		Registry.getInstance().addSMSSendRequest(this.connectionId, String.format("연결 시도(%d회)가 실패하였습니다. NE에 문제가 있는지 확인바랍니다.", failoverTryCount));
+    		Registry.getInstance().addSMSSendRequest(this.connectionId, "CONNFAIL", String.format("연결 시도(%d회)가 실패하였습니다. NE에 문제가 있는지 확인바랍니다.", failoverTryCount));
     		logManager.warn(eventMessage);
     	}
     	

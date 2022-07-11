@@ -565,7 +565,7 @@ public class BasePoolProxy {
 	        	Registry.getInstance().addEventSendRequest(eventMessage);	        	
 
 	        	//NE 연결 문제에 대해 SMS 전송한다.
-				Registry.getInstance().addSMSSendRequest(connectionId, "NE 연결에 문제가 발생하였습니다.");
+				Registry.getInstance().addSMSSendRequest(connectionId, "LINKFAIL", "NE 연결에 문제가 발생하였습니다.");
 	        	
 	        } catch(Exception ex) {
 	        	 // 사용 Exception  생성 후

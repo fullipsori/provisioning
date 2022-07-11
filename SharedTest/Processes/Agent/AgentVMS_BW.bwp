@@ -1678,7 +1678,7 @@
                                     <type href="http://ns.tibco.com/bw/palette/jms#//JMSReceiverEventSource"/>
                                     <value ackMode="Client"
                                     connectionReference="jmsConnection"
-                                    destinationName="VMS-G1.q"
+                                    destinationName="VMS-G1-BW.q"
                                     maxSessions="1"
                                     messagingStyle="Queue"
                                     receiveTimeout="2" xsi:type="jms:JMSReceiverEventSource"/>

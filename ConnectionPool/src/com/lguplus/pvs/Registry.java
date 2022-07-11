@@ -209,14 +209,16 @@ public class Registry {
     	}
     }
     
-    public boolean addSMSSendRequest(String connectionId, String message) {
+    public boolean addSMSSendRequest(String connectionId, String smsType, String message) {
+    	String agentId = "";
     	try {
     		if(connectionId == null) return false;
-    		String smsMessage = String.format("[%s][%s]", connectionId, message);
+    		agentId = ConnectionConfig.getInstance().getNeAgentId();
+    		String smsMessage = String.format("%s|%s", agentId, smsType);
 			smsSendRequestQueue.add(smsMessage);
 			return true;
     	}catch(Exception e) {
-    		logManager.error("Message:" + connectionId +  ":" + message + " dont add because smsSendRequestQueue is full " + " error:" + e.getMessage());
+    		logManager.error("Message:" + agentId +  ":" + smsType + " dont add because smsSendRequestQueue is full " + " error:" + e.getMessage());
     		return false;
     	}
     }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpws:process exitOnStandardFault="no" name="Agent.AgentHSS"
+<bpws:process exitOnStandardFault="no" name="Agent.AgentHSS_TEXT"
     suppressJoinFailure="yes"
-    targetNamespace="http://xmlns.example.com/20211226144152"
+    targetNamespace="http://xmlns.example.com/20220622104017"
     xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
     xmlns:info="http://www.tibco.com/bw/process/info"
     xmlns:ns="http://www.tibco.com/pe/EngineTypes"
@@ -1900,7 +1900,7 @@
                                     <type href="http://ns.tibco.com/bw/palette/jms#//JMSReceiverEventSource"/>
                                     <value ackMode="Client"
                                     connectionReference="jmsConnection"
-                                    destinationName="HSS-G1.q"
+                                    destinationName="HSS-G1-BW.q"
                                     maxSessions="2"
                                     messagingStyle="Queue"
                                     receiveTimeout="2" xsi:type="jms:JMSReceiverEventSource"/>

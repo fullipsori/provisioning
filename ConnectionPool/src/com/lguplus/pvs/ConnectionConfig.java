@@ -57,7 +57,7 @@ public class ConnectionConfig {
     private int readTimeOutRetryCount = 3;
     private int writeTimeOut = 5*1000; 
     private int writeTimeOutRetryCount = 3;
-    
+    private String neAgentId = "";
 
     // Map< ConnectionGroupName, Pool<ConnecitonObject> > Connection Group별 connection pool을 갖는다. 
     private Map<String, Pool<ConnectionObject>> poolMap = new HashMap<>();
@@ -986,8 +986,11 @@ public class ConnectionConfig {
     	this.writeTimeOut = stringToInteger(cols[NECONN.WRITE_TIMEOUT.idx]) * 1000;
     	this.writeTimeOutRetryCount = stringToInteger(cols[NECONN.WRITE_TIMEOUT_RETRY_COUNT.idx]);
     	
+    	this.neAgentId = cols[NECONN.NEAGENT_ID.idx];
+    	
     	// NE Agent 동작에 중요한 각종 설정값을 보여준다.
     	logManager.info(String.format("* POD 명: %s\n", NEA_PODNAME));
+    	logManager.info(String.format("* Agent ID: %s\n", this.neAgentId));
     	logManager.info(String.format("* 하트비트 인터벌: %d초\n", HBInterval));
     	logManager.info(String.format("* 하트비트 최대 시도 횟수: %d회\n", HBTryCount));
     	logManager.info(String.format("* Borrow 타임아웃: %d초\n", this.borrowTimeOut/1000));
@@ -1069,4 +1072,11 @@ public class ConnectionConfig {
     	return connectable;
     }
     
+    public String getNeAgentId() {
+    	return this.neAgentId;
+    }
+    
+    public void setNeAgentId(String neAgentId) {
+    	this.neAgentId = neAgentId;
+    }
 }
