@@ -21,7 +21,7 @@ public class BWConnection implements Connectable{
     }
 
     @Override
-    public boolean Open(String server, int port) throws Exception {
+    public boolean Open(String server, int port, int timeout) throws Exception {
         // TODO Auto-generated method stub
         return false;
     }

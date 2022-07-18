@@ -38,10 +38,10 @@ public class ConnectionRepository {
         return connectable;
     }
     
-    public Connectable requestConnectable(String server, int port) throws Exception {
+    public Connectable requestConnectable(String server, int port, int timeout) throws Exception {
         Connectable connectable = createConnectable(ConnectionMode.SOCKET);
         if(server != null) {
-            connectable.Open(server, port);
+            connectable.Open(server, port, timeout);
         }
         return connectable;
     }
@@ -55,9 +55,9 @@ public class ConnectionRepository {
         }
     }
 
-    public boolean openConnection(Connectable connectable, String server, int port) throws Exception {
+    public boolean openConnection(Connectable connectable, String server, int port, int timeout) throws Exception {
         if(connectable == null || !(connectable instanceof SocketConnection)) return false;
-        return connectable.Open(server, port);
+        return connectable.Open(server, port, timeout);
     }
     
     public Connectable GetConnectable(ArrayList<Connectable> connections, Connectable handle) throws Exception {

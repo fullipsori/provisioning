@@ -131,7 +131,8 @@ public class ConnectionTryMonitor {
 		    		alreadyReqConnectionIds = putConnectionRequestQueue();
 		    	}
 		    	
-		    	// 서버 단위 절체에서는 ConnectionManager 내에 있는 모든 값들이 0이 되는 경우 A => B => A 로 전체 연결을 시도한다.
+		    	// 내용이 이해않됨: 서버 단위 절체에서는 ConnectionManager 내에 있는 모든 값들이 0이 되는 경우 A => B => A 로 전체 연결을 시도한다.
+		    	// connectionTryVector 에 들어가 있지 않지만, 연결이 않된 Port 에 대해서 연결 시도를 한다.  (예: onStartUp 부터 연결이 않되어 있는 경우에 들어옴)
 		    	putConnectionRequestQueueWhenlessNumOfConnectedObjected(alreadyReqConnectionIds);
 		    	
 	    	} else if(connectionFailOverMode.equals("M") ) {
@@ -157,7 +158,7 @@ public class ConnectionTryMonitor {
     }
     
     /*
-     *  PortBased 절체 방식으로 수행해야 할 경우
+     *  HostBased 절체 방식으로 수행해야 할 경우
      *  Registry의 connectionTryVector iterate 하면서, 이직 연결되지 않은 "컨넥션ID"를
      *  Registry의 connectionRequestQueue에 전달(enqueue)하는 작업 수행
      */
@@ -177,26 +178,29 @@ public class ConnectionTryMonitor {
 	    	if(connectionFailOverMode.equals("A")) {
 		    	// 포트 기반 절체 이면서 DR이 아닌 경우 스위칭하면서 연결하도록 한다. - 호스트 혹은 DR의 경우 전체적으로 변경후 재연결을 수행한다.
 		    	if(numOfConnectedObjects > 0) {
-		    		// 1. connectionTryVector에 연결 요청이 들어와 있는 경우
+		    		/** 하나라도 연결되어 있는 상태 : 모든 연결은 현재 호스트에 연결 시도를 한다. **/
 		    		alreadyReqConnectionIds = putConnectionRequestQueue();
-		    		
-		    	} else if(numOfConnectedObjects == 0 && !connectionServerType.equalsIgnoreCase("D")) {
-		    		// 서버 단위 절체에서는 ConnectionManager 내에 있는 모든 값들이 0이 되는 경우 A => B => A 로 전체 연결을 시도한다.
-		    		// 모든 연결객체가 끊어졌다는(종료) 의미이므로 연결객체 내부의 IP Address를 변경해준다. 
-		    		boolean bChanged = changeAllConnectionObjectsServerType();		    		
-		    		// 변경이 되었다는 의미 - 모든 연결객체가 연결 종료된 경우 처리
-		    		if(bChanged) {
-		    			putConnectionRequestQueueWhenServerTypeChanged();
-		    		} else {
-		    			// 이 경우 혹시 MC가 있는지 획인해봅니다. (M)ove (C)onnection 강제로 타켓 서버를 이동시킨다는 의미
-		    			putConnectionRequestQueueWhenAllDisconnected();
-		    		}
-		    	} 
-		    	
-		    	// 위에서 들어왔는데도 불구하고 아직도 작은 경우 처리
-		    	if (numOfConnectedObjects < ConnectionConfig.getInstance().getPoolConnectionCount()) {
-		    		// 3. 연결되지 않는 객체가 존재한다는 의미이다. - 위에서 신청되지 않는 것 중에서 connectionTryVector에 없는 객체 중 연결상태가 종료로 되어 있는 경우
 		    		putConnectionRequestQueueWhenlessNumOfConnectedObjected(alreadyReqConnectionIds);
+		    		
+		    	} else if(numOfConnectedObjects == 0 && Registry.getInstance().countOfOpening() == 0 && !connectionServerType.equalsIgnoreCase("D")) {
+		    		/** 현재 연결되거나 시도중인 객체가 하나도 없는 경우: 연결 호스트 정보를 변경후에, 모든 연결에 대해 바뀐 호스트 연결을 시도한다. **/
+		    		if(!connectionServerType.equalsIgnoreCase("D")) {
+						// 서버 단위 절체에서는 ConnectionManager 내에 있는 모든 값들이 0이 되는 경우 A => B => A 로 전체 연결을 시도한다.
+						// 모든 연결객체가 끊어졌다는(종료) 의미이므로 연결객체 내부의 IP Address를 변경해준다. 
+						boolean bChanged = changeAllConnectionObjectsServerType();		    		
+						// 변경이 되었다는 의미 - 모든 연결객체가 연결 종료된 경우 처리
+						if(bChanged) {
+							putConnectionRequestQueueWhenServerTypeChanged();
+						} else {
+							// 이 경우 혹시 MC가 있는지 획인해봅니다. (M)ove (C)onnection 강제로 타켓 서버를 이동시킨다는 의미
+							putConnectionRequestQueueWhenAllDisconnected();
+						}
+		    		} else {
+						putConnectionRequestQueueWhenlessNumOfConnectedObjected(alreadyReqConnectionIds);
+		    		}
+		    	} else {
+		    		/** Host 모드에서는, 연결된 객체가 없고 현재 시도중인 연결이 하나라도 있는 경우에는 어떤 행동도 하지 않고 모든 연결 시도가 무산될때 까지 대기한다.
+		    		 */
 		    	}
 		    	
 	    	} else if(connectionFailOverMode.equals("M") ) {

@@ -535,18 +535,6 @@
             </complexType>
         </schema>
         <schema elementFormDefault="unqualified"
-            targetNamespace="http://tns.tibco.com/bw/palette/internal/activityerror+3e73b500-7d1d-4cd6-8f66-b46cbe407607"
-            xmlns="http://www.w3.org/2001/XMLSchema"
-            xmlns:Q1="http://www.example.org/JavaExceptions" xmlns:tns="http://tns.tibco.com/bw/palette/internal/activityerror+3e73b500-7d1d-4cd6-8f66-b46cbe407607">
-            <import namespace="http://www.example.org/JavaExceptions"/>
-            <element name="ActivityErrorData" type="tns:ActivityErrorDataType"/>
-            <complexType name="ActivityErrorDataType">
-                <choice>
-                    <element maxOccurs="1" minOccurs="0" ref="Q1:InvocationException"/>
-                </choice>
-            </complexType>
-        </schema>
-        <schema elementFormDefault="unqualified"
             targetNamespace="http://tns.tibco.com/bw/palette/internal/activityerror+6c16fe4b-8dd2-4e25-969f-7fba2145b4f9"
             xmlns="http://www.w3.org/2001/XMLSchema"
             xmlns:Q1="http://www.example.org/JavaExceptions" xmlns:tns="http://tns.tibco.com/bw/palette/internal/activityerror+6c16fe4b-8dd2-4e25-969f-7fba2145b4f9">
@@ -562,6 +550,18 @@
             targetNamespace="http://tns.tibco.com/bw/palette/internal/activityerror+db627360-2de8-446e-be0c-3f418e71547a"
             xmlns="http://www.w3.org/2001/XMLSchema"
             xmlns:Q1="http://www.example.org/JavaExceptions" xmlns:tns="http://tns.tibco.com/bw/palette/internal/activityerror+db627360-2de8-446e-be0c-3f418e71547a">
+            <import namespace="http://www.example.org/JavaExceptions"/>
+            <element name="ActivityErrorData" type="tns:ActivityErrorDataType"/>
+            <complexType name="ActivityErrorDataType">
+                <choice>
+                    <element maxOccurs="1" minOccurs="0" ref="Q1:InvocationException"/>
+                </choice>
+            </complexType>
+        </schema>
+        <schema elementFormDefault="unqualified"
+            targetNamespace="http://tns.tibco.com/bw/palette/internal/activityerror+3e73b500-7d1d-4cd6-8f66-b46cbe407607"
+            xmlns="http://www.w3.org/2001/XMLSchema"
+            xmlns:Q1="http://www.example.org/JavaExceptions" xmlns:tns="http://tns.tibco.com/bw/palette/internal/activityerror+3e73b500-7d1d-4cd6-8f66-b46cbe407607">
             <import namespace="http://www.example.org/JavaExceptions"/>
             <element name="ActivityErrorData" type="tns:ActivityErrorDataType"/>
             <complexType name="ActivityErrorDataType">
@@ -757,8 +757,8 @@
                                     <layoutConstraint
                                     height="40"
                                     width="142"
-                                    x="-5"
-                                    xsi:type="notation:Bounds" y="161"/>
+                                    x="-4"
+                                    xsi:type="notation:Bounds" y="189"/>
                                     </children>
 
                                     <children type="4002 bw.tcp.tcpcloseconnection">
@@ -1674,7 +1674,7 @@
             source="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.1/@children.0/@children.0/@children.0/@children.0"
             target="//@children.0/@children.3/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.1/@children.0/@children.0/@children.0/@children.7" type="4006">
             <children type="6002">
-                <layoutConstraint xsi:type="notation:Location" y="40"/>
+                <layoutConstraint x="-38" xsi:type="notation:Location" y="-9"/>
             </children>
             <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
             <styles fontName="맑은 고딕" xsi:type="notation:FontStyle"/>
@@ -1864,7 +1864,8 @@
                     </tibex:config>
                 </tibex:activityExtension>
             </bpws:extensionActivity>
-            <bpws:scope name="While" tibex:group="while" tibex:xpdlId="8c7fe0a4-c292-41c5-a1b9-39af32887014">
+            <bpws:scope name="While" tibex:group="while"
+                tibex:indexToGlobal="false" tibex:xpdlId="8c7fe0a4-c292-41c5-a1b9-39af32887014">
                 <bpws:targets>
                     <bpws:target linkName="TCPDisconnectLoToWhile"/>
                 </bpws:targets>
@@ -1907,7 +1908,8 @@
                                     name="JavaInvokeToGetBWConn_ELSE"
                                     tibex:label="ELSE" tibex:linkType="SUCCESSWITHNOCONDITION"/>
                                 <bpws:link
-                                    name="GetConnByIdxToDisconnToJavaInvoke" tibex:linkType="SUCCESS"/>
+                                    name="GetConnByIdxToDisconnToGetConnMode_NOT-NULL"
+                                    tibex:label="NOT-NULL" tibex:linkType="SUCCESSWITHCONDITION"/>
                                 <bpws:link
                                     name="GetConnModeToCloseSocket_SOCKET"
                                     tibex:label="SOCKET" tibex:linkType="SUCCESSWITHCONDITION"/>
@@ -1934,7 +1936,13 @@
                                     <bpws:target linkName="GroupStartToJavaInvoke"/>
                                     </bpws:targets>
                                     <bpws:sources>
-                                    <bpws:source linkName="GetConnByIdxToDisconnToJavaInvoke"/>
+                                    <bpws:source linkName="GetConnByIdxToDisconnToGetConnMode_NOT-NULL">
+                                    <tibex:DesignExpression>
+                                    <tibex:expression
+                                    expression="exists($GetConnByIdxToDisconn/MethodReturnValue)=true()" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"/>
+                                    </tibex:DesignExpression>
+                                    <bpws:transitionCondition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[exists($GetConnByIdxToDisconn/MethodReturnValue)=true()]]></bpws:transitionCondition>
+                                    </bpws:source>
                                     </bpws:sources>
                                     <tibex:inputBindings>
                                     <tibex:inputBinding
@@ -2185,7 +2193,7 @@
                                     outputVariable="GetConnMode"
                                     tibex:xpdlId="db627360-2de8-446e-be0c-3f418e71547a" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
                                     <bpws:targets>
-                                    <bpws:target linkName="GetConnByIdxToDisconnToJavaInvoke"/>
+                                    <bpws:target linkName="GetConnByIdxToDisconnToGetConnMode_NOT-NULL"/>
                                     </bpws:targets>
                                     <bpws:sources>
                                     <bpws:source linkName="JavaInvokeToGetBWConn_ELSE">

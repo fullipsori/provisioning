@@ -1078,8 +1078,8 @@
                                     <layoutConstraint
                                     height="40"
                                     width="40"
-                                    x="686"
-                                    xsi:type="notation:Bounds" y="110"/>
+                                    x="655"
+                                    xsi:type="notation:Bounds" y="202"/>
                                     </children>
 
                                     <children type="4002 bw.java.javamethod">
@@ -1302,8 +1302,8 @@
                                     <layoutConstraint
                                     height="40"
                                     width="40"
-                                    x="762"
-                                    xsi:type="notation:Bounds" y="202"/>
+                                    x="571"
+                                    xsi:type="notation:Bounds" y="106"/>
                                     </children>
 
                                     <children type="4002 bw.java.javamethod">

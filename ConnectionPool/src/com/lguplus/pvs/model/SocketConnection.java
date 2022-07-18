@@ -1,5 +1,6 @@
 package com.lguplus.pvs.model;
 
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.sql.Timestamp;
@@ -12,17 +13,6 @@ public class SocketConnection implements Connectable {
     private Socket connHandle = null;
 
     public SocketConnection() {}
-
-    public SocketConnection(String server, int port) {
-        try{
-            if(server != null && server.length() > 0){
-                Open(server, port);
-            }
-        }catch(Exception e){
-            LogManager.getInstance().info(String.format("Socket open error host(%s) port(%d)", server, port));
-            connHandle = null;
-        }
-    }
     
     public Socket getHandle() {
     	return connHandle;
@@ -33,14 +23,25 @@ public class SocketConnection implements Connectable {
     }
 
     @Override
-    public boolean Open(String server, int port) throws Exception {
+    public boolean Open(String server, int port, int timeout) throws Exception {
         // TODO Auto-generated method stub
     	try {
 			if(connHandle != null) connHandle.close();
-    	}catch(Exception e) {}
+    	}catch(Exception e1) {}
 
-        connHandle = new Socket(server, port);
-        return true;
+    	SocketAddress socketAddress = new InetSocketAddress(server, port);
+    	connHandle = new Socket();
+    	
+    	try {
+    		connHandle.connect(socketAddress, timeout);
+			return true;
+    	} catch (Exception e2) {
+    		try {
+				connHandle.close();
+				connHandle = null;
+    		}catch(Exception e3) {}
+    		throw new Exception(String.format("%s(%s:%d:%d)", e2.getMessage(), server, port, timeout));
+    	}
     }
 
     @Override

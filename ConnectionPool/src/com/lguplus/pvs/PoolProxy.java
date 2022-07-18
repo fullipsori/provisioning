@@ -99,13 +99,9 @@ public class PoolProxy extends BasePoolProxy {
     public void requestReconnect(byte[] bwConnection) {
     	if(bwConnection == null) return;
 
-		Optional<Connectable> found = ConnectionConfig.getInstance().getConnections().values().stream()
-				.map(connObj -> connObj.getConnection())
-				.filter(connectable -> (connectable != null) && (connectable instanceof BWConnection))
-				.filter(connectable -> Arrays.equals(((BWConnection)connectable).getHandle(),bwConnection))
-				.findFirst();
-		if(found.isEmpty()) return ;
-    	requestReconnect(found.get());
+    	Connectable connectable = ConnectionRepository.getInstance().requestConnectable(bwConnection);
+    	String connectionId = ConnectionConfig.getInstance().getConnectionIdByConnectable(connectable);
+		requestReconnect(connectionId);
     }
     
     public String[] getConnectionId(byte[] bwConnection) {
@@ -148,12 +144,8 @@ public class PoolProxy extends BasePoolProxy {
     public void setConnectionInfoByIndexWithServerType(int index, String serverType) throws Exception {
     	if(index <= 0) throw new IndexOutOfBoundsException(index);
 
-    	Connectable connectable = ConnectionConfig.getInstance().setConnectionInfoByIndexWithServerType(index-1, serverType);
-    	if(connectable != null) {
-    		this.requestReconnect(connectable);
-    	} else {
-    		LogManager.getInstance().info(String.format("PoolProxy:setConnectionInfoByIndexWithServerType[%d][%s]\n", index, serverType));
-    	}
+    	String connectionId = ConnectionConfig.getInstance().setConnectionInfoByIndexWithServerType(index-1, serverType);
+    	requestReconnect(connectionId);
     }
     
     public byte[] borrowConnection(String connectionGroupId, long waitTimeSeconds) {
@@ -208,7 +200,7 @@ public class PoolProxy extends BasePoolProxy {
     	if(server==null || server.isEmpty() || port <= 0) {
     		throw new Exception("Parameter Error");
     	}
-    	Connectable connectable = ConnectionRepository.getInstance().requestConnectable(server, port);
+    	Connectable connectable = ConnectionRepository.getInstance().requestConnectable(server, port, 0);
     	if(connectable == null) {
 			LogManager.getInstance().error("OpenConnection failed:" + connectionId);
     		throw new Exception("requestConnectable Error");
@@ -218,7 +210,29 @@ public class PoolProxy extends BasePoolProxy {
 		try {
 			addConnectionToPool(connectionId, connectable);
 		}catch(Exception e) {
-			LogManager.getInstance().error("OpenSocketConnection addConnectionToPool error:" + e.getMessage());
+			connectable.Close();
+			throw new Exception(String.format("%s(%s,%s,%d)", e.getMessage(), connectionId, server, port));
+		}
+    	return true;
+    }
+
+    public boolean OpenSocketConnection(String connectionId, String server, int port, int timeout) throws Exception {
+		LogManager.getInstance().info("OpenSocketConnection request:" + connectionId + " server:" + server + " port:" + port);
+    	if(server==null || server.isEmpty() || port <= 0) {
+    		throw new Exception("Parameter Error");
+    	}
+    	Connectable connectable = ConnectionRepository.getInstance().requestConnectable(server, port, timeout);
+    	if(connectable == null) {
+			LogManager.getInstance().error("OpenConnection failed:" + connectionId);
+    		throw new Exception("requestConnectable Error");
+    	}
+
+		//socket 모드에서는 BW handle 이 없기 때문에 connectable 을 pool에 저장해 놓아야 한다.
+		try {
+			addConnectionToPool(connectionId, connectable);
+		}catch(Exception e) {
+			connectable.Close();
+			throw new Exception(String.format("%s(%s,%s,%d,%d)", e.getMessage(), connectionId, server, port, timeout));
 		}
     	return true;
     }
@@ -236,7 +250,6 @@ public class PoolProxy extends BasePoolProxy {
     	}
     	Connectable found = connObj.getConnection();
     	ConnectionRepository.getInstance().closeConnectable(found);
-    	removeFromConnectionPool(connectionId);
     	return true;
     }
 
@@ -465,7 +478,11 @@ public class PoolProxy extends BasePoolProxy {
     public String getConnectionIdByIndex(int index) throws Exception {    	
     	if(index <= 0) throw new IndexOutOfBoundsException(index);
     	Connectable connectable = super.getConnectionByIndex(index-1);
-    	return ConnectionConfig.getInstance().getConnectionIdByConnectable(connectable);
+    	if(connectable != null) {
+			return ConnectionConfig.getInstance().getConnectionIdByConnectable(connectable);
+    	}else {
+    		return null;
+    	}
     }
     
     public String getConnectionMode(String connectionId) throws Exception {
@@ -511,13 +528,7 @@ public class PoolProxy extends BasePoolProxy {
     }
 
     public void requestReconnect(String connectionId) {
-    	if(connectionId == null || connectionId.isEmpty()) return;
-    	
-    	ConnectionObject connObj = ConnectionConfig.getInstance().getConnections().get(connectionId);
-    	if(connObj == null) return;
-    	Connectable found = connObj.getConnection();
-    	if(found == null) return;
-    	requestReconnect(found);
+    	super.requestReconnect(connectionId);
     }
     
     public String[] getConnectionId(String connectionId) {
@@ -557,4 +568,15 @@ public class PoolProxy extends BasePoolProxy {
     	receivedHeartBeat(found);
     }
 
+    public void addOpeningVector(String connectionId) {
+    	if(Registry.getInstance().addOpening(connectionId)) {
+			//LogManager.getInstance().warn("addOpeningVector:" + connectionId);
+    	}
+    }
+
+    public void removeOpeningVector(String connectionId) {
+    	if(Registry.getInstance().removeOpening(connectionId)) {
+			//LogManager.getInstance().warn("removeOpeningVector:" + connectionId);
+    	}
+    }
 }

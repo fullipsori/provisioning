@@ -235,7 +235,7 @@ public class ConnectionConfig {
     }
     
     
-    public Connectable setConnectionInfoByIndexWithServerType(int index, String serverType) {
+    public String setConnectionInfoByIndexWithServerType(int index, String serverType) {
     	int position = 0;
     	Connectable connectable = null;
     	
@@ -243,17 +243,20 @@ public class ConnectionConfig {
     		if(index == position) {
     			ConnectionObject connObj = this.connections.get(connectionId);
     			connectable = connObj.getConnection(); // BW Connection Binary 값을 가져온다.
+    			try {
+					if(connectable != null) connectable.Close();
+    			} catch (Exception e) { }
+
     			connObj.resetByServerType(serverType);
-    			
-    			logManager.info(String.format("[%d][요청-인덱스:%d][%s][%s] 현재 접속 상태 [%s][주소/포트: %s][%d][접속서버유형: %s][처리 메시지: %d개]\n", position, index,
+    			logManager.warn(String.format("[%d][요청-인덱스:%d][%s][%s] 현재 접속 상태 [%s][주소/포트: %s][%d][접속서버유형: %s][처리 메시지: %d개]\n", position, index,
     									connObj.getConnectionGroupId(), connObj.getConnectionKey(), connObj.getConnectionStatus(), connObj.getCurrentServerIp(),
     									connObj.getCurrentServerPort(), connObj.getCurrentServerType(), connObj.getHandledMsgCount()));
-    			break;
+    			return connectionId;
     		}else {
     			position++;
     		}
     	}    	
-    	return connectable;
+    	return null;
     }
 
     public Connectable getConnectionByIndex(int index) {    	
@@ -266,7 +269,7 @@ public class ConnectionConfig {
     		ConnectionObject connObj = this.connections.get(connectionId);
     		if(index == position) {
     			if(connObj.getConnectionType().equalsIgnoreCase("POOL")) {
-	    			logManager.info(String.format("[%d][req-index:%d][%s][%s] 현재 접속 상태 [%s][주소/포트: %s][%d][접속서버유형: %s][처리 메시지: %d개][연결객체 유형: %s]\n", position, index,
+	    			logManager.warn(String.format("[%d][req-index:%d][%s][%s] 현재 접속 상태 [%s][주소/포트: %s][%d][접속서버유형: %s][처리 메시지: %d개][연결객체 유형: %s]\n", position, index,
 							connObj.getConnectionGroupId(), connObj.getConnectionKey(), connObj.getConnectionStatus(), connObj.getCurrentServerIp(),
 							connObj.getCurrentServerPort(), connObj.getCurrentServerType(), connObj.getHandledMsgCount(), connObj.getConnectionType()));
 	    			
@@ -276,7 +279,7 @@ public class ConnectionConfig {
 	    			}
     			} else {
     				logManager.info("///////////////////////////////////////////////////////////////");
-    				logManager.info(String.format("[%d][req-index:%d][%s][%s] 현재 접속 상태 [%s][주소/포트: %s][%d][접속서버유형: %s][처리 메시지: %d개][연결객체 유형: %s]\n", position, index,
+    				logManager.warn(String.format("[%d][req-index:%d][%s][%s] 현재 접속 상태 [%s][주소/포트: %s][%d][접속서버유형: %s][처리 메시지: %d개][연결객체 유형: %s]\n", position, index,
 							connObj.getConnectionGroupId(), connObj.getConnectionKey(), connObj.getConnectionStatus(), connObj.getCurrentServerIp(),
 							connObj.getCurrentServerPort(), connObj.getCurrentServerType(), connObj.getHandledMsgCount(), connObj.getConnectionType()));
     				logManager.info("///////////////////////////////////////////////////////////////");    				
@@ -404,11 +407,11 @@ public class ConnectionConfig {
     		if(!connObj.getConnectionObjectStatus().equalsIgnoreCase("MC")) {
 	    		numOfAffectedObjects++;
 	    		// System.out.printf("[%d] before [%s][%d][%s][%s]\n", numOfAffectedObjects, connObj.getCurrentServerIp(), connObj.getCurrentServerPort(), connObj.getCurrentServerType(), connObj.getFailoverTryCount());
-	    		connObj.setCurrentServerIp(connObj.getCurrentServerType() != "A" ? connObj.getActiveIp() : connObj.getBackupIp());
-	    		connObj.setCurrentServerPort(connObj.getCurrentServerType() != "A" ? connObj.getActivePort() : connObj.getBackupPort());
+	    		connObj.setCurrentServerIp(false == connObj.getCurrentServerType().equalsIgnoreCase("A") ? connObj.getActiveIp() : connObj.getBackupIp());
+	    		connObj.setCurrentServerPort(false == connObj.getCurrentServerType().equalsIgnoreCase("A") ? connObj.getActivePort() : connObj.getBackupPort());
 	    		connObj.setCurrentServerType(connectionServerType);
 	    		connObj.setFailOverTryCount(0); // 0으로 초기화 해준다.
-	    		logManager.info(String.format("[%d] after  [%s][%d][%s][%s]\n", numOfAffectedObjects, connObj.getCurrentServerIp(), connObj.getCurrentServerPort(), connObj.getCurrentServerType(), connObj.getFailoverTryCount()));
+	    		logManager.warn(String.format("[%d] after  [%s][%d][%s][%s]\n", numOfAffectedObjects, connObj.getCurrentServerIp(), connObj.getCurrentServerPort(), connObj.getCurrentServerType(), connObj.getFailoverTryCount()));
     		}
     	}
     	
@@ -564,34 +567,34 @@ public class ConnectionConfig {
 		 * 기존의 것을 모두 정리한 후 다시 기동한다.    	
     	 */
     	connectionStatus = "U"; // 업데이트 중으로 표시한다.
-    	logManager.info("updateConfigWithDBAndReconnect() - 데이터베이스 내용을 읽은 정보를 기반으로 연결객체 정보를 재정립힙니다.");    	
+    	logManager.warn("updateConfigWithDBAndReconnect() - 데이터베이스 내용을 읽은 정보를 기반으로 연결객체 정보를 재정립힙니다.");    	
     	this.checkUpdateConfigInfoAndReconnect(NEConfigInfo); // 초기화 한 후 재설정을 요청한다.    	    	
     	connectionStatus = "D"; // 업데이트 완료 후 표시한다. - Disconnected로 설정해준다.
     }
     
     public void checkUpdateConfigInfoAndReconnect(ArrayList<String> NEConfigInfo) {
     	
-    	logManager.info("************************************************************************");
-    	logManager.info(String.format("ConnectionConfig.checkUpdateConfigInfoAndReconnect 설정해야할 NE 갯수 [%d]\n", NEConfigInfo.size()));
-    	logManager.info("************************************************************************");    	    	
+    	logManager.warn("************************************************************************");
+    	logManager.warn(String.format("ConnectionConfig.checkUpdateConfigInfoAndReconnect 설정해야할 NE 갯수 [%d]\n", NEConfigInfo.size()));
+    	logManager.warn("************************************************************************");    	    	
     	
     	// 기본 연결객체 정보를 설정해준다.
     	String connectionIds = this.setConnectionObjectBasicInformation(NEConfigInfo);
     	
     	// Insert, Update, delete 작업을 수행한다.
-    	logManager.info(String.format("** 현재 UpdateConfig에 의해서 설정된 ConnectionId 목록 기준으로 Add, Udpate, Delete 업무 수행 예정 [대상 연결객체: %s]\n",connectionIds));    	
+    	logManager.warn(String.format("** 현재 UpdateConfig에 의해서 설정된 ConnectionId 목록 기준으로 Add, Udpate, Delete 업무 수행 예정 [대상 연결객체: %s]\n",connectionIds));    	
     	for(String connectionId : this.connections.keySet()) {
     		ConnectionObject connObj = this.connections.get(connectionId);    		
     		if(connectionIds.contains(connectionId)) {
     			if(connObj.getConnectionObjectStatus().equalsIgnoreCase("NC")) {
-    				logManager.info(String.format("이번 UpdateConfig에 신규로 포함된 연결객체 [%s] 입니다. - Connection 요청이 필요합니다.\n", connectionId));
+    				logManager.warn(String.format("이번 UpdateConfig에 신규로 포함된 연결객체 [%s] 입니다. - Connection 요청이 필요합니다.\n", connectionId));
                 	// 한번만 수행하면 된다. - 첫번째 접속은 무조건 Active 서버로 접속하도록 설정해준다.
     				// 신규로 생성된 경우 어디로 붙는게 맞을 것인가?
     				if(failoverPolicy.isPortbasedFailOver()) {
-    					logManager.info("포트 기반 절체의 경우 Active Ip, Port 설정 후 연결처리에 맡긴다.");    					
+    					logManager.warn("포트 기반 절체의 경우 Active Ip, Port 설정 후 연결처리에 맡긴다.");    					
     					initDefaultServerInfo(connObj);    					
     				} else if (failoverPolicy.isHostbasedFailOver()) {
-    					logManager.info("호스트 기반 절체의 경우 기본 연결된 serverType에 맞춰서 연결해준다.");
+    					logManager.warn("호스트 기반 절체의 경우 기본 연결된 serverType에 맞춰서 연결해준다.");
 
     					// DB 정보 갱신 후 업데이트 이전의 연결 서버 유형으로 접속하도록 설정한다.
     					// connObj.initServerInfoByServerType(this.connectionServerType);
@@ -610,14 +613,14 @@ public class ConnectionConfig {
     				this.connectionServerType = "A"; // Active를 기본으로 설정한다. <= 어떻게 할지 정책으로 결정
 					initDefaultServerInfo(connObj);
 					
-					logManager.info(String.format("[%s] 변경된 접속 정보 [%s][%d] : 갱신된 정보 기준으로 연결종류 후 재연결을 수행합니다\n.", 
+					logManager.warn(String.format("[%s] 변경된 접속 정보 [%s][%d] : 갱신된 정보 기준으로 연결종류 후 재연결을 수행합니다\n.", 
 											connectionId, connObj.getCurrentServerIp(), connObj.getCurrentServerPort()));
 					connObj.setConnectionObjectStatus("UC"); // 접속 정보가 변경되었으므로 현재 접속을 종료하고 신규 접속을 시도해야 합니다.					
 					putDisconnAndConnectionRequestQueue(connectionId);
     			} 
 					
     		} else {
-    			logManager.info(String.format("이번 UpdateConfig에 포함되지 않은 연결객체입니다 [%s]는 삭제대상으로 지금 제거합니다.\n", connectionId));
+    			logManager.warn(String.format("이번 UpdateConfig에 포함되지 않은 연결객체입니다 [%s]는 삭제대상으로 지금 제거합니다.\n", connectionId));
     			connObj.setConnectionObjectStatus("DC"); // 삭제 대상으로 마킹하고 삭제 요청큐에 넣어줍니다. - 작업이 끝나고 해야 하지 않을까 생각됩니다. - 무엇을 기준으로    			
     			putDisconnectionRequestQueue(connectionId);
     		}

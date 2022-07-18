@@ -124,7 +124,7 @@ public class BasePoolProxy {
     	}
     	
     	String retMsg = "";
-    	logManager.info("* 서버간 접속 변경 요청 ["+connectionConfig.getConnectionServerType()+"] == ["+serverType+"]");
+    	logManager.warn("* 서버간 접속 변경 요청 ["+connectionConfig.getConnectionServerType()+"] == ["+serverType+"]");
     	if(!connectionConfig.getConnectionServerType().equalsIgnoreCase(serverType)) {
 	    	if(connectionConfig.setConnectionServerType(serverType)) { 
 	    		this.setConnectionFailOverMode(failOverMode); // FailOver 정책을 수동으로 전환한다.
@@ -341,7 +341,7 @@ public class BasePoolProxy {
     }
     
     public String[] updateAndReconnect() {
-    	logManager.info("/// Database내 정보 변경시 해당 내용을 정리해서 반영한다. 연결객체 정보 배열을 전달해줍니다.");
+    	logManager.warn("/// Database내 정보 변경시 해당 내용을 정리해서 반영한다. 연결객체 정보 배열을 전달해줍니다.");
     	connectionConfig.updateConfigWithDBAndReconnect(NEConfigInfo);
     	
     	// 사이즈가 0보다 크면 삭제
@@ -375,8 +375,8 @@ public class BasePoolProxy {
 
         /** 만약 기존 세션이 있다면 종료를 시켜주고 다시 세션을 설정해주어야 한다. */
 		connectionConfig.getConnections().get(connectionId).closeSession();
-
 		ConnectionObject connectionObject = connectionConfig.getConnections().get(connectionId).setConnection(connectable);
+
         // 연결된 객체를 ConnectionObject에 설정해준다. 설정시 : 상태를 true, 연결 실패횟수를 0으로 설정해준다. - 오류가 발생할 때에 대한 처리가 없다.
 		
 		/* GroupId Key 있는 경우만 처리하자.  SOCKET 모드인 경우에는 GROUP ID 를 저장하지 않기 때문에 없을 수도 있다. */
@@ -396,7 +396,7 @@ public class BasePoolProxy {
         
     }
 
-    /**
+    /** Suspend 상태로 진입?
      * Session 을 종료하고, FailOver 를 시도하지 않는다.
      * @param connectionId
      */
@@ -480,16 +480,15 @@ public class BasePoolProxy {
         }
     }
     
-    public void requestReconnect(Connectable connectable) {
+    public void requestReconnect(String connectionId) {
     	
     	String connectionGroupId = "";
         String currentServerIp = "";
         int currentServerPort = 0;
         long failoverTryCount = 0;
-        String connectionId = "";
     	
-    	if( connectable != null) {    		
-    		ConnectionObject connObj = connectionConfig.getConnectionObjectByConnectable(connectable);	        
+    	if( connectionId != null && !connectionId.isEmpty()) {    		
+    		ConnectionObject connObj = connectionConfig.getConnections().get(connectionId);
     		if(connObj == null) {
     			logManager.warn("/// 555-ERROR bwConnection에 해당하는 connectionObject가 없습니다. [확인이 필요합니다.]");
     			return; 
@@ -499,7 +498,6 @@ public class BasePoolProxy {
             currentServerIp = connObj.getCurrentServerIp();
             currentServerPort = connObj.getCurrentServerPort();
             failoverTryCount = connObj.getFailoverTryCount();
-            connectionId = connObj.getConnectionId();
 	        
 	        if(!connObj.getConnectionObjectStatus().equalsIgnoreCase("SC")) {
 	        	// SC의 경우 이미 제거했기 때문에 이중 제거의 의미가 없다.
@@ -601,24 +599,29 @@ public class BasePoolProxy {
 		// connObj가 있는 확인부터 한다. 최소 1개 이상이 있어야 합니다. 
 		ConnectionObject connObj = connectionConfig.getConnections().get(connectionId);
 		
-		if(connObj != null && connObj.getConnection() != null) {			
-			numOfConns = connObj.getConnectionCount();
-			logManager.info(String.format("[%s] 연결객체 정보와 개수가 몇개인지를  확인한다. [총 %d개]\n", connectionId, numOfConns));
-			for(int i=0; i < numOfConns; i++) {
-				tmpConnectionKey = String.format("%s-%d",connectionKey, i);
-				connectionId = String.format(ConnectionObject.CID_FORMAT, connectionGroupId, tmpConnectionKey);
-				connObj = connectionConfig.getConnections().get(connectionId);
-				if(connObj.getConnectionObjectStatus().equalsIgnoreCase("SC")) {
-					connObj.setConnectionObjectStatus("NC"); // 재연결을 요청합니다. - 요청할 떄 절체 방식에 따라서 접속서버를 결정해야 한다.
-					logManager.info(String.format("[%s] 재연결 후 서비스를 시작합니다.\n", connectionId));
-					connectionConfig.putConnectionRequestQueue(connectionId);
-					bIsExistTarget = true;
-				} else {
-					errorMsg += connectionId; 
+		/** connObj.getConnection() 은 close 를 호출했기 때문에 null 이어야 한다. **/
+		if(connObj != null) {			
+			if(connObj.getConnection() == null) {
+				numOfConns = connObj.getConnectionCount();
+				logManager.info(String.format("[%s] 연결객체 정보와 개수가 몇개인지를  확인한다. [총 %d개]\n", connectionId, numOfConns));
+				for(int i=0; i < numOfConns; i++) {
+					tmpConnectionKey = String.format("%s-%d",connectionKey, i);
+					connectionId = String.format(ConnectionObject.CID_FORMAT, connectionGroupId, tmpConnectionKey);
+					connObj = connectionConfig.getConnections().get(connectionId);
+					if(connObj.getConnectionObjectStatus().equalsIgnoreCase("SC")) {
+						connObj.setConnectionObjectStatus("NC"); // 재연결을 요청합니다. - 요청할 떄 절체 방식에 따라서 접속서버를 결정해야 한다.
+						logManager.info(String.format("[%s] 재연결 후 서비스를 시작합니다.\n", connectionId));
+						connectionConfig.putConnectionRequestQueue(connectionId);
+						bIsExistTarget = true;
+					} else {
+						errorMsg += connectionId; 
+					}
 				}
-			}
-			if(!bIsExistTarget ) {
-				errorMsg += " 이미 모두 서비스 중인 연결객체 입니다.";
+				if(!bIsExistTarget ) {
+					errorMsg += " 이미 모두 서비스 중인 연결객체 입니다.";
+				}
+			} else {
+				errorMsg += " 이미 서비스 중인 연결객체가 있어서 아무 동작하지 않습니다.";
 			}
 			
 		} else {

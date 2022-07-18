@@ -36,6 +36,8 @@ public class Registry {
     // 즉, 향후 연결 성공하면 삭제 됨
     private final Vector<String> connectionTryVector = new Vector<>();
     
+    private final Vector<String> nowOpeningVector = new Vector<>();
+
     private final LogManager logManager;
 
     private Registry() {
@@ -86,7 +88,7 @@ public class Registry {
     /** put은 queue 에 공간이 없는 경우에 무한 블록킹이 된다.  add 는 exception 이 발생되고 바로 반환된다. **/
     public boolean putConnRequest(String connectionId) {
     	try {
-			if(connectionId != null && !connectionRequestQueue.contains(connectionId)) connectionRequestQueue.put(connectionId);
+			if(connectionId != null && !connectionRequestQueue.contains(connectionId) && !isOpening(connectionId)) connectionRequestQueue.put(connectionId);
 			return true;
     	}catch(Exception e) {
     		logManager.error("connectionRequestQueue error:" + e.getMessage());
@@ -96,7 +98,7 @@ public class Registry {
 
     public boolean addConnRequest(String connectionId){
     	try {
-			if(connectionId != null && !connectionRequestQueue.contains(connectionId)) connectionRequestQueue.add(connectionId);
+			if(connectionId != null && !connectionRequestQueue.contains(connectionId) && !isOpening(connectionId)) connectionRequestQueue.add(connectionId);
 			return true;
     	}catch(Exception e) {
     		logManager.error("ConnectionId:" + connectionId + " dont add because connectionRequestQueue is full " + " error:" + e.getMessage());
@@ -230,11 +232,41 @@ public class Registry {
     }
     
     public boolean removeConnectionTry(String connectionId) {
-    	if(connectionTryVector.contains(connectionId)) return connectionTryVector.remove(connectionId);
+    	if(connectionTryVector.contains(connectionId)) {
+    		return connectionTryVector.remove(connectionId);
+    	}
     	return false;
     }
     
     public Vector<String> getConnectionTry() {
     	return connectionTryVector;
+    }
+    
+    /** Vector 는 thread safe 하지만, contains 와 add/remove 사이에는 synchronized 하지 않기 때문에 중복 호출될 가능성도 있다.
+     *  하지만, bw thread 갯수가 여유가 있다면, OpenConnection이 2-3회 정도는 중복호출되어도 문제는 없슴으로 synchronized 는 적용하지 않는다. 
+     * @param connectionId
+     */
+    public boolean addOpening(String connectionId) {
+    	if(!nowOpeningVector.contains(connectionId)) {
+    		nowOpeningVector.add(connectionId);
+    		return true;
+    	}
+    	return false;
+    }
+
+    public boolean removeOpening(String connectionId) {
+    	if(nowOpeningVector.contains(connectionId)) {
+    		nowOpeningVector.remove(connectionId);
+    		return true;
+    	}
+    	return false;
+    }
+    
+    public boolean isOpening(String connectionId) {
+    	return nowOpeningVector.contains(connectionId);
+    }
+    
+    public int countOfOpening() {
+    	return nowOpeningVector.size();
     }
 }
