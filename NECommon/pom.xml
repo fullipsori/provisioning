@@ -8,14 +8,32 @@
     <version>1.0.0-SNAPSHOT</version>
     <relativePath>../SharedTest.application.parent</relativePath>
   </parent>
-  <groupId>com.lguplus.pvs.connectionpool</groupId>
-  <artifactId>ConnectionPool</artifactId>
+  <groupId>com.lguplus.pvs.necommon</groupId>
+  <artifactId>NECommon</artifactId>
   <version>1.0.0</version>
   <packaging>bwmodule</packaging>
   <properties>
     <maven.compiler.target>11</maven.compiler.target>
     <maven.compiler.source>11</maven.compiler.source>
   </properties>
+  <dependencies>
+  	<dependency>
+		<groupId>com.lguplus.pvs.shared</groupId>
+		<artifactId>PVSMShared</artifactId>
+		<version>1.0.0</version>
+  	</dependency>
+  	<dependency>
+		<groupId>com.lguplus.pvs.connectionpool</groupId>
+		<artifactId>ConnectionPool</artifactId>
+		<version>1.0.0</version>
+  	</dependency>
+  	<dependency>
+		<groupId>com.tibco.plugins</groupId>
+		<artifactId>com.tibco.bw.palette.shared</artifactId>
+		<version>6.2.1300</version>
+		<scope>provided</scope>
+  	</dependency>
+  </dependencies>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <outputDirectory>target/classes</outputDirectory>
