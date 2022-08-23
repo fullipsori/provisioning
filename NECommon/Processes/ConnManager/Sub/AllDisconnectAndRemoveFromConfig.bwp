@@ -1807,7 +1807,8 @@
                     </tibex:config>
                 </tibex:activityExtension>
             </bpws:extensionActivity>
-            <bpws:scope name="While" tibex:group="while" tibex:xpdlId="8c7fe0a4-c292-41c5-a1b9-39af32887014">
+            <bpws:scope name="While" tibex:group="while"
+                tibex:indexToGlobal="false" tibex:xpdlId="8c7fe0a4-c292-41c5-a1b9-39af32887014">
                 <bpws:targets>
                     <bpws:target linkName="ErrLogToWhile"/>
                 </bpws:targets>

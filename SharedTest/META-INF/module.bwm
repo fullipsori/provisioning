@@ -22,4 +22,7 @@
   <sca:component xmi:id="_6CFNoKRIEeyVi7G5i5VGMw" name="ComponentNEHeartBeat" compositeext:version="1.0.0.qualifier">
     <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_6CFNoaRIEeyVi7G5i5VGMw" processName="sharedtest.NEHeartBeat"/>
   </sca:component>
+  <sca:component xmi:id="_dAA1kBZXEe2LDooTfWN1Gg" name="ComponentCheckProcess" compositeext:version="1.0.0.qualifier">
+    <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_dAA1kRZXEe2LDooTfWN1Gg" processName="Agent.CheckProcess"/>
+  </sca:component>
 </sca:composite>
